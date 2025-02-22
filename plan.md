@@ -7,11 +7,20 @@ PAGES
 # Home
 
 ## Sections
-- Hello, I'm Harry Foster
-I am a ["Software Engineer", "Computer Science Student", "Problem Solver", "Tech Enthusiast"]
+- [x] 
+    - Hello, I'm Harry Foster
+    - I am a ["Software Engineer", "Computer Science Student", "Problem Solver", "Tech Enthusiast"]
+
+- [ ] Add on load animations 
 
 ## Projects
 Top 3 projects (cards taken from the projects component but static selection)
+
+for each project:
+- Image
+- Title
+- Description
+- Tags: languages/algorithms
 
 - AttendEase
 - Chess AI 
@@ -48,3 +57,6 @@ Obsidian backend
 
 
 # Wayback machine for website
+
+Commit url = https://api.github.com/repos/HarryFoster1812/Portfolio-Website/commits
+Combine the list of commits

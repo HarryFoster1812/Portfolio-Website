@@ -1,7 +1,7 @@
 export default function List({post_info}){
     return (
         <>
-            <ul class="grid grid-cols-1 xl:grid-cols-3 gap-y-10 gap-x-6 items-start p-8">
+            <ul className="grid grid-cols-1 xl:grid-cols-3 gap-y-10 gap-x-6 items-start p-8">
                 {
                     for(let i=0; i<post_info.length;i++){
                     <Post 

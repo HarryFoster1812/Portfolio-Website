@@ -1,0 +1,72 @@
+/* Define the container for the typewriter effect */
+#welcome {
+  font-family: 'Courier New', Courier, monospace;
+  text-align: center;
+  margin-top: 50px;
+}
+
+h1 {
+  font-size: 36px;
+  color: white;
+}
+
+p {
+  font-size: 24px;
+  color: white;
+}
+
+/* Keyframes for typing and deleting effect */
+@keyframes typing {
+  0% {
+    width: 0;
+  }
+  25% {
+    width: 100%;
+  }
+  50% {
+    width: 100%;
+  }
+  75% {
+    width: 0;
+  }
+  100% {
+    width: 0;
+  }
+}
+
+@keyframes blink {
+  50% {
+    border-color: transparent;
+  }
+}
+
+/* Styling for the rotating text */
+.typed-text {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 0;
+  border-right: 4px solid white;  /* Typewriter cursor */
+  animation: typing 4s steps(30) 1s infinite, blink 0.75s step-end infinite;
+}
+
+/* Use this to switch between multiple words */
+.typed-text::after {
+  content: "Software Engineer";
+  animation: change-text 12s steps(1) infinite;
+}
+
+@keyframes change-text {
+  0%, 100% {
+    content: "Software Engineer";
+  }
+  25% {
+    content: "Computer Science Student";
+  }
+  50% {
+    content: "Problem Solver";
+  }
+  75% {
+    content: "Tech Enthusiast";
+  }
+}

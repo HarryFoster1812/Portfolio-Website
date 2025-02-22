@@ -7,7 +7,14 @@ export const metadata: Metadata = {
     'My  Portfolio',
 };
 
+function sort(json_data){
+    return json_data;
+}
+
 export default function Projects() {
+    const data = await fetch("https://api.github.com/users/HarryFoster1812/repos"); 
+    const json_data = data.json();
+    const sorted_data = sort(json_data);
     return (
         <>
             <p>Projects</p>

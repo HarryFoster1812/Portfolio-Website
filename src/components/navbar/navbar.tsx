@@ -11,7 +11,7 @@ export const Navbar = () => {
     };
 
     return (
-        <nav className="bg-zinc-800 border-zinc-700 dark:bg-zinc-900 fixed top-0 left-0 w-full sticky">
+        <nav className="bg-zinc-800 border-zinc-700 dark:bg-zinc-900 fixed top-0 left-0 w-full sticky z-1000">
             <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
                 <a href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
                     <img src="/images/logo.svg" className="h-8" alt="Site Logo" />
@@ -45,7 +45,7 @@ export const Navbar = () => {
                 >
                     <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-zinc-700 rounded-lg bg-zinc-800 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-zinc-800 dark:bg-zinc-900 md:dark:bg-zinc-900 dark:border-zinc-800">
                         <li>
-                            <a href="/" className={`block py-2 px-3 md:p-0 ${currentRoute === "/" ? "text-blue-500 md:dark:text-blue-400" : "text-white md:dark:text-white"} bg-zinc-700 rounded-sm md:bg-transparent`}>Home</a>
+                            <a href="/" className={`block py-2 px-3 md:p-0 ${currentRoute === "/" ? "text-blue-500 md:dark:text-blue-400" : "text-white md:dark:text-white"} hover:bg-zinc-700 md:hover:bg-transparent rounded-sm md:bg-transparent `}>Home</a>
                         </li>
                         <li>
                             <a href="/projects" className={`block py-2 px-3 md:p-0 ${currentRoute === "/projects" ? "text-blue-500 md:dark:text-blue-400" : "text-white"} hover:bg-zinc-700 md:hover:bg-transparent md:hover:text-blue-500 md:dark:hover:text-blue-400`}>Projects</a>
