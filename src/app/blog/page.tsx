@@ -1,6 +1,6 @@
 import {Navbar} from "../../components/navbar/navbar";
 
-export const metadata: Metadata = {
+export const metadata = {
   title: 'Blog',
     description:
         'My Porfolio',

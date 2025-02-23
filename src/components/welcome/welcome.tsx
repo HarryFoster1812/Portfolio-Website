@@ -12,7 +12,7 @@ export const Welcome = () => {
                         Harry Foster
                     </h1>
                     <p className="text-lg sm:text-xl font-medium text-stone-300">
-                        I'm a <TypewriterEffect />
+                        {"I\'m a"} <TypewriterEffect />
                     </p>
                 </div>
             </section>

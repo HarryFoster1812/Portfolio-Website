@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-awesome
+
 :root {
   --background: #ffffff;
   --foreground: #171717;

@@ -1,6 +1,11 @@
 "use client";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
+import Image from 'next/image'
+import Link from 'next/link'
+import Vercel from "./vercel"
+import Github from  "./github"
+import LinkedIn from "./linkedin"
 
 export const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false); // State to track menu visibility
@@ -11,12 +16,14 @@ export const Navbar = () => {
     };
 
     return (
+        <>
         <nav className="bg-zinc-800 border-zinc-700 dark:bg-zinc-900 fixed top-0 left-0 w-full sticky z-1000">
             <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-                <a href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
-                    <img src="/images/logo.svg" className="h-8" alt="Site Logo" />
+                <Link href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
+                    <Vercel />
+                    {/*Image src="../../../public/vercel.svg" width={30} height={30} alt="Site Logo" className="h-8"/>*/}
                     <span className="self-center text-2xl font-semibold whitespace-nowrap text-white">Harry Foster</span>
-                </a>
+                </Link>
                 <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
                     <button
                         type="button"
@@ -45,23 +52,24 @@ export const Navbar = () => {
                 >
                     <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-zinc-700 rounded-lg bg-zinc-800 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-zinc-800 dark:bg-zinc-900 md:dark:bg-zinc-900 dark:border-zinc-800">
                         <li>
-                            <a href="/" className={`block py-2 px-3 md:p-0 ${currentRoute === "/" ? "text-blue-500 md:dark:text-blue-400" : "text-white md:dark:text-white"} hover:bg-zinc-700 md:hover:bg-transparent rounded-sm md:bg-transparent `}>Home</a>
+                            <Link href="/" className={`block py-2 px-3 md:p-0 ${currentRoute === "/" ? "text-blue-500 md:dark:text-blue-400" : "text-white md:dark:text-white"} hover:bg-zinc-700 md:hover:bg-transparent rounded-sm md:bg-transparent `}>Home</Link>
                         </li>
                         <li>
-                            <a href="/projects" className={`block py-2 px-3 md:p-0 ${currentRoute === "/projects" ? "text-blue-500 md:dark:text-blue-400" : "text-white"} hover:bg-zinc-700 md:hover:bg-transparent md:hover:text-blue-500 md:dark:hover:text-blue-400`}>Projects</a>
+                            <Link href="/projects" className={`block py-2 px-3 md:p-0 ${currentRoute === "/projects" ? "text-blue-500 md:dark:text-blue-400" : "text-white"} hover:bg-zinc-700 md:hover:bg-transparent md:hover:text-blue-500 md:dark:hover:text-blue-400`}>Projects</Link>
                         </li>
                         <li>
-                            <a href="/blog" className={`block py-2 px-3 md:p-0 ${currentRoute.includes("/blog") ? "text-blue-500 md:dark:text-blue-400" : "text-white"} hover:bg-zinc-700 md:hover:bg-transparent md:hover:text-blue-500 md:dark:hover:text-blue-400`}>Blog</a>
+                            <Link href="/blog" className={`block py-2 px-3 md:p-0 ${currentRoute.includes("/blog") ? "text-blue-500 md:dark:text-blue-400" : "text-white"} hover:bg-zinc-700 md:hover:bg-transparent md:hover:text-blue-500 md:dark:hover:text-blue-400`}>Blog</Link>
                         </li>
                         <li>
-                            <a href="https://github.com/harryfoster1812" target="_blank" rel="noopener noreferrer" className="block py-2 px-3 md:p-0 text-white hover:bg-zinc-700 md:hover:bg-transparent md:hover:text-blue-500 md:dark:hover:text-blue-400">Github</a>
+                            <Link href="https://github.com/harryfoster1812" target="_blank" rel="noopener noreferrer" className="block py-2 px-3 md:p-0 hover:bg-zinc-900 "><Github className="hover:fill-[#0A66C2]" /></Link>
                         </li>
                         <li>
-                            <a href="https://www.linkedin.com/in/harry-w-foster" target="_blank" rel="noopener noreferrer" className="block py-2 px-3 md:p-0 text-white hover:bg-zinc-700 md:hover:bg-transparent md:hover:text-blue-500 md:dark:hover:text-blue-400">LinkedIn</a>
+                            <Link href="https://www.linkedin.com/in/harry-w-foster" target="_blank" rel="noopener noreferrer" className="block py-2 px-3 md:p-0 hover:bg-zinc-900"><LinkedIn className="hover:fill-[#0A66C2]" /></Link>
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
+        </>
     );
 };

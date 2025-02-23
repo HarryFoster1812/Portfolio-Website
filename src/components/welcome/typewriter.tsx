@@ -6,6 +6,9 @@ const TypewriterEffect = () => {
     const typewriterRef = useRef(null); // Reference to the typewriter element
 
     useEffect(() => {
+        // To hold the timeout reference for cleanup
+        let timeoutId;
+
         const TxtType = function (el, toRotate, period) {
             this.toRotate = toRotate;
             this.el = el;
@@ -17,8 +20,8 @@ const TypewriterEffect = () => {
         };
 
         TxtType.prototype.tick = function () {
-            var i = this.loopNum % this.toRotate.length;
-            var fullTxt = this.toRotate[i];
+            const i = this.loopNum % this.toRotate.length;
+            const fullTxt = this.toRotate[i];
 
             if (this.isDeleting) {
                 this.txt = fullTxt.substring(0, this.txt.length - 1);
@@ -28,8 +31,8 @@ const TypewriterEffect = () => {
 
             this.el.innerHTML = '<span class="wrap">' + this.txt + '</span>';
 
-            var that = this;
-            var delta = 200 - Math.random() * 100;
+            const that = this;
+            let delta = 200 - Math.random() * 100;
 
             if (this.isDeleting) { delta /= 2; }
 
@@ -42,7 +45,8 @@ const TypewriterEffect = () => {
                 delta = 500;
             }
 
-            setTimeout(function () {
+            // Save the timeoutId to be cleared later
+            timeoutId = setTimeout(function () {
                 that.tick();
             }, delta);
         };
@@ -55,11 +59,12 @@ const TypewriterEffect = () => {
             new TxtType(element, toRotate, period);
         }
 
-        // Cleanup function if necessary
+        // Cleanup function to clear the timeout when the component unmounts
         return () => {
-            // Clean up any resources if needed
+            if (timeoutId) {
+                clearTimeout(timeoutId);
+            }
         };
-
     }, []); // Empty array ensures the effect only runs once on mount
 
     return (

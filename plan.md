@@ -21,6 +21,7 @@ for each project:
 - Title
 - Description
 - Tags: languages/algorithms
+- Link (Github)
 
 - AttendEase
 - Chess AI 
@@ -45,6 +46,7 @@ for each project:
 
 ## Footer
 
+Add to email newsletter call to action
 
 # Projects
 
@@ -59,4 +61,5 @@ Obsidian backend
 # Wayback machine for website
 
 Commit url = https://api.github.com/repos/HarryFoster1812/Portfolio-Website/commits
-Combine the list of commits
+Create a dropdown menu of the list of commits
+Once selected the commit would be shown in a frame (i have no idea how im going to do this)
