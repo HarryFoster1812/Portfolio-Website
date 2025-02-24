@@ -1,8 +1,9 @@
+"use client";
+
 import {Project} from "./project.ts";
 import {ProjectCard} from "./project_card";
 import Link from "next/link";
-
-
+import {motion} from "motion/react"
 
 export const ProjectSection = () => {
     let projects: Project[] = [
@@ -33,16 +34,28 @@ export const ProjectSection = () => {
     ]
     return (
         <>
-            <section className="min-h-screen max-h-auto flex items-center flex-col justify-center space-y-4">
-                <h1 className="w-full text-center p-10">Projects</h1>
+            <section className="min-h-screen max-h-auto flex items-center flex-col justify-center gap-5 z-10">
+                <h1 className="w-full text-center p-10 font-bold text-white mt-6">Projects</h1>
+                <div className="h-auto w-full flex items-center flex-col justify-center">
                 {
                     projects.map((project, index) => (
-                        <ProjectCard key={index} project={project}/> // Pass project prop
+                            <ProjectCard key={index} project={project} index={index}/> 
                     ))
                 }
-                <div className="w-full flex items-center justify-center m-10">
-                    <Link href="/projects" className="inline-block py-3 px-6 bg-gradient-to-br from-cyan-400 to-pink-500 text-black no-underline rounded-xl font-bold uppercase tracking-wide relative transition-all duration-300 ease-in-out hover:translate-y-[-3px] hover:shadow-[0_10px_20px_rgba(0,_255,_255,_0.4)]" >Check out my other projects</Link>
                 </div>
+                <motion.div 
+                    initial={{opacity:0, scale:0}}
+                    whileInView={{opacity:1, scale:1}}
+                    transition={{ease:"easeIn", duration:0.55}}
+
+                    className="w-full flex items-center justify-center m-10">
+                    <Link 
+                        href="/projects" 
+                        className="inline-block py-3 px-6 bg-gradient-to-br from-cyan-400 to-pink-500 text-black no-underline rounded-xl font-bold uppercase tracking-wide transition-all duration-300 ease-in-out hover:translate-y-[-3px] hover:shadow-[0_10px_20px_rgba(0,_255,_255,_0.4)]"
+                    >
+                        Check out my other projects
+                    </Link>
+                </motion.div>
             </section>
         </>
     );

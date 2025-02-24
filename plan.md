@@ -58,8 +58,26 @@ Get all blog posts and create dynamic list
 Obsidian backend
 
 
-# Wayback machine for website
+# Not originally planned but possible pages
+
+## Reading List
+Connect some api for the cover and book information based off the isbn
+Have a small blog type infrastructure where it would store the book details such as read date and any other notes i made for it.
+
+Top of the page has the currently reading book
+For the main reading page have a list of books read for each year ordered by the date read. Starting with the current year.
+
+## Trakt API Integration  
+
+Currently Watching
+
+Lifetime Stats
+
+Last Watched
+
+
+## Wayback machine for website
 
 Commit url = https://api.github.com/repos/HarryFoster1812/Portfolio-Website/commits
 Create a dropdown menu of the list of commits
-Once selected the commit would be shown in a frame (i have no idea how im going to do this)
+Once selected the commit would be shown in a frame
