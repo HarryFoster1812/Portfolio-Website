@@ -5,11 +5,8 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { useEffect, useRef } from "react";
 import { getProject } from '@theatre/core';
 import studio from '@theatre/studio';
-import {default as extension} from '@theatre/r3f/dist/extension'
-import { SheetProvider } from '@theatre/r3f'
 // Initialize the studio and create a Theatre.js project
 studio.initialize();
-studio.extend(extension);
 const project = getProject('THREE.js x Theatre.js');
 
 // Create the sheet for your animation (this defines the properties to animate)
@@ -162,8 +159,6 @@ export default function Test() {
     }, []);
 
     return (
-        <SheetProvider sheet={sheet}>
             <div ref={refContainer} />
-        </SheetProvider>
     );
 }
