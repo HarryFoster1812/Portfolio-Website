@@ -2,7 +2,7 @@
 
 import {Project} from "./project.ts";
 import Link from "next/link";
-import {React, useState, useRef, useEffect} from 'react';
+import {React} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
 import {motion} from "motion/react";

@@ -1,6 +1,7 @@
 import {Welcome} from "../components/welcome/welcome";
 import {ProjectSection} from "../components/projects/project_section";
 import {LanguageSection} from "../components/languages/languageSection";
+import {SubscribeSection} from "../components/subscribe/subscribeSection";
 import {ReactLenis} from "lenis/dist/lenis-react";
 import "./index.css";
 
@@ -22,7 +23,8 @@ export default function Home() {
                 <ProjectSection /> 
                 <hr className="w-1/4 mt-0 m-auto"/>
                 <LanguageSection />
-
+                <hr className="w-1/4 mt-0 m-auto"/>
+                <SubscribeSection />
             </ReactLenis>
         </>
     );

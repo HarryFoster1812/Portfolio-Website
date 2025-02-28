@@ -13,8 +13,9 @@ function sort(json_data: Array){
 
 export default async function Projects() {
     const data = await fetch("https://api.github.com/users/HarryFoster1812/repos"); 
-    const json_data = data.json();
+    const json_data = await data.json();
     const sorted_data = sort(json_data);
+    console.log(json_data);
     return (
         <>
             <p>Projects</p>
