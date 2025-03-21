@@ -68,7 +68,7 @@ export default function Projects() {
         };
 
         fetchData();
-    });
+    }, []);
 
     return (
         <>
