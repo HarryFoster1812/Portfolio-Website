@@ -40,17 +40,18 @@ function sort(json_data: Repo[], sortType: keyof Repo, ascendingType: string) {
 }
 
 export default function Projects() {
-    const [sortedData, setSortedData] = useState<Repo[]>([]);
+    const [repos, setRepos] = useState<Repo[]>([]); // Store the raw data
+    const [sortedData, setSortedData] = useState<Repo[]>([]); // Store the sorted data
     const [sortType, setSortType] = useState<keyof Repo>('updated_at');
     const [ascendingType, setAscendingType] = useState('asc');
 
     // Sort the data when the sortType or ascendingType changes
     useEffect(() => {
-        if (sortedData.length > 0) {
-            const sorted = sort(sortedData, sortType, ascendingType);
-            setSortedData([...sorted]); // Force re-render by updating the state
+        if (repos.length > 0) {
+            const sorted = sort(repos, sortType, ascendingType);
+            setSortedData(sorted);
         }
-    }, [sortType, ascendingType, sortedData]);
+    }, [sortType, ascendingType, repos]); // Sort whenever sortType or ascendingType changes
 
     // Fetch data only once when the component mounts
     useEffect(() => {
@@ -59,7 +60,8 @@ export default function Projects() {
                 const response = await fetch("https://api.github.com/users/HarryFoster1812/repos");
                 const data: Repo[] = await response.json(); // Type the fetched data as Repo[]
 
-                // After fetching the data, sort it by the initial sortType and ascendingType
+                // Set the raw data and also sort it initially
+                setRepos(data);
                 const sorted = sort(data, sortType, ascendingType);
                 setSortedData(sorted);
             } catch (error) {
@@ -68,7 +70,7 @@ export default function Projects() {
         };
 
         fetchData();
-    }, []);
+    }, []); // Only run this once when the component mounts
 
     return (
         <>
