@@ -2,7 +2,7 @@ import {Welcome} from "../components/welcome/welcome";
 import {ProjectSection} from "../components/projects/project_section";
 import {LanguageSection} from "../components/languages/languageSection";
 import {SubscribeSection} from "../components/subscribe/subscribeSection";
-import {ReactLenis} from "lenis/dist/lenis-react";
+import {Laptop} from "./threeTest/page";
 import "./index.css";
 
 export const metadata = {
@@ -15,17 +15,14 @@ export const metadata = {
 export default function Home() {
     return (
         <>
-            <ReactLenis root
-                options={{lerp: 0.1}}
-            >
-                <Welcome />
-                <hr className="w-1/4 mt-0 m-auto"/>
-                <ProjectSection /> 
-                <hr className="w-1/4 mt-0 m-auto"/>
-                <LanguageSection />
-                <hr className="w-1/4 mt-0 m-auto"/>
-                <SubscribeSection />
-            </ReactLenis>
+            <Welcome />
+            <hr className="w-1/4 mt-0 m-auto"/>
+            <Laptop/>
+            <ProjectSection /> 
+            <hr className="w-1/4 mt-0 m-auto"/>
+            <LanguageSection />
+            <hr className="w-1/4 mt-0 m-auto"/>
+            <SubscribeSection />
         </>
     );
 }

@@ -1,5 +1,5 @@
 "use client";
-import TypewriterEffect from "./typewriter.tsx";
+import TypewriterEffect from "./typewriter";
 import {motion} from "motion/react";
 
 export const Welcome = () => {

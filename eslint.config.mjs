@@ -1,3 +1,4 @@
+
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 import { FlatCompat } from "@eslint/eslintrc";
@@ -9,8 +10,17 @@ const compat = new FlatCompat({
   baseDirectory: __dirname,
 });
 
+// Extend from Next.js and TypeScript base configs
 const eslintConfig = [
   ...compat.extends("next/core-web-vitals", "next/typescript"),
+  
+  // Disable the specific rule that bans `@ts-ignore` and `@ts-nocheck`
+  {
+    rules: {
+      "@typescript-eslint/ban-ts-comment": "off",
+    },
+  },
 ];
 
 export default eslintConfig;
+

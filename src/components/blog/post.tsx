@@ -1,6 +1,7 @@
 import Image from 'next/image'
 
-export default function Post({image, title, description, tags}){
+export default function Post({image, title, description, tags}: {image: string, title: string, description:string, tags:string[] }){
+    console.log(image);
     return (
         <>
         <li className="relative flex flex-col sm:flex-row xl:flex-col items-start">

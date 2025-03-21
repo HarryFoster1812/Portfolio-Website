@@ -1,11 +1,11 @@
 "use client";
 
-import {Project} from "./project.ts";
+import {Project} from "./project";
 import {ProjectCard} from "./project_card";
 import {ProjectButton} from "./project_button"
 
 export const ProjectSection = () => {
-    let projects: Project[] = [
+    const projects: Project[] = [
         {
             name: "AttendEase",
             description: "A university project built with Bootstrap, JavaScript, and PHP. This app features a dynamic calendar, location-based attendance verification, rolling code backups, and interactive statistics and leaderboards for both staff and students.",
