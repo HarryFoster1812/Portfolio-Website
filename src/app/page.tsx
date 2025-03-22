@@ -2,7 +2,7 @@ import {Welcome} from "../components/welcome/welcome";
 import {ProjectSection} from "../components/projects/project_section";
 import {LanguageSection} from "../components/languages/languageSection";
 import {SubscribeSection} from "../components/subscribe/subscribeSection";
-import {Laptop} from "./threeTest/page";
+import {Laptop} from "./threeTest/Laptop";
 import "./index.css";
 
 export const metadata = {

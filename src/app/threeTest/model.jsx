@@ -3,16 +3,28 @@ import { useGLTF } from '@react-three/drei'
 import { Html } from "@react-three/drei";
 // @ts-expect-error it just says i have to because there are no types in r3f it just says i have to because there are no types in r3f
 import { editable as e } from "@theatre/r3f";
-import React, {useRef } from "react";
+import React, {useRef, useMemo } from "react";
 // import {ProjectSection} from "../../components/projects/project_section"
 import * as THREE from "three";
 
-export default function Model(){
+export default function Model(width){
     const { nodes, materials} = useGLTF('/models/Laptop.glb');
     const screenRef = useRef(null);
     const material = new THREE.MeshBasicMaterial( {color: "#000"} );
+
+    const modelScale = useMemo(() => {
+        let scaleFactor; // Adjust the model size for small screens (e.g., below 768px)
+        if(window.innerWidth >= 925){
+            scaleFactor = 1;
+        }
+        else{
+            scaleFactor = window.innerWidth/1000;
+        }
+        return [scaleFactor, scaleFactor, scaleFactor];
+    }, [window.innerWidth]);
+
     return (
-        <e.group theatreKey="Model" dispose={null}>
+        <e.group theatreKey="Model" dispose={null} scale={modelScale}>
             <group position={[0, -0.007, -2.37]} scale={[1.02, 1, 1.14]}>
                 <mesh geometry={nodes.Cube585.geometry} material={materials['bottom body']} />
                 <mesh geometry={nodes.Cube585_1.geometry} material={materials.rubber} />
@@ -158,7 +170,7 @@ export default function Model(){
                     <mesh geometry={nodes['Back-Logo'].geometry} material={materials['bottom body']} position={[-0.017, -0.108, -0.018]} rotation={[1.222, 0, Math.PI]} scale={[1.4, 0.022, 1.4]} />
                     <mesh geometry={nodes.Innerplane.geometry} material={materials['remove hp logo']} position={[0.048, -0.042, 0.019]} rotation={[1.222, 0, 0]} scale={[3.659, 2.28, 2.28]} />
                     <e.mesh ref={screenRef} theatreKey="Model / Screen / Desktop" geometry={nodes.Screen.geometry} material={material}  rotation={[-Math.PI / 9, 0, 0]} scale={[3.875, 2.578, 0.056]} >
-                        <Html occulde transform style={{opacity:0.8, overflowY:"auto", width: "72px", height: "62px" }} position={[0, 0.02, 0.1]} >
+                        <Html occulde transform style={{opacity:1, overflowY:"auto", width: "72px", height: "62px" }} position={[0, 0, 0]} >
                             <div  className="bg-red-800 inline-block h-[100vh] overflow-hidden" style={{  overscrollBehaviorY: "none"}}>
                                 <h1>Hello, World</h1>
                             </div>
