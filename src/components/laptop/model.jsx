@@ -1,16 +1,18 @@
 import { useGLTF } from '@react-three/drei'
 // import { useFrame } from "@react-three/fiber";
 import { Html } from "@react-three/drei";
+import { useThree } from '@react-three/fiber'
 // @ts-expect-error it just says i have to because there are no types in r3f it just says i have to because there are no types in r3f
 import { editable as e } from "@theatre/r3f";
-import React, {useRef, useMemo } from "react";
-// import {ProjectSection} from "../../components/projects/project_section"
+import React, {useRef, useState, useMemo, useEffect} from "react";
+import {ProjectSection} from "../../components/projects/project_section"
 import * as THREE from "three";
+import {useScroll, useTransform} from "motion/react";
 
-export default function Model(width){
-    const { nodes, materials} = useGLTF('/models/Laptop.glb');
-    const screenRef = useRef(null);
+const Model = React.forwardRef(({width}, {screenSection, transitionSection})=>{
+    const {nodes, materials} = useGLTF('/models/Laptop.glb');
     const material = new THREE.MeshBasicMaterial( {color: "#000"} );
+
 
     const modelScale = useMemo(() => {
         let scaleFactor; // Adjust the model size for small screens (e.g., below 768px)
@@ -22,6 +24,7 @@ export default function Model(width){
         }
         return [scaleFactor, scaleFactor, scaleFactor];
     }, [window.innerWidth]);
+
 
     return (
         <e.group theatreKey="Model" dispose={null} scale={modelScale}>
@@ -169,19 +172,104 @@ export default function Model(width){
                     <mesh geometry={nodes.Cube001_5.geometry} material={materials['inside camera']} />
                     <mesh geometry={nodes['Back-Logo'].geometry} material={materials['bottom body']} position={[-0.017, -0.108, -0.018]} rotation={[1.222, 0, Math.PI]} scale={[1.4, 0.022, 1.4]} />
                     <mesh geometry={nodes.Innerplane.geometry} material={materials['remove hp logo']} position={[0.048, -0.042, 0.019]} rotation={[1.222, 0, 0]} scale={[3.659, 2.28, 2.28]} />
-                    <e.mesh ref={screenRef} theatreKey="Model / Screen / Desktop" geometry={nodes.Screen.geometry} material={material}  rotation={[-Math.PI / 9, 0, 0]} scale={[3.875, 2.578, 0.056]} >
-                        <Html occulde transform style={{opacity:1, overflowY:"auto", width: "72px", height: "62px" }} position={[0, 0, 0]} >
-                            <div  className="bg-red-800 inline-block h-[100vh] overflow-hidden" style={{  overscrollBehaviorY: "none"}}>
-                                <h1>Hello, World</h1>
-                            </div>
-                        </Html>
-                    </e.mesh>
+                   <OptimizedMesh nodes={nodes} material={material} ref={screenSection}/>
                 </group>
             </e.mesh>
         </e.group>
     )
-}
+});
 
-//<ProjectSection/>
 useGLTF.preload('/models/Laptop.glb')
 
+const OptimizedMesh = React.forwardRef(({ nodes, material },  screenSection) => {
+    const [children, setChildren] = useState([]);
+    const screenRef = useRef(null);
+    const [size, setSize] = useState([]);
+    const { scrollYProgress: screenAnimation } = useScroll({
+        target: screenSection,
+        offset: ['start start', 'end end']
+    });
+
+    useEffect(() => {
+        const unsubscribe = screenAnimation.on("change", (progress) => {
+            if (progress > 0 && children.length === 0) {
+                // Add a child when progress is > 0 and there are no children yet
+                setChildren([
+                    <HTMLContent key={progress} size={size} /> // Add a new HTMLContent component
+                ]);
+
+            } else if (progress === 0 && children.length !== 0) {
+                setChildren([]);
+            }
+        });
+
+        return () => unsubscribe();
+    }, [screenAnimation, children.length]); // Dependency on both `screenAnimation` and `children.length`
+
+
+    const {camera, size: viewportSize } = useThree();
+
+    // Update the size dynamically based on mesh geometry
+    useEffect(() => {
+        if (screenRef.current) {
+            console.log(screenRef);
+            // Get the bounding box of the mesh in world space
+            const bbox = new THREE.Box3().setFromObject(screenRef.current);
+            const width = bbox.max.x - bbox.min.x;
+            const height = bbox.max.y - bbox.min.y;
+
+            // Convert the 3D dimensions into 2D screen space using the camera
+            const topLeft = new THREE.Vector3(bbox.min.x, bbox.max.y, 0);
+            const bottomRight = new THREE.Vector3(bbox.max.x, bbox.min.y, 0);
+            // Project these 3D points to screen space
+            const topLeftScreen = topLeft.project(camera);
+            const bottomRightScreen = bottomRight.project(camera);
+
+            // Map the projected 3D coordinates to 2D screen space (pixels)
+            const widthInPixels = Math.abs(bottomRightScreen.x - topLeftScreen.x) * viewportSize.width;
+            const heightInPixels = Math.abs(topLeftScreen.y - bottomRightScreen.y) * viewportSize.height;
+
+            console.log(widthInPixels);
+            console.log(heightInPixels);
+            // Set the size of the HTML element
+            setSize([widthInPixels, heightInPixels]);
+            
+        }
+    }, [nodes,camera, viewportSize]);
+
+    return (
+        <e.mesh
+            theatreKey="Model / Screen / Desktop"
+            geometry={nodes.Screen.geometry}
+            material={material}
+            rotation={[-Math.PI / 9, 0, 0]}
+            scale={[3.875, 2.578, 0.056]}
+            ref={screenRef}
+        >
+            {children}
+        </e.mesh>
+    );
+});
+
+const HTMLContent = (size)=>{
+    return(
+        <Html     
+        >
+            <div  className="bg-red-800 inline-block min-h-full min-w-full overflow-hidden" 
+                style={{
+                    overscrollBehaviorY:"none",
+                    opacity:1, 
+                    overflowY:"auto", 
+                    width: `${size[0]}px`, 
+                    height: `${size[1]}px` 
+                }} 
+            >
+
+                <h1>Hello, World</h1>
+            </div>
+        </Html>
+    );
+}
+
+
+export default Model;

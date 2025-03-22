@@ -17,6 +17,7 @@ export const ProjectCard = ({project, index} : {project: Project, index: number}
                     initial={{x:((-1)**index)*250, opacity:0}}
                     whileInView={{x:0, opacity:1}}
                     transition={{ease:"easeIn", duration:0.55}}
+                    viewport={{ once: true }} // Ensures animation runs only once
                     className="card w-7/10 md:w-4/6 bg-blackrounded-2xl border-solid border-white border rounded-2xl overflow-hidden shadow-2xl transform-style-preserve-3d perspective-[1000px]  ease-in-out hover:translate-y-[-10px] hover:rotate-x-5 hover:rotate-y-[-5px] hover:shadow-[0_15px_40px_rgba(0,_255,_255,_0.5)] animate__animated z-1"
                 >
                     <Image

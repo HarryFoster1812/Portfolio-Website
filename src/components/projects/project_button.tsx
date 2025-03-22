@@ -9,7 +9,7 @@ export const ProjectButton = () => {
             initial={{opacity:0, scale:0}}
             whileInView={{opacity:1, scale:1}}
             transition={{ease:"easeIn", duration:0.55}}
-
+            viewport={{ once: true }} // Ensures animation runs only once
             className="w-full flex items-center justify-center m-10">
             <Link 
                 href="/projects" 

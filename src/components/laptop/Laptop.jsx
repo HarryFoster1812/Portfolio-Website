@@ -27,55 +27,49 @@ const project = getProject("THREE.js x Theatre.js", {state: json});
 const sheet = project.sheet("Animated scene");
 
 export const Laptop = ()=>{
-    const sectionRef = useRef(null);
-    const afterSection = useRef(null);
+    const modelAnimationSection = useRef(null);
+    const screenSection = useRef(null);
+    const transitionSection = useRef(null);
     
     return (
         <>
             <div className="w-screen h-[100vh]"/>
-            <div ref={sectionRef} className="">
+            <div id="sectionRef" className="">
                 <div style={{position: "sticky", top: 0, height:"100vh", width:"100%"}}>
                     <Canvas resize={{scroll: true, auto: true}} >
                         <SheetProvider sheet={sheet}>
-                            <Scene sectionRef={sectionRef} afterSection={afterSection}/>
+                            <Scene  modelSection={modelAnimationSection} ref={{screenSection,transitionSection}}/>
                         </SheetProvider>
                     </Canvas>
                 </div>
-                <div ref={afterSection} className="w-screen h-[500vh]">
+                <div ref={modelAnimationSection} id="afterSection" className="w-screen h-[500vh]">
+                </div>
+                <div ref={screenSection} className="w-screen h-[300vh]">
+                </div>
+                <div ref={transitionSection} className="w-screen h-[400vh]">
                 </div>
             </div>
         </>
     );
 }
 
-function Scene(sectionRef, afterSection) {
+const Scene = React.forwardRef(({modelSection}, {screenSection, transitionSection})=> {
     useCurrentSheet();
 
-    const {scrollYProgress: modelvhProgress} = useScroll({
-        target: sectionRef,
-        offset: ["start end", "end end"]
+    // Set up scroll tracking with the offset to make it stop when the bottom of the section hits the bottom of the viewport
+    const { scrollYProgress: modelvhProgress } = useScroll({
+        target: modelSection,
+        offset: ["start start", "end end"] // Adjusted offset to stop when the section's bottom hits the viewport's bottom
     });
 
-    const {scrollYProgress: afterYProgress} = useScroll({
-        target: afterSection,
-        offset: ["start end", "end end"]
-    });
-    const width = useTransform(modelvhProgress, [0, 0.75], [0, 1]);
+    // Debugging the scroll progress
+    const animationProgress = useTransform(modelvhProgress, [0, 0.75], [0, 1]);
 
     useFrame(() => {
-        // Assuming `sheet.sequence.pointer.length` is a valid number
         const AnimationLength = val(sheet.sequence.pointer.length);
-        if (AnimationLength && width) {
-            // Set the sheet sequence position based on the transformed scroll value
-            sheet.sequence.position = width.get() * AnimationLength;
-        }
-
-        // Log the scroll progress
-        // console.log(modelvhProgress.get());
+        sheet.sequence.position = animationProgress.get() * AnimationLength;
     });
 
-    useEffect(()=>{console.log(afterYProgress)}, [afterYProgress])
-    
     const [size, setSize] = useState([window.innerWidth, window.innerHeight]);
 
     useEffect(() => {
@@ -83,22 +77,20 @@ function Scene(sectionRef, afterSection) {
             setSize([window.innerWidth, window.innerHeight]);
         };
 
-        // Listen for window resize
-        window.addEventListener('resize', onResize);
+        window.addEventListener("resize", onResize);
 
-        // Cleanup on unmount
         return () => {
-            window.removeEventListener('resize', onResize);
+            window.removeEventListener("resize", onResize);
         };
     }, []);
 
     return (
         <>
-            <PerspectiveCamera theatreKey="Camera" makeDefault position={[0, 0, 5]} zoom={0.1} aspect={size[0] / size[1]}/>
+            <PerspectiveCamera theatreKey="Camera" makeDefault position={[0, 0, 5]} zoom={0.1} aspect={size[0] / size[1]} />
             <ambientLight />
             <e.directionalLight theatreKey="Light" position={[0, 10, 4]} intensity={5} />
-            <Model width={size[0]}/>
+            <Model width={size[0]} ref={{screenSection, transitionSection}} />
         </>
     );
-}
+});
 

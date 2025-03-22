@@ -1,4 +1,4 @@
-import { Laptop } from "./Laptop";
+import { Laptop } from "../../components/laptop/Laptop";
 
 
 export default function App(){
