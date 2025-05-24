@@ -1,4 +1,4 @@
-const ScreenContent = (size) => {
+const ScreenContent = (size: number[]) => {
     return(
         <div  className="bg-slate-900 inline-block min-h-full min-w-full overflow-hidden" 
             style={{

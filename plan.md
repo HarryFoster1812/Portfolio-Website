@@ -1,22 +1,25 @@
 PAGES
-- Home (Portfolio)
-- Projects 
-- Blog
 
+- Home (Portfolio)
+- Projects
+- Blog
 
 # Home
 
 ## Sections
-- [x] Build Welcome Content 
-    - Hello, I'm Harry Foster
-    - I am a ["Software Engineer", "Computer Science Student", "Problem Solver", "Tech Enthusiast"]
 
-- [x] Add on load animations 
+- [x] Build Welcome Content
+  - Hello, I'm Harry Foster
+  - I am a ["Software Engineer", "Computer Science Student", "Problem Solver", "Tech Enthusiast"]
+
+- [x] Add on load animations
 
 ## Projects
+
 Top 3 projects (cards taken from the projects component but static selection)
 
 for each project:
+
 - Image
 - Title
 - Description
@@ -24,13 +27,14 @@ for each project:
 - Link (Github)
 
 - AttendEase
-- Chess AI 
+- Chess AI
 - Scroll Tracker (if finished)
 
 - [x] Added a card
 - [ ] Add custom images
 
 ## Languages
+
 - Python
 - Java
 - RISC V
@@ -51,14 +55,15 @@ add anitmation to draw the path on Scroll
 add animation to text on scroll
 
 Maybe instead of an svg the timeline is a vertical binary string?
-Depending on the size it could be a message? ASCII in binary? 
+Depending on the size it could be a message? ASCII in binary?
 
 ### If binary option
 
 #### ASCII message
+
 - "Hello, World!"
 
-Need to create a util function which would convert.
+- could be cool to have a hidden message such as the users ip embedded into the binary - Need to create a util function which would convert.
 
 ####
 
@@ -74,13 +79,14 @@ Get projects from Github API add each project
 Create a dynamic page for each project
 
 # Blog
+
 Get all blog posts and create dynamic list
 Obsidian backend
-
 
 # Not originally planned but possible pages
 
 ## Reading List
+
 Connect some api for the cover and book information based off the isbn
 Have a small blog type infrastructure where it would store the book details such as read date and any other notes i made for it.
 
@@ -95,9 +101,12 @@ Lifetime Stats
 
 Last Watched
 
-
 ## Wayback machine for website
 
-Commit url = https://api.github.com/repos/HarryFoster1812/Portfolio-Website/commits
+Commit url = <https://api.github.com/repos/HarryFoster1812/Portfolio-Website/commits>
 Create a dropdown menu of the list of commits
 Once selected the commit would be shown in a frame
+
+## New 3d model plan
+
+Instead of having a 3d model and dynamically render it instead prerender and export as videos, use a library to change the frame based on the scroll progress and instead of trying to display html content in a 3d scene use a div displayed ontop of a static image/frame
