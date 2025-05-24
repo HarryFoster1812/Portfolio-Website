@@ -5,7 +5,10 @@ import { useThree } from '@react-three/fiber'
 // @ts-expect-error it just says i have to because there are no types in r3f it just says i have to because there are no types in r3f
 import { editable as e } from "@theatre/r3f";
 import React, {useRef, useState, useMemo, useEffect} from "react";
-import {ProjectSection} from "../../components/projects/project_section"
+import ReactDOM from "react-dom";
+import {ProjectSection} from "../../components/projects/project_section";
+import ScreenContent from "./screen";
+
 import * as THREE from "three";
 import {useScroll, useTransform} from "motion/react";
 
@@ -172,7 +175,7 @@ const Model = React.forwardRef(({width}, {screenSection, transitionSection})=>{
                     <mesh geometry={nodes.Cube001_5.geometry} material={materials['inside camera']} />
                     <mesh geometry={nodes['Back-Logo'].geometry} material={materials['bottom body']} position={[-0.017, -0.108, -0.018]} rotation={[1.222, 0, Math.PI]} scale={[1.4, 0.022, 1.4]} />
                     <mesh geometry={nodes.Innerplane.geometry} material={materials['remove hp logo']} position={[0.048, -0.042, 0.019]} rotation={[1.222, 0, 0]} scale={[3.659, 2.28, 2.28]} />
-                   <OptimizedMesh nodes={nodes} material={material} ref={screenSection}/>
+                   <OptimizedMesh nodes={nodes} material={material} scale={modelScale} ref={screenSection}/>
                 </group>
             </e.mesh>
         </e.group>
@@ -181,13 +184,13 @@ const Model = React.forwardRef(({width}, {screenSection, transitionSection})=>{
 
 useGLTF.preload('/models/Laptop.glb')
 
-const OptimizedMesh = React.forwardRef(({ nodes, material },  screenSection) => {
+const OptimizedMesh = React.forwardRef(({ nodes, material, scale },  screenSection) => {
     const [children, setChildren] = useState([]);
     const screenRef = useRef(null);
     const [size, setSize] = useState([]);
     const { scrollYProgress: screenAnimation } = useScroll({
         target: screenSection,
-        offset: ['start start', 'end end']
+        offset: ['start end', 'end end']
     });
 
     useEffect(() => {
@@ -195,7 +198,7 @@ const OptimizedMesh = React.forwardRef(({ nodes, material },  screenSection) => 
             if (progress > 0 && children.length === 0) {
                 // Add a child when progress is > 0 and there are no children yet
                 setChildren([
-                    <HTMLContent key={progress} size={size} /> // Add a new HTMLContent component
+                    <HTMLContent key={progress} size={size} scale={scale} /> // Add a new HTMLContent component
                 ]);
 
             } else if (progress === 0 && children.length !== 0) {
@@ -251,25 +254,19 @@ const OptimizedMesh = React.forwardRef(({ nodes, material },  screenSection) => 
     );
 });
 
-const HTMLContent = (size)=>{
-    return(
-        <Html     
-        >
-            <div  className="bg-red-800 inline-block min-h-full min-w-full overflow-hidden" 
-                style={{
-                    overscrollBehaviorY:"none",
-                    opacity:1, 
-                    overflowY:"auto", 
-                    width: `${size[0]}px`, 
-                    height: `${size[1]}px` 
-                }} 
-            >
 
-                <h1>Hello, World</h1>
+const HTMLContent = ({ size, scale }) => {
+
+    return (
+        <Html scale={scale}>
+            <div className="min-w-full min-h-full bg-gray-600">
+                <ScreenContent/>
             </div>
         </Html>
     );
-}
+};
+
+
 
 
 export default Model;

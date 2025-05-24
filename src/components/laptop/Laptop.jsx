@@ -33,7 +33,6 @@ export const Laptop = ()=>{
     
     return (
         <>
-            <div className="w-screen h-[100vh]"/>
             <div id="sectionRef" className="">
                 <div style={{position: "sticky", top: 0, height:"100vh", width:"100%"}}>
                     <Canvas resize={{scroll: true, auto: true}} >
@@ -57,13 +56,11 @@ const Scene = React.forwardRef(({modelSection}, {screenSection, transitionSectio
     useCurrentSheet();
 
     // Set up scroll tracking with the offset to make it stop when the bottom of the section hits the bottom of the viewport
-    const { scrollYProgress: modelvhProgress } = useScroll({
+    const { scrollYProgress: animationProgress } = useScroll({
         target: modelSection,
-        offset: ["start start", "end end"] // Adjusted offset to stop when the section's bottom hits the viewport's bottom
+        offset: ["start end", "end end"] // Adjusted offset to stop when the section's bottom hits the viewport's bottom
     });
 
-    // Debugging the scroll progress
-    const animationProgress = useTransform(modelvhProgress, [0, 0.75], [0, 1]);
 
     useFrame(() => {
         const AnimationLength = val(sheet.sequence.pointer.length);
