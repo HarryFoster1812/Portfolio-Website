@@ -37,7 +37,7 @@ function sort(json_data: Repo[], sortType: keyof Repo, ascendingType: string) {
 export default function Projects() {
   const [repos, setRepos] = useState<Repo[]>([]);
   const [sortedData, setSortedData] = useState<Repo[]>([]);
-  const [sortType, setSortType] = useState<keyof Repo>("updated_at");
+  const [sortType, setSortType] = useState<keyof Repo>("pushed_at");
   const [ascendingType, setAscendingType] = useState("desc");
   const [loading, setLoading] = useState(true);
 
@@ -82,7 +82,7 @@ export default function Projects() {
             value={sortType}
           >
             <option value="name">Name</option>
-            <option value="updated_at">Updated Date</option>
+            <option value="pushed_at">Updated Date</option>
             <option value="created_at">Created Date</option>
           </select>
         </label>
