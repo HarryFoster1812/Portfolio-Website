@@ -5,7 +5,7 @@ interface Repo {
   id: number;
   name: string;
   description: string | null;
-  updated_at: string;
+  pushed_at: string;
   created_at: string;
 }
 
@@ -123,7 +123,7 @@ export default function Projects() {
                 </p>
                 <p className="text-xs text-zinc-500 italic tracking-wide">
                   Updated:{" "}
-                  {new Date(repo.updated_at).toLocaleDateString(undefined, {
+                  {new Date(repo.pushed_at).toLocaleDateString(undefined, {
                     year: "numeric",
                     month: "short",
                     day: "numeric",
