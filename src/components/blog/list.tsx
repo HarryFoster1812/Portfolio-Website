@@ -1,25 +1,32 @@
-import Post from "./post";
-import { Project } from "../projects/project"; // Adjust import if necessary
+"use client"
+import { useEffect, useState } from 'react';
 
-interface ListProps {
-  post_info: Project[]; // Define the expected type for the prop
-}
+type Post = {
+  filename: string;
+  title: string;
+};
 
-export default function List({ post_info }: ListProps) {
+export default function BlogList() {
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchPosts() {
+      const res = await fetch('/api/blog');
+      const data: Post[] = await res.json();
+      setPosts(data);
+      setLoading(false);
+    }
+    fetchPosts();
+  }, []);
+
+  if (loading) return <p>Loading posts...</p>;
+
   return (
-    <>
-      <ul className="grid grid-cols-1 xl:grid-cols-3 gap-y-10 gap-x-6 items-start p-8">
-        {post_info.map((post: Project) => (
-          <Post 
-            key={post.name}
-            image={post.image} 
-            title={post.name} 
-            description={post.description} 
-            tags={post.tags} 
-          />
-        ))}
-      </ul>
-    </>
+    <ul>
+      {posts.map(({ filename, title }) => (
+        <li key={filename}>{title}</li>
+      ))}
+    </ul>
   );
 }
-

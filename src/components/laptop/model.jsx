@@ -6,7 +6,7 @@ import { useThree } from '@react-three/fiber'
 import { editable as e } from "@theatre/r3f";
 import React, {useRef, useState, useMemo, useEffect} from "react";
 import ReactDOM from "react-dom";
-import {ProjectSection} from "../../components/projects/project_section";
+import {ProjectSection} from "@/components/projects/project_section";
 import ScreenContent from "./screen";
 
 import * as THREE from "three";

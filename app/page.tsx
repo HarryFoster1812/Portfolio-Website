@@ -1,9 +1,9 @@
-import {Welcome} from "../components/welcome/welcome";
-import {ProjectSection} from "../components/projects/project_section";
-import {LanguageSection} from "../components/languages/languageSection";
-import {SubscribeSection} from "../components/subscribe/subscribeSection";
-import {Laptop} from "../components/laptop/Laptop";
-import {BinaryTimeline} from "../components/timeline/BinaryTimeline";
+import {Welcome} from "@/components/welcome/welcome";
+import {ProjectSection} from "@/components/projects/project_section";
+import {LanguageSection} from "@/components/languages/languageSection";
+import {SubscribeSection} from "@/components/subscribe/subscribeSection";
+import {Laptop} from "@/components/laptop/Laptop";
+import {BinaryTimeline} from "@/components/timeline/BinaryTimeline";
 import "./index.css";
 
 export const metadata = {
