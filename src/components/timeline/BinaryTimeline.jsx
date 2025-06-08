@@ -29,7 +29,7 @@ export const BinaryTimeline = (() => {
               key={index}
               className={`flex flex-col sm:flex-row items-center ${
                 isLeft ? "sm:flex-row-reverse" : ""
-              }`}
+              } z-0`}
             >
               <div className="sm:w-1/2 px-4">
                 <div

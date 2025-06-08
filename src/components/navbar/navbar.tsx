@@ -16,7 +16,7 @@ export const Navbar = () => {
 
     return (
         <>
-        <nav className="bg-zinc-800 border-zinc-700 dark:bg-zinc-900 fixed top-0 left-0 w-full sticky z-10">
+        <nav className="bg-zinc-800 border-zinc-700 dark:bg-zinc-900 fixed top-0 left-0 w-full sticky z-50">
             <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
                 <Link href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
                     <Vercel />
