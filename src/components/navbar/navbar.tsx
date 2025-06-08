@@ -28,7 +28,7 @@ export const Navbar = () => {
                         type="button"
                         className="text-white bg-zinc-700 hover:bg-zinc-600 focus:ring-4 focus:outline-none focus:ring-zinc-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-zinc-600 dark:hover:bg-zinc-500 dark:focus:ring-zinc-400"
                     >
-                        Resume
+                            <Link href="/Harry_Foster_CV.pdf" download>Resume</Link>
                     </button>
                     {/* Toggle Button for Mobile Menu */}
                     <button
