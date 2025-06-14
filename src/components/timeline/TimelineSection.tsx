@@ -108,6 +108,9 @@ export const TimelineSection: React.FC = () => {
     return () => observer.disconnect();
   }, [expandedIndex]);
   return (
+
+<section className="min-h-screen max-h-auto flex items-center flex-col justify-center gap-5 z-10">
+    <h1 className="w-full text-center p-10 font-bold text-white mt-6">My Story</h1>
     <div ref={containerRef} className="relative px-6 sm:px-12 py-12 max-w-5xl mx-auto">
       {/* Binary Column */}
       <div
@@ -161,5 +164,6 @@ export const TimelineSection: React.FC = () => {
         ))}
       </div>
     </div>
+    </section>
   );
 };
