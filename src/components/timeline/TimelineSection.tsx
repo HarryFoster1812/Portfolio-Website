@@ -65,7 +65,6 @@ function textToBinary(str: string) {
 }
 
 export const TimelineSection: React.FC = () => {
-  const [expandedIndex, setExpandedIndex] = useState<number | null>(0);
   const [binaryCount, setBinaryCount] = useState(20);
   const containerRef = useRef<HTMLDivElement>(null);
   const binaryRef = useRef<HTMLDivElement>(null);
@@ -74,6 +73,20 @@ export const TimelineSection: React.FC = () => {
   const binaryMessage = textToBinary(hiddenMessage);
   const messageDigits = binaryMessage.split("").map((d) => parseInt(d, 10));
     
+    const [expandedIndex, setExpandedIndex] = useState<number[] | null>([0]);
+
+    const toggleIndex = (idx: number) => {
+        if (!expandedIndex) {
+            setExpandedIndex([idx]);
+            return;
+        }
+        if (expandedIndex.includes(idx)) {
+            setExpandedIndex(expandedIndex.filter((i) => i !== idx));
+        } else {
+            setExpandedIndex([...expandedIndex, idx]);
+        }
+    };
+
   useEffect(() => {
     const updateBinaryCount = () => {
       if (containerRef.current && binaryRef.current) {
@@ -128,7 +141,7 @@ export const TimelineSection: React.FC = () => {
             <BinaryDigit
               key={i}
               digit={digit}
-              delay={i * 0.05}
+              delay={0.05}
             />
           );
         })}
@@ -142,8 +155,8 @@ export const TimelineSection: React.FC = () => {
             title={item.title}
             description={item.description}
             isLeft={index % 2 === 0}
-            isExpanded={expandedIndex === index}
-            onClick={() => setExpandedIndex(expandedIndex === index ? null : index)}
+            isExpanded={expandedIndex.includes(index)}
+            onClick={() => toggleIndex(index)}
           />
         ))}
       </div>
