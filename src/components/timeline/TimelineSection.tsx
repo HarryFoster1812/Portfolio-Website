@@ -80,7 +80,7 @@ export const TimelineSection: React.FC = () => {
             setExpandedIndex([idx]);
             return;
         }
-        if (expandedIndex.includes(idx)) {
+        else if (expandedIndex.includes(idx)) {
             setExpandedIndex(expandedIndex.filter((i) => i !== idx));
         } else {
             setExpandedIndex([...expandedIndex, idx]);
@@ -155,7 +155,7 @@ export const TimelineSection: React.FC = () => {
             title={item.title}
             description={item.description}
             isLeft={index % 2 === 0}
-            isExpanded={expandedIndex.includes(index)}
+            isExpanded={expandedIndex ? expandedIndex.includes(index) : false}
             onClick={() => toggleIndex(index)}
           />
         ))}
