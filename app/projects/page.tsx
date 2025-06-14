@@ -106,60 +106,60 @@ export default function Projects() {
       ) : sortedData.length === 0 ? (
         <p className="text-center text-zinc-400 italic">No projects found.</p>
       ) : (
-            <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {sortedData.map((repo) => (
-                    <li key={repo.id} className="group">
-                        <a
-                            href={`/projects/${repo.name}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="block bg-gradient-to-br from-gray-800 via-gray-900 to-black border border-gray-700 rounded-xl p-6 shadow-lg hover:shadow-xl hover:shadow-teal-500/30 transition-all duration-300 transform hover:-translate-y-1 text-white overflow-hidden relative"
-                        >
-                            {/* Language Badge */}
-                            <div className="absolute top-4 right-4">
-                                {repo.language && (
-                                    <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-teal-500/20 text-teal-300 border border-teal-500/30">
-                                        {repo.language}
-                                    </span>
-                                )}
-                            </div>
+        <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {sortedData.map((repo) => (
+                <li key={repo.id} className="group">
+                    <a
+                        href={`/projects/${repo.name}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block bg-gradient-to-br from-zinc-800 via-zinc-900 to-black border border-zinc-700 rounded-xl p-6 shadow-lg hover:shadow-xl hover:shadow-teal-500/20 transition-all duration-300 transform hover:-translate-y-1 text-zinc-100 overflow-hidden relative"
+                    >
+                        {/* Language Badge */}
+                        <div className="absolute top-4 right-4">
+                            {repo.language && (
+                                <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-teal-500/10 text-teal-300 border border-teal-500/20">
+                                    {repo.language}
+                                </span>
+                            )}
+                        </div>
 
-                            {/* Card Content */}
-                            <div>
-                                <h2 className="text-xl font-bold text-white mb-2 w-2/3 truncate">
-                                    {repo.name}
-                                </h2>
-                                <p className="text-gray-300 text-sm mb-4 line-clamp-3 min-h-[3.75rem]">
-                                    {repo.description ?? "A project showcasing my skills and creativity."}
+                        {/* Card Content */}
+                        <div>
+                            <h2 className="text-xl font-bold text-zinc-100 mb-2 w-2/3 truncate">
+                                {repo.name}
+                            </h2>
+                            <p className="text-zinc-400 text-sm mb-4 line-clamp-3 min-h-[3.75rem]">
+                                {repo.description ?? "A project showcasing my skills and creativity."}
+                            </p>
+
+                            {/* Dates */}
+                            <div className="flex items-center justify-evenly min-w-full">
+                                <p className="text-sm text-zinc-500 italic w-1/3">
+                                    Updated:{" "}
+                                    {new Date(repo.pushed_at).toLocaleDateString(undefined, {
+                                        year: "numeric",
+                                        month: "short",
+                                        day: "numeric",
+                                    })}
                                 </p>
-
-                                {/* Dates */}
-                                <div className="flex items-center justify-evenly min-w-full">
-                                    <p className="text-sm text-gray-400 italic w-1/3">
-                                        Updated:{" "}
-                                        {new Date(repo.pushed_at).toLocaleDateString(undefined, {
-                                            year: "numeric",
-                                            month: "short",
-                                            day: "numeric",
-                                        })}
-                                    </p>
-                                    <p className="text-sm text-gray-400 italic w-1/3">
-                                        Created:{" "}
-                                        {new Date(repo.created_at).toLocaleDateString(undefined, {
-                                            year: "numeric",
-                                            month: "short",
-                                            day: "numeric",
-                                        })}
-                                    </p>
-                                </div>
+                                <p className="text-sm text-zinc-500 italic w-1/3">
+                                    Created:{" "}
+                                    {new Date(repo.created_at).toLocaleDateString(undefined, {
+                                        year: "numeric",
+                                        month: "short",
+                                        day: "numeric",
+                                    })}
+                                </p>
                             </div>
+                        </div>
 
-                            {/* Subtle Background Effect */}
-                            <div className="absolute inset-0 bg-gradient-to-r from-teal-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                        </a>
-                    </li>
-                ))}
-            </ul>
+                        {/* Subtle Background Effect */}
+                        <div className="absolute inset-0 bg-gradient-to-r from-teal-400/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </a>
+                </li>
+            ))}
+        </ul>
         )}
         </div>
     );

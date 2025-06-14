@@ -60,7 +60,7 @@ export const Navbar = () => {
                   <Link
                     href={href}
                     className={`block py-2 px-3 md:p-0 ${
-                      currentRoute === href || currentRoute.includes(href)
+                      currentRoute === href 
                         ? "text-blue-500 md:dark:text-blue-400"
                         : "text-white md:dark:text-white"
                     } hover:bg-zinc-700 md:hover:bg-transparent md:hover:text-blue-500 md:dark:hover:text-blue-400 rounded-sm`}
@@ -97,14 +97,14 @@ export const Navbar = () => {
           {/* Right section: Resume + Mobile menu toggle */}
             <div className="col-span-3 md:col-span-3 grid md:flex md:w-">
                 <div className="flex justify-end gap-2 w-full">
+              <Link href="/Harry_Foster_CV.pdf" download>
             <button
               type="button"
               className="text-white bg-zinc-700 hover:bg-zinc-600 focus:ring-4 focus:outline-none focus:ring-zinc-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-zinc-600 dark:hover:bg-zinc-500 dark:focus:ring-zinc-400"
             >
-              <Link href="/Harry_Foster_CV.pdf" download>
                 Resume
-              </Link>
             </button>
+              </Link>
 
             {/* Mobile Menu Toggle Button */}
             <button
@@ -148,7 +148,7 @@ export const Navbar = () => {
                     href={href}
                     onClick={() => setIsMenuOpen(false)}
                     className={`block py-2 px-3 ${
-                      currentRoute === href || currentRoute.includes(href)
+                      currentRoute === href 
                         ? "text-blue-500 md:dark:text-blue-400"
                         : "text-white md:dark:text-white"
                     } hover:bg-zinc-700 rounded-sm`}
