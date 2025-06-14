@@ -2,8 +2,8 @@ import {Welcome} from "@/components/welcome/welcome";
 import {ProjectSection} from "@/components/projects/project_section";
 import {LanguageSection} from "@/components/languages/languageSection";
 import {SubscribeSection} from "@/components/subscribe/subscribeSection";
-import {Laptop} from "@/components/laptop/Laptop";
-import {BinaryTimeline} from "@/components/timeline/BinaryTimeline";
+// import {Laptop} from "@/components/laptop/Laptop";
+import {TimelineSection} from "@/components/timeline/TimelineSection";
 import "./index.css";
 
 export const metadata = {
@@ -18,12 +18,12 @@ export default function Home() {
         <>
             <Welcome />
             <hr className="w-1/4 mt-0 m-auto"/>
-            <Laptop/>
+            {/* <Laptop/> */}
             <ProjectSection /> 
             <hr className="w-1/4 mt-0 m-auto"/>
             <LanguageSection />
             <hr className="w-1/4 mt-0 m-auto"/>
-            <BinaryTimeline />
+            <TimelineSection />
             <hr className="w-1/4 mt-0 m-auto"/>
             <SubscribeSection />
         </>
