@@ -22,7 +22,7 @@ export const Navbar = () => {
   return (
     <>
       <nav className="bg-zinc-800 border-zinc-700 dark:bg-zinc-900 fixed top-0 left-0 w-full sticky z-50">
-        <div className="max-w-screen-xl mx-auto py-4 px-4 grid grid-cols-12 items-center gap-4">
+        <div className="max-w-screen-xl mx-auto py-4 px-4 grid grid-cols-6 md:grid-cols-12 items-center gap-4">
           {/* Left section: Source Code + Site Name */}
           <div className="flex items-center gap-4 col-span-3">
             <button
@@ -95,7 +95,8 @@ export const Navbar = () => {
           </div>
 
           {/* Right section: Resume + Mobile menu toggle */}
-          <div className="flex items-center justify-end gap-3 col-span-3 md:col-span-3">
+            <div className="col-span-3 md:col-span-3 grid md:flex md:w-">
+                <div className="flex justify-end gap-2 w-full">
             <button
               type="button"
               className="text-white bg-zinc-700 hover:bg-zinc-600 focus:ring-4 focus:outline-none focus:ring-zinc-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-zinc-600 dark:hover:bg-zinc-500 dark:focus:ring-zinc-400"
@@ -131,10 +132,11 @@ export const Navbar = () => {
               </svg>
             </button>
           </div>
+          </div>
 
           {/* Mobile Menu */}
           <div
-            className={`items-center justify-between w-full md:hidden col-span-12 mt-4 ${
+            className={`items-center justify-between w-full md:hidden col-span-6 mt-4 ${
               isMenuOpen ? "block" : "hidden"
             }`}
             id="navbar-cta"
