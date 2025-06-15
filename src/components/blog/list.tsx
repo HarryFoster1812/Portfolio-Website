@@ -52,7 +52,7 @@ function weightedRandomCombo(combos: number[][]): number[] {
   const weightSum = weights.reduce((a, b) => a + b, 0);
   const probs = weights.map(w => w / weightSum);
 
-  let random = Math.random();
+  const random = Math.random();
   let cumulative = 0;
 
   for (let i = 0; i < combos.length; i++) {
@@ -69,7 +69,7 @@ let remainingCount = posts.length;
     let index =0;
     while(remainingCount != 0){
         // get random line
-        let random_comb = weightedRandomCombo(VALID_COMBINATIONS);
+        const random_comb = weightedRandomCombo(VALID_COMBINATIONS);
         for(let i=0;i<random_comb.length;i++){
             if(remainingCount == 0){
             break;
@@ -86,9 +86,7 @@ let remainingCount = posts.length;
 
 
 
-
 export default function BlogList() {
-  const [posts, setPosts] = useState<Post[]>([]);
   const [postsWithSpans, setPostsWithSpans] = useState<
     { item: Post; span: number }[]
   >([]);
@@ -98,14 +96,13 @@ export default function BlogList() {
     async function fetchPosts() {
       const res = await fetch("/api/blog");
       const data: Post[] = await res.json();
-      setPosts(data);
       const withSpans = assignResponsiveSpans(data);
       setPostsWithSpans(withSpans);
       setLoading(false);
     }
     fetchPosts();
   }, []);
-  let currentLineFill = 0;
+
     const SPAN_MAP = {
         2: "sm:col-span-2 lg:col-span-4",
         3: "sm:col-span-3 lg:col-span-6",
@@ -113,6 +110,7 @@ export default function BlogList() {
         6: "sm:col-span-6 lg:col-span-12",
     };
 
+    type SpanKey = keyof typeof SPAN_MAP; // "2" | "3" | "4" | "6"
 
   if (loading) {
     return <p className="text-zinc-400 italic text-center">Loading posts...</p>;
@@ -122,7 +120,7 @@ export default function BlogList() {
     <div className="flex justify-center">
       <div className="grid grid-cols-1 sm:grid-cols-6 lg:grid-cols-12 gap-6 max-w-7xl w-full px-4">
       {postsWithSpans.map(({ item, span }) => (
-          <Link href={`/blog/${item.filename}`} key={item.filename} className={`w-full ${SPAN_MAP[span]}`} >
+          <Link href={`/blog/${item.filename}`} key={item.filename} className={`w-full ${SPAN_MAP[span as SpanKey]}`} >
             <div className="h-full bg-zinc-900 border border-zinc-700 rounded-xl p-6 shadow-md hover:shadow-lg hover:border-teal-500 transition">
               <h2 className="text-xl font-semibold text-zinc-100 hover:text-teal-400 transition-colors">
                 {item.title}
