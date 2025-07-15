@@ -3,15 +3,13 @@
 import { motion } from 'framer-motion';
 import React, { useState } from 'react';
 
-// Define component props
-interface SubscribeCardProps {}
 
 // Define API response type
 interface ApiResponse {
   message: string;
 }
 
-export const SubscribeCard: React.FC<SubscribeCardProps> = () => {
+export const SubscribeCard: React.FC = () => {
   const [email, setEmail] = useState<string>('');
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [message, setMessage] = useState<string>('');
@@ -38,7 +36,7 @@ export const SubscribeCard: React.FC<SubscribeCardProps> = () => {
       setEmail('');
     } catch (error) {
       setStatus('error');
-      setMessage(error.message || 'An error occurred');
+      setMessage((error as Error).message || 'An error occurred');
     }
   };
 

@@ -44,7 +44,6 @@ export default function CommentSection({ slug }: CommentSectionProps) {
     });
 
     if (res.ok) {
-      const newComment = await res.json();
       const updatedRes = await fetch(`/api/blog/${slug}/comments`);
       const updatedComments = await updatedRes.json();
       setComments(updatedComments);

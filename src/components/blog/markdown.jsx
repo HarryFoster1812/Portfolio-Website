@@ -1,72 +1,59 @@
-'use client';
+"use client"
+import React, { useEffect, useRef, memo } from "react"
+import ReactMarkdown from "react-markdown"
+import rehypeRaw from "rehype-raw"
+import rehypeHighlight from "rehype-highlight"
+import remarkGfm from "remark-gfm"
+import mermaid from "mermaid"
+import "highlight.js/styles/atom-one-dark.css"
+import { motion } from "framer-motion"
+import { parse } from "yaml"
 
-import React, { useEffect, useRef, memo } from 'react';
-import ReactMarkdown from 'react-markdown';
-import rehypeRaw from 'rehype-raw';
-import rehypeHighlight from 'rehype-highlight';
-import remarkGfm from 'remark-gfm';
-import mermaid from 'mermaid';
-import 'highlight.js/styles/atom-one-dark.css';
-import { motion } from 'framer-motion';
-import { parse } from 'yaml';
-
-// Define props type
-interface MarkdownRendererProps {
-  markdown: string;
-}
-
-// Define frontmatter type
-interface Frontmatter {
-  title?: string;
-  date?: string;
-  description?: string;
-}
-
-const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ markdown }) => {
-  const mermaidRef = useRef<HTMLDivElement>(null);
-  const [frontmatter, setFrontmatter] = React.useState<Frontmatter>({});
-  const [content, setContent] = React.useState<string>('');
+const MarkdownRenderer = ({ markdown }) => {
+  const mermaidRef = useRef(null)
+  const [frontmatter, setFrontmatter] = React.useState({})
+  const [content, setContent] = React.useState("")
 
   // Parse frontmatter and content
   useEffect(() => {
-    const frontmatterMatch = markdown.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
+    const frontmatterMatch = markdown.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/)
     if (frontmatterMatch) {
       try {
-        const frontmatterData = parse(frontmatterMatch[1]) as Frontmatter;
-        setFrontmatter(frontmatterData);
-        setContent(frontmatterMatch[2].trim());
+        const frontmatterData = parse(frontmatterMatch[1])
+        setFrontmatter(frontmatterData)
+        setContent(frontmatterMatch[2].trim())
       } catch (error) {
-        console.error('Error parsing frontmatter:', error);
-        setContent(markdown);
+        console.error("Error parsing frontmatter:", error)
+        setContent(markdown)
       }
     } else {
-      setContent(markdown);
+      setContent(markdown)
     }
-  }, [markdown]);
+  }, [markdown])
 
   // Initialize Mermaid
   useEffect(() => {
     mermaid.initialize({
       startOnLoad: true,
-      theme: 'dark',
-      securityLevel: 'loose',
-      fontFamily: 'Inter, sans-serif',
-    });
+      theme: "dark",
+      securityLevel: "loose",
+      fontFamily: "Inter, sans-serif"
+    })
 
     const renderMermaid = async () => {
       if (mermaidRef.current) {
-        const mermaidElements = mermaidRef.current.querySelectorAll('.mermaid');
+        const mermaidElements = mermaidRef.current.querySelectorAll(".mermaid")
         if (mermaidElements.length > 0) {
           await mermaid.run({
             nodes: mermaidElements,
-            suppressErrors: true,
-          });
+            suppressErrors: true
+          })
         }
       }
-    };
+    }
 
-    renderMermaid();
-  }, [content]);
+    renderMermaid()
+  }, [content])
 
   return (
     <motion.div
@@ -80,15 +67,17 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ markdown }) => {
       {(frontmatter.title || frontmatter.date || frontmatter.description) && (
         <div className="bg-[#1A1A1A] border-b border-gray-700 p-6">
           {frontmatter.title && (
-            <h1 className="text-3xl font-bold mb-3 text-white">{frontmatter.title}</h1>
+            <h1 className="text-3xl font-bold mb-3 text-white">
+              {frontmatter.title}
+            </h1>
           )}
           {frontmatter.date && (
             <p className="text-sm text-gray-400">
-              Published on{' '}
-              {new Date(frontmatter.date).toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
+              Published on{" "}
+              {new Date(frontmatter.date).toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "long",
+                day: "numeric"
               })}
             </p>
           )}
@@ -107,22 +96,30 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ markdown }) => {
           rehypePlugins={[rehypeRaw, rehypeHighlight]}
           components={{
             pre({ children }) {
-              const child = children[0];
+              // Ensure children is defined and is an array or single element
+              if (
+                !children ||
+                !Array.isArray(children) ||
+                children.length === 0
+              ) {
+                return <pre>{children}</pre>
+              }
+              const child = children[0]
               if (
                 React.isValidElement(child) &&
-                child.props.className?.includes('language-mermaid')
+                child.props.className?.includes("language-mermaid")
               ) {
                 return (
                   <div className="mermaid my-6 p-6 bg-gray-800 rounded-lg shadow-inner border border-gray-700">
                     {String(child.props.children).trim()}
                   </div>
-                );
+                )
               }
               return (
                 <pre className="bg-gray-800 text-white p-6 rounded-lg shadow-md overflow-x-auto my-6 border border-gray-700">
                   {children}
                 </pre>
-              );
+              )
             },
             code({ inline, className, children, ...props }) {
               return inline ? (
@@ -136,7 +133,7 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ markdown }) => {
                 <code className={className} {...props}>
                   {children}
                 </code>
-              );
+              )
             },
             h1: ({ children }) => (
               <h1 className="text-3xl font-extrabold mt-10 mb-6 text-white border-b border-gray-700 pb-2">
@@ -160,7 +157,9 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ markdown }) => {
               <ul className="list-disc pl-8 my-6 text-gray-300">{children}</ul>
             ),
             ol: ({ children }) => (
-              <ol className="list-decimal pl-8 my-6 text-gray-300">{children}</ol>
+              <ol className="list-decimal pl-8 my-6 text-gray-300">
+                {children}
+              </ol>
             ),
             blockquote: ({ children }) => (
               <blockquote className="border-l-4 border-[#00ABE4] pl-4 my-6 italic text-gray-400">
@@ -176,14 +175,14 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ markdown }) => {
               >
                 {children}
               </a>
-            ),
+            )
           }}
         >
           {content}
         </ReactMarkdown>
       </div>
     </motion.div>
-  );
-};
+  )
+}
 
-export default memo(MarkdownRenderer);
+export default memo(MarkdownRenderer)
