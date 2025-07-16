@@ -1,7 +1,7 @@
 import { getAllBlogPosts } from '@/lib/blog';
 import { fetchGitHubRepos, type Repo } from "@/lib/repos";
 
-const BASE_URL = `https://www.${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
+const BASE_URL = `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
 
 // Simulate dynamic fetching
 async function fetchProjects() {
