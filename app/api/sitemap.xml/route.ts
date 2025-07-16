@@ -1,7 +1,7 @@
 import { getAllBlogPosts } from '@/lib/blog';
 import { fetchGitHubRepos, type Repo } from "@/lib/repos";
 
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL!;
+const BASE_URL = `https://www.${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
 
 // Simulate dynamic fetching
 async function fetchProjects() {
@@ -20,7 +20,7 @@ export async function GET() {
     const projects = await fetchProjects();
     const blogs = await fetchBlogPosts();
 
-    const staticPaths = ['', '/projects', '/blog'];
+    const staticPaths = ['', '/projects', '/blog', '/Harry_Foster_CV.pdf'];
 
     const projectPaths = projects.map(p => `/projects/${p.slug}`);
     const blogPaths = blogs.map(b => `/blog/${b.slug}`);

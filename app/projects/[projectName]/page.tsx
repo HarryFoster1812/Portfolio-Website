@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import Markdown from "react-markdown";
+import MarkdownRenderer from '@/components/blog/markdown';
 
 interface GitHubRepo {
   id: number;
@@ -128,7 +128,7 @@ export default function DynamicProjectPage({
           style={{ scrollbarWidth: "thin", scrollbarColor: "#52525b transparent" }}
         >
           {markdownContent ? (
-            <Markdown>{markdownContent}</Markdown>
+            <MarkdownRenderer markdown={markdownContent} />
           ) : (
             <p className="text-zinc-500 italic">No README.md content available.</p>
           )}
