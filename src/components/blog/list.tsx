@@ -5,6 +5,8 @@ import Link from "next/link";
 type Post = {
   filename: string;
   title: string;
+  description: string;
+  date: Date;
 };
 
 type PostWithSpan = {
@@ -119,18 +121,32 @@ export default function BlogList() {
   return (
     <div className="flex justify-center">
       <div className="grid grid-cols-1 sm:grid-cols-6 lg:grid-cols-12 gap-6 max-w-7xl w-full px-4">
-      {postsWithSpans.map(({ item, span }) => (
-          <Link href={`/blog/${item.filename}`} key={item.filename} className={`w-full ${SPAN_MAP[span as SpanKey]}`} >
+        {postsWithSpans.map(({ item, span }) => (
+          <Link
+            href={`/blog/${item.filename}`}
+            key={item.filename}
+            className={`w-full ${SPAN_MAP[span as SpanKey]}`}
+          >
             <div className="h-full bg-zinc-900 border border-zinc-700 rounded-xl p-6 shadow-md hover:shadow-lg hover:border-teal-500 transition">
               <h2 className="text-xl font-semibold text-zinc-100 hover:text-teal-400 transition-colors">
                 {item.title}
               </h2>
               <p className="text-sm text-zinc-400 mt-2 line-clamp-3">
+                {item.description}
+              </p>
+              <p className="text-xs text-zinc-500 mt-4 italic">
+                {new Date(item.date).toLocaleDateString(undefined, {
+                  year: "numeric",
+                  month: "short",
+                  day: "numeric",
+                })}
+              </p>
+              <p className="text-sm text-zinc-400 mt-2 line-clamp-3">
                 Read more &rarr;
               </p>
             </div>
           </Link>
-      ))}
+        ))}
       </div>
     </div>
   );
