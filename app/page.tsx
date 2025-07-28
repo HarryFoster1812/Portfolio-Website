@@ -7,12 +7,6 @@ import {ExperienceSection} from "@/components/experience/experienceSection";
 // import {Laptop} from "@/components/laptop/Laptop";
 import "./index.css";
 
-export const metadata = {
-    title: 'Home',
-    description:
-    'My Portfolio',
-};
-
 
 export default function Home() {
     return (
