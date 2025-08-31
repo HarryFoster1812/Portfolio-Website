@@ -16,9 +16,10 @@ const rootFS: DirNode = {
           type: "file",
           content: "Welcome to my blog! Here's the first post...",
         },
-        "tech.txt": {
-          type: "file",
-          content: "React and Node.js tutorial coming soon.",
+        "tensors-and-machine-learning.md": {
+          type: "lazyFile",
+          fetchContent: async () =>
+            await fetch("/api/blog/tensors-and-machine-learning").then((res) => res.text()),
         },
       },
     },

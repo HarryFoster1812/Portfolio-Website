@@ -51,11 +51,28 @@ export class FileSystem {
     return false;
   }
 
-  cat(fileName: string): string | null {
-    const file = this.getCurrentDir().children[fileName];
-    if (file && file.type === "file") return file.content;
-    return null;
+async cat(fileName: string): Promise<string | null> {
+  const file = this.getCurrentDir().children[fileName];
+  if (!file) return null;
+
+  if (file.type === "file") {
+    return file.content;
+  } else if (file.type === "lazyFile") {
+    // If already cached, use it
+    if (file.cachedContent) return file.cachedContent;
+
+    // Otherwise fetch & cache
+    const content = await file.fetchContent();
+    file.cachedContent = content;
+
+    // Optionally: convert node into a "file" permanently
+    // this.getCurrentDir().children[fileName] = { type: "file", content };
+
+    return content;
   }
+
+  return null;
+}
 
   pwd(): string {
     return this.currentPath.join("/");
