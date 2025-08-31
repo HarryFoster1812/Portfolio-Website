@@ -1,4 +1,5 @@
 import { FileSystem } from "@/lib/filesystem";
+import { DirNode } from "@/lib/filesystem_types";
 
 export type HistoryEntry = {
   command: string;
@@ -10,7 +11,7 @@ export class TerminalSession {
   private fs: FileSystem;
   private history: HistoryEntry[] = [];
 
-  constructor(rootFS: Parameters<typeof FileSystem>[0]) {
+  constructor(rootFS: DirNode) {
     this.fs = new FileSystem(rootFS);
   }
 

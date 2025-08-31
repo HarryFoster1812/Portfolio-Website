@@ -4,18 +4,28 @@
 
 import { useState, useRef, useEffect } from "react";
 import { TerminalSession, HistoryEntry } from "@/lib/terminal_session";
+import { DirNode } from "@/lib/filesystem_types";
 
-const rootFS = {
+const rootFS: DirNode = {
   type: "dir",
   children: {
     blog: {
       type: "dir",
       children: {
-        "welcome.txt": { type: "file", content: "Welcome to my blog! Here's the first post..." },
-        "tech.txt": { type: "file", content: "React and Node.js tutorial coming soon." },
+        "welcome.txt": {
+          type: "file",
+          content: "Welcome to my blog! Here's the first post...",
+        },
+        "tech.txt": {
+          type: "file",
+          content: "React and Node.js tutorial coming soon.",
+        },
       },
     },
-    "about.txt": { type: "file", content: "Hi, I’m Harry Foster. I build cool stuff." },
+    "about.txt": {
+      type: "file",
+      content: "Hi, I’m Harry Foster. I build cool stuff.",
+    },
   },
 };
 

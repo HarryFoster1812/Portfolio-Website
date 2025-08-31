@@ -1,5 +1,5 @@
 // FileSystem.ts
-import { Node, DirNode, FileNode } from "./filesystem_types.ts";
+import { Node, DirNode } from "./filesystem_types";
 
 export class FileSystem {
   private root: DirNode;
