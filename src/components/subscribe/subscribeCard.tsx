@@ -65,7 +65,7 @@ export const SubscribeCard: React.FC = () => {
         onClick={handleSubmit}
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
-        className="w-2/3 md:w-1/3 p-3 rounded-lg text-white text-center bg-gradient-to-br from-[#00ABE4] to-[#ff4d4f] hover:bg-gradient-to-bl transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[#00ABE4] disabled:opacity-50"
+        className="inline-block py-2 px-3 bg-gradient-to-br from-cyan-400 to-pink-500 text-black no-underline rounded-xl font-bold uppercase tracking-wide transition-all duration-300 ease-in-out hover:translate-y-[-3px] hover:shadow-[0_10px_20px_rgba(0,_255,_255,_0.4)]"
         disabled={status === 'loading'}
       >
         {status === 'loading' ? 'Subscribing...' : 'Join!'}
