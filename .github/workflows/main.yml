@@ -6,7 +6,7 @@ on:
       skip_vercel:
         description: "Skip Vercel deployment"
         required: false
-        default: "true"  
+        default: "true"
   push:
     paths:
       - 'src/content/blog/*'
@@ -14,10 +14,11 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    env:
-      SKIP_VERCEL: "true"
     if: ${{ github.event.inputs.skip_vercel != 'true' }}
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
       - name: Wait for Vercel Deployment
         uses: amondnet/vercel-action@v20
         with:
@@ -30,14 +31,26 @@ jobs:
 
   notify:
     runs-on: ubuntu-latest
-    # Remove 'needs: deploy' so it can run even if deploy is skipped
+    needs: deploy
+    services:
+      mongodb:
+        image: mongo:6.0
+        ports:
+          - 27017:27017
+        options: >-
+          --health-cmd "mongosh --eval 'db.adminCommand({ ping: 1 })'" 
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      MONGO_URI: ${{ secrets.MONGO_URI }}
+      MAILTRAP_API_KEY: ${{ secrets.MAILTRAP_API_KEY }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
 
       # Restore cache of processed files
       - name: Restore processed files cache
-        id: cache
         uses: actions/cache@v3
         with:
           path: .github/workflows/processed_files.json
@@ -53,7 +66,17 @@ jobs:
             echo "[]" > $FILE
           fi
 
-      # Get all blog files (base64 encoded)
+      # Setup Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      # Install dependencies
+      - name: Install dependencies
+        run: npm ci
+
+      # Get all blog files (ignore dotfiles)
       - name: Get all blog files
         id: all-files
         run: |
@@ -66,30 +89,35 @@ jobs:
         run: |
           FILE=".github/workflows/processed_files.json"
           NEW_FILES=""
-          # Decode base64 list of files
           while read -r f; do
             if ! grep -q "$f" "$FILE"; then
               NEW_FILES="$NEW_FILES $f"
             fi
-          done < <(echo "${{ steps.all-files.outputs.all_files }}" | base64 --decode)          
-          # Save new files as comma-separated string for GitHub Actions output
+          done < <(echo "${{ steps.all-files.outputs.all_files }}" | base64 --decode)
           NEW_FILES_CSV=$(echo $NEW_FILES | tr ' ' ',')
           echo "new_files=$NEW_FILES_CSV" >> $GITHUB_OUTPUT
           echo "Unprocessed files: $NEW_FILES_CSV"
 
-      # Send emails for new files
-      - name: Send Email for New Files
+      # Fetch confirmed users once
+      - name: Get confirmed users
+        id: users
         if: steps.unprocessed.outputs.new_files != ''
         run: |
-          FILE=".github/workflows/processed_files.json"
+          USERS_JSON=$(node ./scripts/get-users.js)
+          echo "users=$USERS_JSON" >> $GITHUB_OUTPUT
+
+      # Send emails for new files
+      - name: Send emails
+        if: steps.unprocessed.outputs.new_files != '' && steps.users.outputs.users != '[]'
+        run: |
           IFS=',' read -ra FILE_ARRAY <<< "${{ steps.unprocessed.outputs.new_files }}"
           for file in "${FILE_ARRAY[@]}"; do
-            echo "Processing $file..."
-            # Append to processed record using jq
-            jq --arg f "$file" '. += [$f]' $FILE > tmp.json && mv tmp.json $FILE
+            node ./scripts/send-email.js "$file" '${{ steps.users.outputs.users }}'
+            # Update processed files
+            jq --arg f "$file" '. += [$f]' .github/workflows/processed_files.json > tmp.json && mv tmp.json .github/workflows/processed_files.json
           done
 
-      # Save updated processed files to cache
+      # Save updated processed files cache
       - name: Save cache
         uses: actions/cache@v3
         with:
