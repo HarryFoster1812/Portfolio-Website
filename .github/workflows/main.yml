@@ -103,7 +103,7 @@ jobs:
         id: users
         if: steps.unprocessed.outputs.new_files != ''
         run: |
-          USERS_JSON=$(node ./scripts/get-users.js)
+          USERS_JSON=$(node ./scripts/get_confirmed_users.js)
           echo "users=$USERS_JSON" >> $GITHUB_OUTPUT
 
       # Send emails for new files
@@ -112,7 +112,7 @@ jobs:
         run: |
           IFS=',' read -ra FILE_ARRAY <<< "${{ steps.unprocessed.outputs.new_files }}"
           for file in "${FILE_ARRAY[@]}"; do
-            node ./scripts/send-email.js "$file" '${{ steps.users.outputs.users }}'
+            node ./scripts/send_blog_update_email.js "$file" '${{ steps.users.outputs.users }}'
             # Update processed files
             jq --arg f "$file" '. += [$f]' .github/workflows/processed_files.json > tmp.json && mv tmp.json .github/workflows/processed_files.json
           done
