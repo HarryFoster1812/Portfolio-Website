@@ -1,19 +1,20 @@
 name: blog_notifier
 
 on:
+  workflow_dispatch: {}  # optional manual trigger
   push:
     paths:
       - 'src/content/blog/*'
 
 jobs:
-  wait-for-vercel:
+  notify:
     runs-on: ubuntu-latest
     steps:
-      # Checkout the repo
+      # Checkout repo
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # Wait for Vercel deployment to finish
+      # Wait for Vercel deployment
       - name: Wait for Vercel Deployment
         uses: amondnet/vercel-action@v20
         with:
@@ -24,22 +25,61 @@ jobs:
           wait-for-approval: false
         id: vercel
 
-      # Get the list of new files in src/content
-      - name: Check for new files
-        id: new-files
-        run: |
-          echo "Detecting new files in src/content..."
-          git fetch origin ${{ github.ref }}
-          # Compare the latest commit with the previous commit
-          NEW_FILES=$(git diff --name-only ${{ github.sha }} ${{ github.sha }}^1 src/content)
-          echo "New files detected: $NEW_FILES"
-          echo "files=$NEW_FILES" >> $GITHUB_OUTPUT
+      # Restore cache of processed files
+      - name: Restore processed files cache
+        id: cache
+        uses: actions/cache@v3
+        with:
+          path: .github/workflows/processed_files.json
+          key: blog-notifier-${{ runner.os }}-v1
+          restore-keys: |
+            blog-notifier-${{ runner.os }}-v1
 
-      # Run a script for each new file
-      - name: Send Email for New Files
-        if: steps.new-files.outputs.files != ''
+      # Initialize processed files list
+      - name: Initialize processed files
+        id: init
         run: |
-          for file in ${{ steps.new-files.outputs.files }}; do
-            echo "Processing $file..."
-            # Replace this with your script command
+          FILE=".github/workflows/processed_files.json"
+          if [ ! -f $FILE ]; then
+            echo "[]" > $FILE
+          fi
+
+      # Get all blog files
+      - name: Get all blog files
+        id: all-files
+        run: |
+          FILES=$(find src/content/blog -type f)
+          echo "all_files=$FILES" >> $GITHUB_OUTPUT
+
+      # Determine unprocessed files
+      - name: Determine unprocessed files
+        id: unprocessed
+        run: |
+          FILE=".github/workflows/processed_files.json"
+          PROCESSED=$(cat $FILE)
+          NEW_FILES=""
+          for f in ${{ steps.all-files.outputs.all_files }}; do
+            if ! echo "$PROCESSED" | grep -q "$f"; then
+              NEW_FILES="$NEW_FILES $f"
+            fi
           done
+          echo "new_files=$NEW_FILES" >> $GITHUB_OUTPUT
+          echo "Unprocessed files: $NEW_FILES"
+
+      # Send emails for new files
+      - name: Send Email for New Files
+        if: steps.unprocessed.outputs.new_files != ''
+        run: |
+          FILE=".github/workflows/processed_files.json"
+          for file in ${{ steps.unprocessed.outputs.new_files }}; do
+            echo "Processing $file..."
+            # Append to processed record
+            jq --arg f "$file" '. += [$f]' $FILE > tmp.json && mv tmp.json $FILE
+          done
+
+      # Save updated processed files to cache
+      - name: Save cache
+        uses: actions/cache@v3
+        with:
+          path: .github/workflows/processed_files.json
+          key: blog-notifier-${{ runner.os }}-v1
