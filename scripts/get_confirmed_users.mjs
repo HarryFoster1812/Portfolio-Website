@@ -7,9 +7,18 @@ const client = new MongoClient(uri);
 async function getConfirmedUsers() {
   try {
     await client.connect();
-    const db = client.db("test"); 
-    const users = await db.collection("subscribers").find({ confirmed: true }).toArray();
-    console.log(JSON.stringify(users)); // outputs to workflow logs
+    const db = client.db("test");
+    const users = await db
+      .collection("subscribers")
+      .find({ confirmed: true })
+      .project({ email: 1, _id: 0 })
+      .toArray();
+
+    // Extract just the email strings
+    const emails = users.map(u => u.email);
+
+    // Output as a JSON array of strings
+    console.log(JSON.stringify(emails));
   } finally {
     await client.close();
   }
