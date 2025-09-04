@@ -1,8 +1,5 @@
 name: blog_notifier
 
-env:
-  SKIP_VERCEL: "true"
-  
 on:
   workflow_dispatch: {}
   push:
@@ -12,6 +9,8 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    env:
+      SKIP_VERCEL: "true"
     if: env.SKIP_VERCEL != 'true'
     steps:
       - name: Wait for Vercel Deployment
