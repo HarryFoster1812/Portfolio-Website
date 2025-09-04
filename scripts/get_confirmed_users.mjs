@@ -11,14 +11,11 @@ async function getConfirmedUsers() {
     const users = await db
       .collection("subscribers")
       .find({ confirmed: true })
-      .project({ email: 1, _id: 0 })
+      .project({ email: 1, confirmationToken: 1, _id: 0 }) // include confirmationToken
       .toArray();
 
-    // Extract just the email strings
-    const emails = users.map(u => u.email);
-
-    // Output as a JSON array of strings
-    console.log(JSON.stringify(emails));
+    // Output as a JSON array of objects
+    console.log(JSON.stringify(users, null, 2));
   } finally {
     await client.close();
   }

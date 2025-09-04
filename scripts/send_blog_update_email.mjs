@@ -33,10 +33,10 @@ const description = data.description || "No description"
 
 const subject = `New Blog Post: ${title}`;
 
-for (const email of users) {
+for (const user of users) {
   await transporter.sendMail({
     from: '"Blog Notifier" <no-reply@harryfoster.tech>',
-    to: email,
+    to: user.email,
     subject,
     html: `
 <!DOCTYPE html>
@@ -155,7 +155,7 @@ for (const email of users) {
               <p>${description}</p>
               
               <p style="text-align:center;">
-                <a href="${postUrl}" class="btn">Read the full post →</a>
+                <a href="https://www.harryfoster.tech/blog/${filename}" class="btn">Read the full post →</a>
               </p>
               
               <p>Thanks for following along,<br>Harry</p>
@@ -169,7 +169,7 @@ for (const email of users) {
                 <a href="https://harryfoster.tech">harryfoster.tech</a>.
               </p>
               <p>
-                <a href="${unsubscribeUrl}">Unsubscribe</a>
+                <a href="https://www.harryfoster.tech/Unsubscribe/${user.confirmationToken}">Unsubscribe</a>
               </p>
             </td>
           </tr>
