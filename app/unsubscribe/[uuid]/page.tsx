@@ -1,5 +1,6 @@
 'use client';
 import { useState, useRef, useEffect } from 'react';
+import Link from "next/link";
 
 
 export default function UnsubscribePage({
@@ -20,10 +21,9 @@ export default function UnsubscribePage({
         "This is your last chance.",
     ];
 
-    const containerRef = useRef(null);
+    const containerRef = useRef<HTMLDivElement>(null);
     const [stage, setStage] = useState(0);
     const [buttonOffset, setButtonOffset] = useState({ x: 0, y: 0 });
-    const [lastClick, setLastClick] = useState(false);
     const [transitionStage, setTransitionStage] = useState<"none" | "fadeOut" | "goodbye" | "ok" | "end">("none");
 
     const nextStage = () => {
@@ -52,7 +52,7 @@ export default function UnsubscribePage({
                 try {
                     const resolvedParams = await params; // resolve the promise
                     const { uuid } = resolvedParams;
-                    const response = await fetch('/api/unsubscribe', {
+                    const res = await fetch('/api/unsubscribe', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -98,7 +98,7 @@ export default function UnsubscribePage({
             </audio>
 
             {/* Main interactive stages */}
-            {!lastClick && transitionStage === "none" && (
+            {transitionStage === "none" && (
                 <div className="flex flex-col items-center space-y-8 transition-all duration-500 ease-in-out">
                     {/* Desperation Meter */}
                     <div className="text-center">
@@ -126,12 +126,14 @@ export default function UnsubscribePage({
 
                     {/* Stay Link */}
                     <div>
-                        <a
+                        <Link
                             href="/"
-                            className="text-green-400 text-lg hover:text-green-500 transition-colors"
                         >
-                            Nah, I'll stick around
-                        </a>
+                            <a className="text-green-400 text-lg hover:text-green-500 transition-colors">
+
+                            Nah, I&aposll stick around
+                            </a>
+                        </Link>
                     </div>
                 </div>
             )}
