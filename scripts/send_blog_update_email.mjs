@@ -182,5 +182,4 @@ for (const user of users) {
 </html>
 `,
   });
-  console.log(`Sent email to ${email}`);
 }
