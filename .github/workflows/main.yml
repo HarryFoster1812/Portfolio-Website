@@ -1,20 +1,16 @@
 name: blog_notifier
 
 on:
-  workflow_dispatch: {}  # optional manual trigger
+  workflow_dispatch: {}
   push:
     paths:
       - 'src/content/blog/*'
 
 jobs:
-  notify:
+  deploy:
     runs-on: ubuntu-latest
+    if: env.SKIP_VERCEL != 'true'
     steps:
-      # Checkout repo
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      # Wait for Vercel deployment
       - name: Wait for Vercel Deployment
         uses: amondnet/vercel-action@v20
         with:
@@ -24,6 +20,13 @@ jobs:
           vercel-args: "--prod"
           wait-for-approval: false
         id: vercel
+
+  notify:
+    runs-on: ubuntu-latest
+    # Remove 'needs: deploy' so it can run even if deploy is skipped
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
       # Restore cache of processed files
       - name: Restore processed files cache
@@ -37,42 +40,45 @@ jobs:
 
       # Initialize processed files list
       - name: Initialize processed files
-        id: init
         run: |
           FILE=".github/workflows/processed_files.json"
           if [ ! -f $FILE ]; then
             echo "[]" > $FILE
           fi
 
-      # Get all blog files
+      # Get all blog files (base64 encoded)
       - name: Get all blog files
         id: all-files
         run: |
           FILES=$(find src/content/blog -type f | base64 -w0)
           echo "all_files=$FILES" >> $GITHUB_OUTPUT
+
       # Determine unprocessed files
       - name: Determine unprocessed files
         id: unprocessed
         run: |
           FILE=".github/workflows/processed_files.json"
-          PROCESSED=$(cat $FILE)
           NEW_FILES=""
-          for f in ${{ steps.all-files.outputs.all_files }}; do
-            if ! echo "$PROCESSED" | grep -q "$f"; then
+          # Decode base64 list of files
+          echo "${{ steps.all-files.outputs.all_files }}" | base64 --decode | while read -r f; do
+            if ! grep -q "$f" "$FILE"; then
               NEW_FILES="$NEW_FILES $f"
             fi
           done
-          echo "new_files=$NEW_FILES" >> $GITHUB_OUTPUT
-          echo "Unprocessed files: $NEW_FILES"
+          # Save new files as comma-separated string for GitHub Actions output
+          NEW_FILES_CSV=$(echo $NEW_FILES | tr ' ' ',')
+          echo "new_files=$NEW_FILES_CSV" >> $GITHUB_OUTPUT
+          echo "Unprocessed files: $NEW_FILES_CSV"
 
       # Send emails for new files
       - name: Send Email for New Files
         if: steps.unprocessed.outputs.new_files != ''
         run: |
           FILE=".github/workflows/processed_files.json"
-          for file in ${{ steps.unprocessed.outputs.new_files }}; do
+          IFS=',' read -ra FILE_ARRAY <<< "${{ steps.unprocessed.outputs.new_files }}"
+          for file in "${FILE_ARRAY[@]}"; do
             echo "Processing $file..."
-            # Append to processed record
+            # Append to processed record using jq
             jq --arg f "$file" '. += [$f]' $FILE > tmp.json && mv tmp.json $FILE
           done
 
