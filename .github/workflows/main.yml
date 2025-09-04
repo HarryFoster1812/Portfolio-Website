@@ -1,0 +1,45 @@
+name: blog_notifier
+
+on:
+  push:
+    paths:
+      - 'src/content/blog/*'
+
+jobs:
+  wait-for-vercel:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout the repo
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Wait for Vercel deployment to finish
+      - name: Wait for Vercel Deployment
+        uses: amondnet/vercel-action@v20
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          vercel-args: "--prod"
+          wait-for-approval: false
+        id: vercel
+
+      # Get the list of new files in src/content
+      - name: Check for new files
+        id: new-files
+        run: |
+          echo "Detecting new files in src/content..."
+          git fetch origin ${{ github.ref }}
+          # Compare the latest commit with the previous commit
+          NEW_FILES=$(git diff --name-only ${{ github.sha }} ${{ github.sha }}^1 src/content)
+          echo "New files detected: $NEW_FILES"
+          echo "files=$NEW_FILES" >> $GITHUB_OUTPUT
+
+      # Run a script for each new file
+      - name: Send Email for New Files
+        if: steps.new-files.outputs.files != ''
+        run: |
+          for file in ${{ steps.new-files.outputs.files }}; do
+            echo "Processing $file..."
+            # Replace this with your script command
+          done
