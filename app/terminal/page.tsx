@@ -1,7 +1,5 @@
 "use client"
 
-"use client";
-
 import { useState, useRef, useEffect } from "react";
 import { TerminalSession, HistoryEntry } from "@/lib/terminal_session";
 import { DirNode } from "@/lib/filesystem_types";
@@ -51,26 +49,26 @@ export default function Terminal() {
     setInput("");
   };
 
-  return (
-    <div
-      ref={terminalRef}
-      className="max-w-8xl mx-auto p-8 space-y-4 rounded-lg shadow-lg bg-black text-green-400 font-mono overflow-y-auto max-h-[600px]"
-    >
-      {history.map((entry, i) => (
-        <div key={i}>
-          <span>{prompt}:{entry.dir.join("/")} $ </span>{entry.command}
-          {entry.response && <div>{entry.response}</div>}
+    return (
+        <div
+            ref={terminalRef}
+            className="flex-1 w-full max-w-8xl mx-auto p-8 space-y-4 rounded-lg shadow-lg bg-black text-green-400 font-mono overflow-y-auto"
+        >
+            {history.map((entry, i) => (
+                <div key={i}>
+                    <span>{prompt}:{entry.dir.join("/")} $ </span>{entry.command}
+                    {entry.response && <div>{entry.response}</div>}
+                </div>
+            ))}
+            <form onSubmit={handleCommand} className="mt-2 flex items-center">
+                <span>{prompt}:{session.getCurrentPath().join("/")} $ </span>
+                <input
+                    autoFocus
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                    className="bg-black text-green-400 outline-none flex-1 ml-2"
+                />
+            </form>
         </div>
-      ))}
-      <form onSubmit={handleCommand}>
-        <span>{prompt}:{session.getCurrentPath().join("/")} $ </span>
-        <input
-          autoFocus
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          className="bg-black text-green-400 outline-none w-2/3"
-        />
-      </form>
-    </div>
-  );
+    );
 }

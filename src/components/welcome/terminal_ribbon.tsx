@@ -54,7 +54,7 @@ export default function TerminalRibbon() {
   if (show) {
     return (
       <div
-        className={`fixed right-0 top-1/2 transform -translate-y-1/2 bg-black text-green-400 px-5 py-3 rounded-l-lg shadow-lg flex items-center space-x-3
+        className={`fixed right-0 top-1/4 transform -translate-y-1/2 bg-none text-green-400 px-5 py-3 rounded-l-lg shadow-lg flex items-center space-x-3
                     ${hidden ? "animate-slide-out" : "animate-slide-in"} transition-all`}
         style={{ zIndex: 1000 }}
       >
@@ -83,7 +83,7 @@ export default function TerminalRibbon() {
   return (
     <button
       onClick={handleOpen}
-      className="fixed right-0 top-1/2 transform -translate-y-1/2 bg-black text-green-400 px-2 py-3 rounded-l-lg shadow-lg hover:bg-gray-900 font-mono transition-colors"
+      className="fixed right-0 top-1/4 transform -translate-y-1/4 bg-black text-green-400 px-2 py-3 rounded-l-lg shadow-lg hover:bg-gray-900 font-mono transition-colors"
       style={{ zIndex: 1000 }}
     >
       ➤
