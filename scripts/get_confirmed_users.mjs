@@ -15,7 +15,7 @@ async function getConfirmedUsers() {
       .toArray();
 
     // Output as a JSON array of objects
-    console.log(JSON.stringify(users, null, 2));
+    console.log(JSON.stringify(users));
   } finally {
     await client.close();
   }
