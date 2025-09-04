@@ -1,7 +1,12 @@
 name: blog_notifier
 
 on:
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      skip_vercel:
+        description: "Skip Vercel deployment"
+        required: false
+        default: "true"  
   push:
     paths:
       - 'src/content/blog/*'
@@ -11,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       SKIP_VERCEL: "true"
-    if: env.SKIP_VERCEL != 'true'
+    if: ${{ github.event.inputs.skip_vercel != 'true' }}
     steps:
       - name: Wait for Vercel Deployment
         uses: amondnet/vercel-action@v20
