@@ -31,7 +31,7 @@ jobs:
 
   notify:
     runs-on: ubuntu-latest
-    needs: deploy
+    #needs: deploy
     services:
       mongodb:
         image: mongo:6.0
