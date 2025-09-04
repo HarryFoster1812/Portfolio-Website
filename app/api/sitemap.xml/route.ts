@@ -1,6 +1,8 @@
 import { getAllBlogPosts } from '@/lib/blog';
 import { fetchGitHubRepos, type Repo } from "@/lib/repos";
 
+export const dynamic = 'force-dynamic';
+
 const BASE_URL = `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
 
 // Simulate dynamic fetching
