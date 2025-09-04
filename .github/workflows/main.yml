@@ -1,5 +1,8 @@
 name: blog_notifier
 
+env:
+  SKIP_VERCEL: "true"
+  
 on:
   workflow_dispatch: {}
   push:
@@ -60,11 +63,11 @@ jobs:
           FILE=".github/workflows/processed_files.json"
           NEW_FILES=""
           # Decode base64 list of files
-          echo "${{ steps.all-files.outputs.all_files }}" | base64 --decode | while read -r f; do
+          while read -r f; do
             if ! grep -q "$f" "$FILE"; then
               NEW_FILES="$NEW_FILES $f"
             fi
-          done
+          done < <(echo "${{ steps.all-files.outputs.all_files }}" | base64 --decode)          
           # Save new files as comma-separated string for GitHub Actions output
           NEW_FILES_CSV=$(echo $NEW_FILES | tr ' ' ',')
           echo "new_files=$NEW_FILES_CSV" >> $GITHUB_OUTPUT
