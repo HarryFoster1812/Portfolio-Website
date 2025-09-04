@@ -11,7 +11,7 @@ const users = JSON.parse(usersJson);
 
 // Nodemailer setup (Mailtrap)
 
-const transport = nodemailer.createTransport({
+const transporter = nodemailer.createTransport({
   host: "live.smtp.mailtrap.io",
   port: 587,
   auth: {
