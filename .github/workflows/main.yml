@@ -104,6 +104,7 @@ jobs:
         if: steps.unprocessed.outputs.new_files != ''
         run: |
           USERS_JSON=$(node ./scripts/get_confirmed_users.mjs)
+          echo "Fetched users JSON: $USERS_JSON"   # remove after debugging
           echo "users=$USERS_JSON" >> $GITHUB_OUTPUT
 
       # Send emails for new files
