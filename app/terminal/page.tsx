@@ -5,27 +5,25 @@ import { TerminalSession, HistoryEntry } from "@/lib/terminal_session";
 import { DirNode } from "@/lib/filesystem_types";
 
 const rootFS: DirNode = {
-  type: "dir",
-  children: {
-    blog: {
-      type: "dir",
-      children: {
-        "welcome.txt": {
-          type: "file",
-          content: "Welcome to my blog! Here's the first post...",
+    type: "dir",
+    children: {
+        blog: {
+            type: "dir",
+            children: {
+                "welcome.txt": {
+                    type: "file",
+                    content: "Welcome to my blog! Here's the first post...",
+                },
+                "tensors-and-machine-learning.md": {
+                    type: "blogFile",
+                },
+            },
         },
-        "tensors-and-machine-learning.md": {
-          type: "lazyFile",
-          fetchContent: async () =>
-            await fetch("/api/blog/tensors-and-machine-learning").then((res) => res.text()),
+        "about.txt": {
+            type: "file",
+            content: "Hi, I’m Harry Foster. I build cool stuff.",
         },
-      },
     },
-    "about.txt": {
-      type: "file",
-      content: "Hi, I’m Harry Foster. I build cool stuff.",
-    },
-  },
 };
 
 const session = new TerminalSession(rootFS);
@@ -42,9 +40,9 @@ export default function Terminal() {
     }
   }, [history]);
 
-  const handleCommand = (e: React.FormEvent) => {
+  const handleCommand = async (e: React.FormEvent) => {
     e.preventDefault();
-    session.execute(input);
+    await session.execute(input);
     setHistory(session.getHistory());
     setInput("");
   };

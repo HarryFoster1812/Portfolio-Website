@@ -1,5 +1,7 @@
 // FileSystem.ts
 import { Node, DirNode } from "./filesystem_types";
+import React, { ReactNode } from 'react';
+import TerminalMarkdownRenderer from "@/components/blog/blog_terminal";
 
 export class FileSystem {
   private root: DirNode;
@@ -51,27 +53,43 @@ export class FileSystem {
     return false;
   }
 
-async cat(fileName: string): Promise<string | null> {
-  const file = this.getCurrentDir().children[fileName];
-  if (!file) return null;
+async cat(fileName: string): Promise<string | ReactNode | null> {
+    const file = this.getCurrentDir().children[fileName];
+    if (!file) return null;
 
-  if (file.type === "file") {
-    return file.content;
-  } else if (file.type === "lazyFile") {
-    // If already cached, use it
-    if (file.cachedContent) return file.cachedContent;
+    if (file.type === "file") {
+        return file.content;
+    } else if (file.type === "blogFile") {
+        // If already cached, use it
+        if (file.cachedContent) {
+            return <TerminalMarkdownRenderer markdown={file.cachedContent} />;
+        }
 
-    // Otherwise fetch & cache
-    const content = await file.fetchContent();
-    file.cachedContent = content;
+        // Otherwise fetch & cache
+        try {
+            const res = await fetch(`/api/blog/${encodeURIComponent(fileName.replace('.md', ''))}`, {
+                headers: {
+                    'Accept': 'text/plain',
+                },
+            });
 
-    // Optionally: convert node into a "file" permanently
-    // this.getCurrentDir().children[fileName] = { type: "file", content };
+            if (!res.ok) {
+                throw new Error(`HTTP error! status: ${res.status}`);
+            }
 
-    return content;
-  }
-
-  return null;
+            const data = await res.text();
+            file.cachedContent = data;
+            // Return the component after a successful fetch
+            return <TerminalMarkdownRenderer markdown={file.cachedContent} />;
+        } catch (error) {
+            console.error('Error fetching blog post:', error);
+            const errorMessage = (error as Error).message || 'An unknown error occurred';
+            file.cachedContent = `# 404 - Article not found\n${errorMessage}`;
+            // Return a string with the error message
+            return file.cachedContent;
+        }
+    }
+    return null;
 }
 
   pwd(): string {

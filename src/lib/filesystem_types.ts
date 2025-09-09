@@ -4,8 +4,7 @@ export type FileNode =
       content: string;
     }
   | {
-      type: "lazyFile";
-      fetchContent: () => Promise<string>;
+      type: "blogFile";
       cachedContent?: string; // optional cached value
     };
 
