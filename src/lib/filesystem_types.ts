@@ -4,7 +4,7 @@ export type FileNode =
       content: string;
     }
   | {
-      type: "blogFile";
+      type: "blogFile" | "projectFile";
       cachedContent?: string; // optional cached value
     };
 

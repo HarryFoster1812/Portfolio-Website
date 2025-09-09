@@ -31,9 +31,11 @@ for each project:
 - Scroll Tracker (if finished)
 
 - [x] Added a card
-- [ ] Add custom images
+- [x] Add custom images
 
 ## Languages
+
+DECIDED NOT TO MAKE ONE
 
 - Python
 - Java
@@ -75,10 +77,22 @@ Add to email newsletter call to action
 
 # Projects
 
+- [x] Done
+
 Get projects from Github API add each project
 Create a dynamic page for each project
 
+## Extention
+
+Have a lookup table in mongo db which will have a custom md file for the project
+If it doesn't exist then pull the readme
+
+Either in mongodb or in the Portfolio repo its self?
+Copy the code for the blog?
+
 # Blog
+
+- [x] Done
 
 Get all blog posts and create dynamic list
 Obsidian backend

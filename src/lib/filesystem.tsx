@@ -88,7 +88,19 @@ async cat(fileName: string): Promise<string | ReactNode | null> {
             // Return a string with the error message
             return file.cachedContent;
         }
-    }
+        } else if(file.type == 'projectFile'){
+
+            const mdData = await fetch(
+                `https://raw.githubusercontent.com/HarryFoster1812/${fileName.replace('.md', '')}/main/README.md`
+            );
+            if (mdData.ok) {
+                const mdText = await mdData.text();
+                file.cachedContent = mdText;
+                return mdText;
+            } else{
+               return "Error";
+            }
+        }
     return null;
 }
 
