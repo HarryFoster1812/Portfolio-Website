@@ -65,15 +65,15 @@ export async function GET() {
     // Dynamically add blog posts to the rootFS structure
     blogs.forEach(blog => {
         const blogNode = makeBlogNode(blog.slug);
-        const blogDir = rootFS.children.blog as DirNode
-        Object.assign(blogDir, blogNode);
+        const blogDir = rootFS.children.blog as DirNode;
+        Object.assign(blogDir.children, blogNode);
     });
 
     // Dynamically add project posts to the rootFS structure
     projects.forEach(project => {
         const projectNode = makeProjectNode(project.slug);
-        const projectDir = rootFS.children.projects as DirNode
-        Object.assign(projectDir, projectNode);
+        const projectDir = rootFS.children.projects as DirNode;
+        Object.assign(projectDir.children, projectNode);
     });
 
 
