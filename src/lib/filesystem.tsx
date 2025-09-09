@@ -32,26 +32,38 @@ export class FileSystem {
 
   // Commands
 
-  ls(): string[] {
-    return Object.keys(this.getCurrentDir().children);
-  }
+    ls(): string[] {
+        return Object.keys(this.getCurrentDir().children);
+    }
 
-  cd(dirName: string): boolean {
-    if (dirName === "..") {
-      if (this.currentPath.length > 1) {
-        this.currentPath.pop();
+    cd(dirName: string): boolean {
+        const argComponents = dirName.split('/').filter(arg => arg != '');
+        const tempCurrentPath = [...this.currentPath];
+        for(const arg of argComponents){
+
+            if (arg === ".") {
+                continue; // Ignore current directory
+            }
+
+            const dir = this.getCurrentDir().children[arg];
+            if (arg === "..") {
+                if (this.currentPath.length > 1) {
+                    this.currentPath.pop();
+                } else{
+                    this.currentPath = tempCurrentPath;
+                    return false;
+                }
+            }
+            else if (dir && dir.type === "dir") {
+                this.currentPath.push(arg);
+            } else{
+                this.currentPath = tempCurrentPath;
+                return false;
+            }
+        }
+
         return true;
-      }
-      return false;
     }
-
-    const dir = this.getCurrentDir().children[dirName];
-    if (dir && dir.type === "dir") {
-      this.currentPath.push(dirName);
-      return true;
-    }
-    return false;
-  }
 
 async cat(fileName: string): Promise<string | ReactNode | null> {
     const file = this.getCurrentDir().children[fileName];
