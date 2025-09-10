@@ -61,7 +61,7 @@ async execute(input: string): Promise<void> {
       this.history = [];
       return;
     default:
-      response = `'${cmd}' is not recognized as a command`;
+      response = `'${cmd}' is not recognised as a command`;
   }
 
   this.history.push({ command: input, response, dir: oldPath });
