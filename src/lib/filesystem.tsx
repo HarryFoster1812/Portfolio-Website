@@ -1,7 +1,7 @@
 // FileSystem.ts
 import { Node, DirNode } from "./filesystem_types";
 import React, { ReactNode } from 'react';
-import TerminalMarkdownRenderer from "@/components/blog/blog_terminal";
+import TerminalMarkdownRenderer from "@/components/blog/markdown_terminal";
 
 export class FileSystem {
   private root: DirNode;
@@ -108,7 +108,7 @@ async cat(fileName: string): Promise<string | ReactNode | null> {
             if (mdData.ok) {
                 const mdText = await mdData.text();
                 file.cachedContent = mdText;
-                return mdText;
+                return <TerminalMarkdownRenderer markdown={file.cachedContent} />;;
             } else{
                return "Error";
             }

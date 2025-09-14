@@ -86,19 +86,19 @@ const TerminalMarkdownRenderer = ({ markdown }) => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.5 }}
-                className="prose dark:prose-invert max-w-none bg-[#1A1A1A] rounded-xl shadow-lg overflow-hidden font-mono"
+                className="prose dark:prose-invert max-w-none rounded-xl shadow-lg overflow-hidden font-mono"
                 ref={mermaidRef}
             >
                 {/* Header Section */}
                 {(frontmatter.title || frontmatter.date || frontmatter.description) && (
-                    <div className="bg-[#1A1A1A] border-b border-gray-800 p-6">
+                    <div className="border-b border-gray-800 p-6">
                         {frontmatter.title && (
-                            <h1 className="text-3xl font-bold mb-3 text-white">
+                            <h1 className="text-3xl font-bold mb-3 ">
                                 {frontmatter.title}
                             </h1>
                         )}
                         {frontmatter.date && (
-                            <p className="text-sm text-gray-400">
+                            <p className="text-sm text-green-400">
                                 Published on{" "}
                                 {new Date(frontmatter.date).toLocaleDateString("en-US", {
                                     year: "numeric",
@@ -108,7 +108,7 @@ const TerminalMarkdownRenderer = ({ markdown }) => {
                             </p>
                         )}
                         {frontmatter.description && (
-                            <p className="mt-3 text-base text-gray-300 leading-relaxed">
+                            <p className="mt-3 text-base text-green-300 leading-relaxed">
                                 {frontmatter.description}
                             </p>
                         )}
@@ -143,7 +143,7 @@ const TerminalMarkdownRenderer = ({ markdown }) => {
                                     let mermaidCode = String(child.props.children).trim()
                                     mermaidCode = mermaidCode.replace(/^\/\/.*$/gm, "").trim()
                                     return (
-                                        <div className="mermaid my-6 p-6 bg-gray-900 rounded-lg shadow-inner border border-gray-800">
+                                        <div className="mermaid my-6 p-6 rounded-lg shadow-inner border border-gray-800">
                                             {mermaidCode}
                                         </div>
                                     )
@@ -153,14 +153,14 @@ const TerminalMarkdownRenderer = ({ markdown }) => {
                                     <div className="relative my-6 group">
                                         <pre
                                             ref={preRef}
-                                            className="bg-gray-900 text-green-400 p-5 rounded-lg shadow-xl overflow-x-auto border border-gray-800 text-sm leading-relaxed"
+                                            className="text-green-400 p-5 rounded-lg shadow-xl overflow-x-auto border border-gray-800 text-sm leading-relaxed"
                                         >
                                             {children}
                                         </pre>
                                         <button
                                             onClick={handleCopy}
                                             className={`absolute top-2 right-2 p-1.5 rounded-md text-xs transition-all duration-200 ease-in-out
-                                                ${isCopied ? 'bg-green-600 text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600 hover:text-white'}
+                                                ${isCopied ? 'bg-green-600 text-white' : 'bg-gray-700 text-green-300 hover:bg-gray-600 hover:text-white'}
                                                 opacity-0 group-hover:opacity-100 focus:opacity-100 focus:ring-2 focus:ring-[#00ABE4] focus:outline-none`}
                                             title={isCopied ? "Copied!" : "Copy to clipboard"}
                                         >
@@ -173,7 +173,7 @@ const TerminalMarkdownRenderer = ({ markdown }) => {
                                 if (inline) {
                                     return (
                                         <code
-                                            className="bg-gray-800 text-green-300 rounded-md px-2 py-1 font-mono text-sm"
+                                            className="text-green-300 rounded-md px-2 py-1 font-mono text-sm"
                                             {...props}
                                         >
                                             {children}
@@ -222,45 +222,45 @@ const TerminalMarkdownRenderer = ({ markdown }) => {
                                     )
                                 }
                                 return (
-                                    <p className="my-5 text-gray-300 leading-relaxed">
+                                    <p className="my-5 text-green-300 leading-relaxed">
                                         {children}
                                     </p>
                                 )
                             },
                             h1: ({ children }) => (
-                                <h1 className="text-3xl font-extrabold mt-10 mb-6 text-white border-b border-gray-800 pb-2">
+                                <h1 className="text-3xl font-extrabold mt-10 mb-6 border-b border-gray-800 pb-2">
                                     {children}
                                 </h1>
                             ),
                             h2: ({ children }) => (
-                                <h2 className="text-2xl font-bold mt-8 mb-4 text-white">
+                                <h2 className="text-2xl font-bold mt-8 mb-4 ">
                                     {children}
                                 </h2>
                             ),
                             h3: ({ children }) => (
-                                <h3 className="text-xl font-semibold mt-6 mb-3 text-gray-200">
+                                <h3 className="text-xl font-semibold mt-6 mb-3 text-green-200">
                                     {children}
                                 </h3>
                             ),
                             ul: ({ children }) => (
-                                <ul className="list-disc pl-8 my-6 text-gray-300">
+                                <ul className="list-disc pl-8 my-6 text-green-300">
                                     {children}
                                 </ul>
                             ),
                             ol: ({ children }) => (
-                                <ol className="list-decimal pl-8 my-6 text-gray-300">
+                                <ol className="list-decimal pl-8 my-6 text-green-300">
                                     {children}
                                 </ol>
                             ),
                             blockquote: ({ children }) => (
-                                <blockquote className="border-l-4 border-gray-500 pl-4 my-6 italic text-gray-400">
+                                <blockquote className="border-l-4 border-gray-500 pl-4 my-6 italic text-green-400">
                                     {children}
                                 </blockquote>
                             ),
                             a: ({ href, children }) => (
                                 <a
                                     href={href}
-                                    className="text-gray-400 hover:text-green-400 transition-colors duration-200"
+                                    className="text-green-400 hover:text-green-400 transition-colors duration-200"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                 >
