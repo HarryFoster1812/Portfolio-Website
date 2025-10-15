@@ -131,7 +131,7 @@ export default function UnsubscribePage({
                         >
                             <a className="text-green-400 text-lg hover:text-green-500 transition-colors">
 
-                            Nah, I&aposll stick around
+                            Nah, I&apos;ll stick around
                             </a>
                         </Link>
                     </div>

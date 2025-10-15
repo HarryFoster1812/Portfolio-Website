@@ -6,31 +6,43 @@ import {ProjectButton} from "./project_button"
 
 export const ProjectSection = () => {
     const projects: Project[] = [
-        {
-            name: "AttendEase",
-            description: "A university project built with Bootstrap, JavaScript, and PHP. This app features a dynamic calendar, location-based attendance verification, rolling code backups, and interactive statistics and leaderboards for both staff and students.",
-            tags: ["HTML", "JS", "PHP", "Bootstrap", "CSS"],
-            image: "/attendease.jpg",
-            link: "AttendEase"
-        },
-
-
-        {
-            name: "Scroll Tracker",
-            description: "A personal project built in Java using Android Studio. This app tracks user scrolling events via the Android Accessibility Service, collecting data on scroll speed, direction, and frequency. It then visualizes this data with interactive graphs, allowing users to analyze and compare their scrolling behavior over time. Key features include real-time tracking, customizable alerts, and data visualizations.",
-            tags: ["Java", "Android"],
-            image: "/scrolling.avif",
-            link: "ScrollTracker"
-        },
+        // {
+        //     name: "The Last Call",
+        //     description: "A Flutter BAC tracker with live Widmark-based predictions, persistent sessions via SQLite, and an explore page powered by Supabase/Postgres geo queries for nearby venues.",
+        //     tags: ["Flutter", "Dart", "Supabase", "Postgres", "SQLite"],
+        //     image: "/project-banners/last-call.jpg",
+        //     link: "The-Last-Call"
+        // },
 
         {
-            name: "Chess AI",
-            description: "A C#-based chess engine built for single-player and two-player modes, utilizing the Minimax algorithm for optimal move calculation. The engine features a WPF UI for a smooth user experience and supports the Universal Chess Interface (UCI), allowing the import of other engines and export of the built engine.",
-            tags: ["C#", "Minimax"],
-            image: "/chess.jpg",
-            link: "NEA-Chess-AI-Project"
+            name: "WHILE Compiler",
+            description: "Educational compiler for a minimal Turing-complete language: lexer, predictive parser, semantic checks, and x86 NASM codegen, plus a Gödel-style decoder tool.",
+            tags: ["C", "Compilers", "Parsing", "x86", "NASM"],
+            image: "/project-banners/while-compiler.jpg",
+            link: "whileprogramming"
         },
-    ]
+        {
+            name: "Cloth Simulation",
+            description: "Real-time, physics-based cloth sim in modern C++/OpenGL with adjustable constraints, collision handling, fly camera, and a Dear ImGui tooling UI.",
+            tags: ["C++", "OpenGL", "GLFW", "GLAD", "ImGui"],
+            image: "/project-banners/cloth-sim.jpg",
+            link: "Cloth-Simulation"
+        },
+        {
+            name: "Chess Engine",
+            description: "Custom C# engine with bitboards, magic move gen, Zobrist hashing, transposition tables, perft tests, opening book, and a polished WPF UI with UCI support.",
+            tags: ["C#", "WPF", "UCI", "AI", "Algorithms"],
+            image: "/project-banners/chess.jpg",
+            link: "Chess-Engine"
+        },
+        {
+            name: "FosterML",
+            description: "A tensor library with an autograd system, built without external deps to explore low-level AI mechanics and backprop fundamentals.",
+            tags: ["Python", "Autograd", "Tensors", "ML"],
+            image: "/project-banners/fosterml.jpg",
+            link: "FosterML"
+        }
+    ];
     return (
         <>
             <section className="min-h-screen max-h-auto flex items-center flex-col justify-center gap-5 z-10">

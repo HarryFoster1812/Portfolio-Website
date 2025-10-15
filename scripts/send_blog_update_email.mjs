@@ -169,7 +169,7 @@ for (const user of users) {
                 <a href="https://harryfoster.tech">harryfoster.tech</a>.
               </p>
               <p>
-                <a href="https://www.harryfoster.tech/Unsubscribe/${user.confirmationToken}">Unsubscribe</a>
+                <a href="https://www.harryfoster.tech/unsubscribe/${user.confirmationToken}">Unsubscribe</a>
               </p>
             </td>
           </tr>
