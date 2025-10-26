@@ -7,7 +7,7 @@ const client = new MongoClient(uri);
 async function getConfirmedUsers() {
   try {
     await client.connect();
-    const db = client.db("test");
+    const db = client.db("portfolio");
     const users = await db
       .collection("subscribers")
       .find({ confirmed: true })

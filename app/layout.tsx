@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import {Navbar} from "@/components/navbar/navbar";
+import { Tracker } from "@/components/tracker";
 import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 
@@ -25,6 +26,8 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+
   return (
     <html lang="en" className="h-full">
       <body
@@ -36,6 +39,8 @@ export default function RootLayout({
         </main>
         <Analytics />
         <SpeedInsights/>
+
+        <Tracker />
       </body>
     </html>
   );
