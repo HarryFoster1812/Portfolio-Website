@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { connectDB } from '@/lib/mongoose';
-import { EventModel, IEvent } from '@/lib/event_model';
+import { EventModel } from '@/lib/event_model';
 import crypto from 'crypto';
 
 const SALT = process.env.VID_SALT;
@@ -26,7 +26,6 @@ function bucketUA(ua: string) {
 
 export async function POST(req: NextRequest) {
   const requestId = crypto.randomUUID?.() ?? Math.random().toString(36).slice(2);
-  const t0 = Date.now();
 
   const ua = req.headers.get('user-agent') || '';
   const ref = req.headers.get('referer') || '';
@@ -43,24 +42,21 @@ export async function POST(req: NextRequest) {
 
   const vid = crypto.createHash('sha1').update(ip + ua + SALT).digest('hex').slice(0, 16);
 
-  const doc: IEvent = {
-    path,
-    vid,
-    cc,
-    client,
-    ref: hostOnly(ref),
-    };
 
-  try {
-    const mongo = await connectDB();
-    await EventModel.create(doc);
+    try {
+        await connectDB();
+        await EventModel.create({
+            path,
+            vid,
+            cc,
+            client,
+            ref: hostOnly(ref),
+        });
 
-    return NextResponse.json({ ok: true });
-  } catch (e: any) {
-    console.error(
-      `[events][${requestId}] failure path="${path}" client="${client}" cc="${cc}" err="${e?.message || e}"`
-    );
-
-    return NextResponse.json({ ok: false }, { status: 200 });
-  }
+        return NextResponse.json({ ok: true });
+    } catch (e: unknown) {
+        const msg = e instanceof Error ? e.message : String(e);
+        console.error(`[events][${requestId}] failure ... err="${msg}"`);
+        return NextResponse.json({ ok: false }, { status: 200 });
+    }
 }
