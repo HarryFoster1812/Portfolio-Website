@@ -12,6 +12,19 @@ interface GitHubRepo {
   message?: string;
 }
 
+
+interface GitHubRepoContent {
+  name: string;
+  path: string;
+  sha: string;
+  size: number;
+  url: string;
+  html_url: string;
+  git_url: string;
+  download_url: string | null;
+  type: string;
+}
+
 export default function DynamicProjectPage({
   params,
 }: {
@@ -40,14 +53,29 @@ export default function DynamicProjectPage({
 
         setProjectData(json_data);
 
-        const mdData = await fetch(
-          `https://raw.githubusercontent.com/HarryFoster1812/${projectName}/main/README.md`
+        // Fetch repo contents 
+        const contentsRes = await fetch(`https://api.github.com/repos/HarryFoster1812/${projectName}/contents/`); 
+        if (!contentsRes.ok){ 
+            setError("⚠️ Could not fetch repository contents"); 
+            setLoading(false); 
+            return; 
+        }
+        const contents: GitHubRepoContent[] = await contentsRes.json();
+
+        const readmeFile = contents.find(
+        (file: GitHubRepoContent) => file.name.toLowerCase() === "readme.md"
         );
-        if (mdData.ok) {
-          const mdText = await mdData.text();
-          setMarkdownContent(mdText);
+
+        if (readmeFile && readmeFile.download_url) {
+        const mdRes = await fetch(readmeFile.download_url);
+        if (mdRes.ok) {
+            const mdText = await mdRes.text();
+            setMarkdownContent(mdText);
         } else {
-          setError("⚠️ README.md not found");
+            setError("⚠️ Could not download README.md content");
+        }
+        } else {
+        setError("⚠️ README.md not found");
         }
       } catch {
         setError("⚠️ An error occurred while fetching data");
@@ -124,7 +152,7 @@ export default function DynamicProjectPage({
       <section>
         <h2 className="text-2xl font-semibold mb-6 text-zinc-100">Project README</h2>
         <div
-          className="max-h-[60vh] overflow-y-auto prose prose-invert prose-zinc"
+          className="overflow-y-auto prose prose-invert prose-zinc"
           style={{ scrollbarWidth: "thin", scrollbarColor: "#52525b transparent" }}
         >
           {markdownContent ? (
