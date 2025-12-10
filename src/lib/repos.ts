@@ -11,7 +11,7 @@ export interface Repo {
  * Fetch GitHub repos for the user "HarryFoster1812"
  */
 export async function fetchGitHubRepos(): Promise<Repo[]> {
-  const response = await fetch("https://api.github.com/users/HarryFoster1812/repos");
+  const response = await fetch("https://api.github.com/users/HarryFoster1812/repos?per_page=100");
   if (!response.ok) {
     throw new Error(`GitHub API responded with ${response.status}`);
   }
