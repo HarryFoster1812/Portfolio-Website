@@ -52,7 +52,7 @@ jobs:
       # Initialize processed files list (repo-backed)
       - name: Initialize processed files
         run: |
-          FILE=".github/workflows/processed_files.json"
+          FILE=".github/state/processed_files.json"
           if [ ! -f "$FILE" ]; then
             echo "[]" > "$FILE"
           fi
@@ -78,7 +78,7 @@ jobs:
       - name: Determine unprocessed files
         id: unprocessed
         run: |
-          FILE=".github/workflows/processed_files.json"
+          FILE=".github/state/processed_files.json"
           NEW_FILES=""
           while read -r f; do
             if ! grep -q "$f" "$FILE"; then
@@ -108,14 +108,14 @@ jobs:
 
             # Mark file as processed
             jq --arg f "$file" '. += [$f]' \
-              .github/workflows/processed_files.json > tmp.json \
-              && mv tmp.json .github/workflows/processed_files.json
+              .github/state/processed_files.json > tmp.json \
+              && mv tmp.json .github/state/processed_files.json
           done
 
       # Commit processed files (long-term persistence)
       - name: Commit processed files
         run: |
-          FILE=".github/workflows/processed_files.json"
+          FILE=".github/state/processed_files.json"
 
           if git diff --quiet "$FILE"; then
             echo "No changes to processed files"
