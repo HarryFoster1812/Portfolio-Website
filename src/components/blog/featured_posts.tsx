@@ -1,10 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
-import FeaturedBlogCard from './featured_blog_card.tsx';
+import FeaturedBlogCard from './featured_blog_card';
 import { assignResponsiveSpans, PostWithSpan } from '@/lib/blog-grid-utils';
 import { BlogPostMeta } from '@/lib/blog';
-
-const dummyFilterClick = () => {};
 
 export default function FeaturedPostSection() {
     const [postsWithSpans, setPostsWithSpans] = useState<PostWithSpan[]>([]);

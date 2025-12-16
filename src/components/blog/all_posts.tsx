@@ -3,7 +3,7 @@ import { useEffect, useState, useCallback, useMemo } from "react";
 import BlogCard from './blog_card';
 // Assuming this path and type definition is correct
 import { BlogPostMeta } from '@/lib/blog'; 
-import { assignResponsiveSpans, SPAN_MAP } from "@/lib/blog-grid-utils";
+import { assignResponsiveSpans, SPAN_MAP, SpanKey } from "@/lib/blog-grid-utils";
 
 type AvailableFilter = { name: string, slug: string };
 
@@ -233,7 +233,7 @@ export default function AllPostsSection() {
                         <BlogCard 
                             key={item.filename}
                             item={item} 
-                            spanClass={SPAN_MAP[span]}
+                            spanClass={SPAN_MAP[span as SpanKey]}
                             handleFilterClick={handleFilterClick} 
                         />
                     ))}
