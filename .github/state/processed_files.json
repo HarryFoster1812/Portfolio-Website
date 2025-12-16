@@ -5,5 +5,6 @@
   "src/content/blog/creating-an-auto-grad-system.md",
   "src/content/blog/intro-to-compilers.md",
   "src/content/blog/nasm-asm-into.md",
-  "src/content/blog/tensors-and-machine-learning.md"
+  "src/content/blog/tensors-and-machine-learning.md",
+  "src/content/blog/the-hello-world-of-graphics.md"
 ]
