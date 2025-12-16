@@ -1,7 +1,16 @@
 ---
 title: "Tensors and Machine Learning"
-date: 2025-07-20
+date: "2025-07-20"
 description: "An overview of what tensors are and how they relate to machine learning"
+tags:
+  - Tensors
+  - Machine Learning
+  - PyTorch
+  - TensorFlow
+project:
+  name: "FosterML"
+  slug: "FosterML"
+featured: false
 ---
 
 ## What are tensors

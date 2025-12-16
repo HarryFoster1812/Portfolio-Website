@@ -1,7 +1,21 @@
 ---
 title: "A Reflection on Building This Website"
-date: 2025-07-20
+date: "2025-07-20"
 description: "A reflection on how I built this site"
+tags:
+  - Portfolio
+  - React
+  - Next.js
+  - Tailwind
+  - Web Development
+project:
+  name: "Personal Portfolio"
+  slug: "Portfolio-Website"
+series:
+  name: "Portfolio Reflections"
+  part: 1
+  total: 1
+featured: false
 ---
 
 # Tech Stack

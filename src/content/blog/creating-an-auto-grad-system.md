@@ -1,7 +1,17 @@
 ---
 title: "Understanding Automatic Differentiation Systems"
-date: 2025-07-28
+date: "2025-07-28"
 description: "An overview of automatic differentiation and its implementation"
+tags:
+  - Machine Learning
+  - Autograd
+  - Neural Networks
+  - Computational Graphs
+  - Backpropagation
+project:
+  name: "FosterML"
+  slug: "FosterML"
+featured: false
 ---
 
 ## What an Autograd System Is

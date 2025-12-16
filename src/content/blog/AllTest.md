@@ -1,7 +1,15 @@
 ---
 title: "MarkdownRenderer Feature Test"
-date: 2025-07-15
+date: "2025-07-15"
 description: "A comprehensive test of the MarkdownRenderer capabilities, including images, videos, math, code, diagrams, and more."
+tags:
+  - Markdown
+  - Renderer
+  - Testing
+  - KaTeX
+  - Mermaid
+  - Code
+featured: false
 ---
 
 # MarkdownRenderer Feature Test

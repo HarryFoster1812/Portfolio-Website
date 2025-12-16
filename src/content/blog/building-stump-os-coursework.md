@@ -2,6 +2,16 @@
 title: "Building StumpOS for COMP22111."
 date: "2025-12-15"
 description: "An insight into the design, implementation, and learning process for StumpOS"
+tags:
+  - OS
+  - Assembly
+  - Embedded
+  - STUMP
+  - Systems Programming
+project:
+  name: "StumpOS"
+  slug: "stumpos"
+featured: true
 ---
 
 # Building StumpOS for COMP22111

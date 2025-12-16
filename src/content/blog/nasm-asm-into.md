@@ -1,7 +1,16 @@
 ---
 title: "Introduction to NASM assembly"
-date: 2025-08-5
-description: "An overview of assembly as a language the NASM ISA and how to write basic programs"
+date: "2025-08-05"
+description: "An overview of assembly as a language, the NASM ISA, and how to write basic programs"
+tags:
+  - Assembly
+  - NASM
+  - x86
+  - Programming
+project:
+  name: "While Compiler"
+  slug: "WhileProgramming"
+featured: false
 ---
 
 ## What is assembly

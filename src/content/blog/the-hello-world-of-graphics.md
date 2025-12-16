@@ -1,7 +1,16 @@
 ---
 title: "The Hello World of graphics programming"
-date: 2025-09-08
-description: "Drawing a triangle using opengl"
+date: "2025-09-08"
+description: "Drawing a triangle using OpenGL and GLFW on Linux"
+tags:
+  - OpenGL
+  - Graphics Programming
+  - GLFW
+  - C++
+project:
+  name: "Learn OpenGL Triangle Example"
+  slug: "learnopengl"
+featured: false
 ---
 
 ## Setup

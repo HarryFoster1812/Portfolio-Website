@@ -1,47 +1,54 @@
-import fs from 'fs';
-import path from 'path';
-import matter from 'gray-matter';
+import fs from "fs";
+import path from "path";
+import matter from "gray-matter";
 
 export type BlogPostMeta = {
   filename: string;
   title: string;
   description: string;
-  date: Date;
+  date: string;
+  tags?: string[];
+  featured?: boolean;
+  series?: {
+    name: string;
+    part: number;
+    total?: number;
+  };
+  project?: {
+    name: string;
+    slug: string;
+  };
 };
 
+const BLOG_DIR = path.join(process.cwd(), "src", "content", "blog");
+
 let cachedPosts: BlogPostMeta[] | null = null;
-let lastCacheTime = 0;
-const CACHE_DURATION = 20 * 60 * 1000; // 20 mins
 
 export function getAllBlogPosts(): BlogPostMeta[] {
-  const now = Date.now();
-
-  if (cachedPosts && now - lastCacheTime < CACHE_DURATION) {
+  if (cachedPosts) {
     return cachedPosts;
   }
 
-  const blogDir = path.join(process.cwd(), 'src', 'content', 'blog');
-  const files = fs.readdirSync(blogDir);
+  const files = fs.readdirSync(BLOG_DIR);
 
-  const posts = files.map((filename) => {
-  const filePath = path.join(blogDir, filename);
-  const fileContent = fs.readFileSync(filePath, 'utf8');
-  const { data, content } = matter(fileContent);
+  cachedPosts = files
+    .filter(f => f.endsWith(".md"))
+    .map(file => {
+      const raw = fs.readFileSync(path.join(BLOG_DIR, file), "utf8");
+      const { data } = matter(raw);
 
+      return {
+        filename: file.replace(/\.md$/, ""),
+        title: String(data.title ?? "Untitled"),
+        description: String(data.description ?? ""),
+        date: String(data.date ?? ""),
+        tags: data.tags ?? [],
+        featured: Boolean(data.featured),
+        series: data.series,
+        project: data.project,
+      };
+    })
+    .sort((a, b) => +new Date(b.date) - +new Date(a.date));
 
-  const title = data.title || content.match(/^#\s+(.*)/m)?.[1] || 'No title';
-  const description = data.description || 'No description';
-  const date = data.date || '';
-
-    return {
-      filename: filename.replace(/\.md$/, ''),
-      title,
-      description,
-      date,
-    };
-  });
-
-  cachedPosts = posts;
-  lastCacheTime = now;
-  return posts;
+  return cachedPosts;
 }

@@ -1,7 +1,21 @@
 ---
 title: "Introduction to Compilers"
-date: 2025-08-5
+date: "2025-08-05"
 description: "An overview of the compiler pipeline"
+tags:
+  - Compilers
+  - Programming Languages
+  - LLVM
+  - Optimization
+  - AST
+project:
+  name: "While Compiler"
+  slug: "WhileProgramming"
+series:
+  name: "Programming Language Theory"
+  part: 1
+  total: 1
+featured: false
 ---
 
 ## What is a compiler
