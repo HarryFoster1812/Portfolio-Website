@@ -20,7 +20,7 @@ export default function Home() {
             <hr className="w-1/4 mt-0 m-auto"/>
             <TimelineSection />
             <hr className="w-1/4 mt-0 m-auto"/>
-            <SubscribeSection />
+            <SubscribeSection variant="home" />
         </>
     );
 }

@@ -10,7 +10,7 @@ export const TOTAL_COLS = 6;
 export const VALID_SPANS = [2, 3, 4, 6]; // valid sm spans that sum up to 6 cols
 export const SPAN_MAP = {
     2: "sm:col-span-2 lg:col-span-4",
-    3: "sm:col-span-3 lg:col-col-span-6",
+    3: "sm:col-span-3 lg:col-span-6",
     4: "sm:col-span-4 lg:col-span-8",
     6: "sm:col-span-6 lg:col-span-12",
 };

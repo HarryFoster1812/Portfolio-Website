@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import BlogCard from './blog_card';
+import FeaturedBlogCard from './featured_blog_card.tsx';
 import { assignResponsiveSpans, PostWithSpan } from '@/lib/blog-grid-utils';
 import { BlogPostMeta } from '@/lib/blog';
 
@@ -43,14 +43,13 @@ export default function FeaturedPostSection() {
 
     return (
         <section className="mt-8">
-            <h1 className="text-4xl font-extrabold text-zinc-100 mb-8 border-b border-teal-500 pb-2">🌟 Featured Articles</h1>
+            <h1 className="text-4xl font-extrabold text-zinc-100 mb-8 border-b border-zinc-500 pb-2">Featured Articles</h1>
             <div className="flex justify-center">
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-7xl w-full px-4">
+                <div className="grid grid-cols-1 gap-6 max-w-7xl w-full px-4">
                     {postsWithSpans.map(({ item }) => (
-                        <BlogCard
+                        <FeaturedBlogCard
                             key={item.filename}
                             item={item}
-                            handleFilterClick={dummyFilterClick}
                         />
                     ))}
                 </div>

@@ -11,7 +11,7 @@ export default function BlogCard({ item, spanClass = '', handleFilterClick }: Bl
     const postHref = `/blog/${item.filename}`;
 
     return (
-        <div className={`group w-full ${spanClass}`}>
+        <div className={`group ${spanClass}`}>
             <div className="h-full flex flex-col p-6 border border-zinc-800 rounded-2xl shadow-sm transition-transform duration-300 ease-in-out hover:shadow-md hover:-translate-y-1">
 
                 {/* --- Top Badges / Minimal --- */}

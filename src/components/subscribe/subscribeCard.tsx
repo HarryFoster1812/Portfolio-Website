@@ -3,8 +3,7 @@
 import { motion } from 'framer-motion';
 import React, { useState } from 'react';
 
-
-// Define API response type
+// API response type
 interface ApiResponse {
   message: string;
 }
@@ -42,39 +41,40 @@ export const SubscribeCard: React.FC = () => {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      whileHover={{ scale: 1.05, boxShadow: '0 0 15px rgba(0, 171, 228, 0.5)' }}
-      className="bg-[#1A1A1A] border border-gray-700 p-6 rounded-xl flex flex-col items-center gap-6"
+      transition={{ duration: 0.6, ease: 'easeOut' }}
+      whileHover={{ scale: 1.03, boxShadow: '0 15px 40px rgba(0, 171, 228, 0.35)' }}
+      className="bg-zinc-900 border border-zinc-700 p-8 md:p-12 rounded-2xl flex flex-col items-center gap-6 max-w-md w-full mx-4"
     >
-      <h1 className="text-2xl md:text-3xl font-bold text-white text-center">
-        Subscribe to Never Miss a Post!
-      </h1>
+      <h2 className="text-3xl md:text-4xl font-extrabold text-zinc-100 text-center">
+        Never Miss a Post
+      </h2>
+      <p className="text-zinc-400 text-center text-sm md:text-base">
+        Subscribe to get the latest deep dives directly to your inbox.
+      </p>
       <input
         type="email"
-        id="emailInput"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
-        className="w-3/4 md:w-2/3 p-3 rounded-lg bg-gray-800 text-white text-center border border-gray-700 focus:outline-none focus:ring-2 focus:ring-[#00ABE4] transition-colors duration-200"
-        placeholder="example@example.com"
+        className="w-full p-3 rounded-lg bg-zinc-800 text-zinc-100 placeholder-zinc-400 border border-zinc-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all duration-200"
+        placeholder="you@example.com"
         disabled={status === 'loading'}
       />
       <motion.button
-        type="button"
         onClick={handleSubmit}
-        whileHover={{ scale: 1.1 }}
+        whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
-        className="inline-block py-2 px-3 bg-gradient-to-br from-cyan-400 to-pink-500 text-black no-underline rounded-xl font-bold uppercase tracking-wide transition-all duration-300 ease-in-out hover:translate-y-[-3px] hover:shadow-[0_10px_20px_rgba(0,_255,_255,_0.4)]"
+        className="w-full py-3 bg-gradient-to-r from-teal-400 via-cyan-500 to-teal-500 text-zinc-900 font-semibold rounded-xl shadow-md hover:shadow-lg transition-all duration-300"
         disabled={status === 'loading'}
       >
-        {status === 'loading' ? 'Subscribing...' : 'Join!'}
+        {status === 'loading' ? 'Subscribing...' : 'Subscribe'}
       </motion.button>
       {message && (
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className={`text-center text-sm ${
+          className={`text-center text-sm mt-2 ${
             status === 'success' ? 'text-green-400' : 'text-red-400'
           }`}
         >

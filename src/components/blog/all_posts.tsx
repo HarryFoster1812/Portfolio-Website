@@ -1,9 +1,9 @@
-// components/blog/AllPostsSection.tsx (Revised)
 "use client";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
 import BlogCard from './blog_card';
 // Assuming this path and type definition is correct
 import { BlogPostMeta } from '@/lib/blog'; 
+import { assignResponsiveSpans, SPAN_MAP } from "@/lib/blog-grid-utils";
 
 type AvailableFilter = { name: string, slug: string };
 
@@ -39,7 +39,7 @@ export default function AllPostsSection() {
     const [seriesSlug, setSeriesSlug] = useState(''); 
     const [projectSlug, setProjectSlug] = useState(''); 
 
-    const LIMIT = 9;
+    const LIMIT = 5;
 
 
     const fetchPosts = useCallback(async () => {
@@ -72,6 +72,10 @@ export default function AllPostsSection() {
         fetchPosts();
     }, [fetchPosts]);
 
+    const postsWithSpans = useMemo(
+        () => assignResponsiveSpans(postsData.posts),
+        [postsData.posts]
+    );
 
     // Helper for states that accept ONLY a string (search, series, project)
     const handleStringFilterChange = (setter: StringSetter, value: string) => {
@@ -224,12 +228,12 @@ export default function AllPostsSection() {
                 </div>
             ) : (
                 // Grid Display
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {postsData.posts.map(post => (
+                <div className="grid grid-cols-1 sm:grid-cols-6 lg:grid-cols-12 gap-6">
+                    {postsWithSpans.map(({ item, span }) => (
                         <BlogCard 
-                            key={post.filename} 
-                            item={post} 
-                            // Pass the handler down to the card so clicking a tag on the card activates the main filter
+                            key={item.filename}
+                            item={item} 
+                            spanClass={SPAN_MAP[span]}
                             handleFilterClick={handleFilterClick} 
                         />
                     ))}

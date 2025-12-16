@@ -5,6 +5,7 @@ import { useEffect, useState, useCallback } from 'react';
 import MarkdownRenderer from '@/components/blog/markdown';
 import { motion } from 'framer-motion';
 import CommentSection from '@/components/blog/comment_section'
+import {SubscribeSection} from "@/components/subscribe/subscribeSection";
 
 // Define types for better type safety
 interface BlogPost {
@@ -70,11 +71,12 @@ export default function DynamicBlogPage() {
     }
 
     return (
+        <>
         <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
-            className="container mx-auto px-4 py-8 max-w-4xl"
+            className="container mx-auto px-4 py-8 max-w-5xl"
         >
             <MarkdownRenderer markdown={post.content} />
             <CommentSection slug={encodeURIComponent(articleName || "") }/>
@@ -83,6 +85,11 @@ export default function DynamicBlogPage() {
                     Error: {post.error}
                 </div>
             )}
+
+            
         </motion.div>
+
+        <SubscribeSection variant="blog" />
+        </>
     );
 }
