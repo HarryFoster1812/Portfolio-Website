@@ -1,0 +1,309 @@
+.terminal-content {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+               "Liberation Mono", "Courier New", monospace;
+  background: #0c0c0c;
+  color: #d4d4d4;
+  line-height: 1.6;
+  padding: 1rem;
+}
+
+/* Meta / Header Section */
+.terminal-content .meta-section {
+  padding: 1.5rem;
+  border-bottom: 1px solid #222;
+  background: #0a0a0a;
+}
+
+.terminal-content .meta-section h1 {
+  margin-top: 0;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #00ff9c;
+  border-bottom: 1px solid #333;
+  padding-bottom: 0.5rem;
+}
+
+.terminal-content .meta-section p {
+  margin: 0.25rem 0;
+  font-size: 0.9rem;
+  color: #9cdcfe;
+}
+
+/* ============================= */
+/* Paragraphs */
+/* ============================= */
+.terminal-content p {
+  margin: 1.25rem 0;
+  color: #d4d4d4;
+}
+
+/* ============================= */
+/* Headings */
+/* ============================= */
+.terminal-content h1 {
+  margin: 2.5rem 0 1.5rem;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #00ff9c;
+  border-bottom: 1px solid #333;
+  padding-bottom: 0.5rem;
+}
+
+.terminal-content h2 {
+  margin: 2rem 0 1.25rem;
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: #4fc1ff;
+}
+
+.terminal-content h3 {
+  margin: 1.75rem 0 1rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #c586c0;
+}
+
+/* ============================= */
+/* Lists */
+/* ============================= */
+.terminal-content ul {
+  list-style: disc;
+  padding-left: 2rem;
+  margin: 1.5rem 0;
+}
+
+.terminal-content ol {
+  list-style: decimal;
+  padding-left: 2rem;
+  margin: 1.5rem 0;
+}
+
+.terminal-content li {
+  margin: 0.5rem 0;
+}
+
+/* Task Lists (GitHub style) */
+.terminal-content input[type="checkbox"] {
+  accent-color: #00ff9c;
+  margin-right: 0.5rem;
+}
+
+.terminal-content li.task-list-item {
+  list-style: none;
+}
+
+/* ============================= */
+/* Blockquotes */
+/* ============================= */
+.terminal-content blockquote {
+  border-left: 3px solid #00ff9c;
+  padding-left: 1rem;
+  margin: 1.5rem 0;
+  color: #9cdcfe;
+  font-style: italic;
+}
+
+/* ============================= */
+/* Links */
+/* ============================= */
+.terminal-content a {
+  color: #00ff9c;
+  text-decoration: underline;
+}
+
+.terminal-content a:hover {
+  color: #4fc1ff;
+}
+
+/* ============================= */
+/* Inline Code */
+/* ============================= */
+.terminal-content :not(pre) > code {
+  color: #00ff9c;
+  padding: 0.15rem 0.35rem;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+
+/* ============================= */
+/* Code Blocks */
+/* ============================= */
+.terminal-content pre {
+  background: #000000;
+  color: #d4d4d4;
+  padding: 1.25rem 1.5rem;
+  margin: 1.75rem 0;
+  border: 1px solid #222;
+  border-radius: 6px;
+  overflow-x: auto;
+  position: relative;
+  font-size: 0.9rem;
+}
+
+/* Fake terminal prompt */
+.terminal-content pre::before {
+  content: "$ ";
+  color: #00ff9c;
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+}
+
+/* Shift text so prompt doesn't overlap */
+.terminal-content pre code {
+  background: #000000 !important;
+  display: block;
+  padding-left: 1.25rem;
+}
+
+/* Optional: code language label */
+.terminal-content pre[data-language]::after {
+  content: attr(data-language);
+  position: absolute;
+  top: 0.4rem;
+  right: 0.75rem;
+  font-size: 0.7rem;
+  color: #888;
+}
+
+/* ============================= */
+/* Tables */
+/* ============================= */
+.terminal-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 2rem 0;
+  font-size: 0.9rem;
+}
+
+.terminal-content thead {
+  background: #000;
+}
+
+.terminal-content th,
+.terminal-content td {
+  border: 1px solid #222;
+  padding: 0.75rem 1rem;
+  text-align: left;
+}
+
+.terminal-content th {
+  color: #00ff9c;
+  font-weight: 600;
+}
+
+.terminal-content tr:nth-child(even) {
+  background: #0f0f0f;
+}
+
+/* ============================= */
+/* Definition Lists */
+/* ============================= */
+.terminal-content dl {
+  margin: 1.5rem 0;
+}
+
+.terminal-content dt {
+  color: #4fc1ff;
+  font-weight: 600;
+}
+
+.terminal-content dd {
+  margin-left: 1rem;
+  margin-bottom: 0.75rem;
+  color: #d4d4d4;
+}
+
+/* ============================= */
+/* Callouts / Admonitions */
+/* ============================= */
+.terminal-content .callout {
+  border-left: 4px solid;
+  padding: 1rem 1.25rem;
+  margin: 1.75rem 0;
+  background: #0f0f0f;
+}
+
+.terminal-content .callout.info {
+  border-color: #4fc1ff;
+  color: #9cdcfe;
+}
+
+.terminal-content .callout.warning {
+  border-color: #ffcc00;
+  color: #ffcc00;
+}
+
+.terminal-content .callout.error {
+  border-color: #ff4d4f;
+  color: #ff4d4f;
+}
+
+/* ============================= */
+/* Footnotes / small text */
+/* ============================= */
+.terminal-content small,
+.terminal-content .footnote {
+  font-size: 0.8rem;
+  color: #888;
+}
+
+/* ============================= */
+/* Images */
+/* ============================= */
+.terminal-content img {
+  display: block;
+  margin: 1.75rem auto;
+  max-width: 100%;
+  border: 1px solid #333;
+  border-radius: 6px;
+}
+
+/* ============================= */
+/* Videos */
+/* ============================= */
+.terminal-content video {
+  display: block;
+  margin: 1.75rem auto;
+  max-width: 100%;
+  border: 1px solid #333;
+  border-radius: 6px;
+}
+
+/* ============================= */
+/* Horizontal Rules */
+/* ============================= */
+.terminal-content hr {
+  border: none;
+  border-top: 1px dashed #333;
+  margin: 2rem 0;
+}
+
+/* ============================= */
+/* Text Selection */
+/* ============================= */
+.terminal-content ::selection {
+  background: #00ff9c;
+  color: #000;
+}
+
+/* ============================= */
+/* Scrollbars */
+/* ============================= */
+.terminal-content ::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+
+.terminal-content ::-webkit-scrollbar-track {
+  background: #0c0c0c;
+}
+
+.terminal-content ::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 4px;
+}
+
+.terminal-content ::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

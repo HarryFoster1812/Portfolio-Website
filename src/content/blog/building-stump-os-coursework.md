@@ -228,7 +228,7 @@ This was one of the very first pieces of code I wrote, which is why it was origi
 
 ## Context Switching
 
-With the heap in place, the next challenge was allowing the kernel to execute code safely without overwriting user data. This is where **context switching** comes in. Context switching is the process of saving the current state of a user process—its registers, stack pointer, and program counter—so that the kernel can run its own code. Once the kernel has finished, the saved state can be restored, allowing the user process to resume execution exactly where it left off.
+With the heap in place, the next challenge was allowing the kernel to execute code safely without overwriting user data. This is where **context switching** comes in. Context switching is the process of saving the current state of a user process its registers, stack pointer, and program counter so that the kernel can run its own code. Once the kernel has finished, the saved state can be restored, allowing the user process to resume execution exactly where it left off.
 
 As mentioned previously, I don't have a return register, so the return address is pushed onto the stack.
 

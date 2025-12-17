@@ -11,7 +11,7 @@ export interface Repo {
  * Fetch GitHub repos for the user "HarryFoster1812"
  */
 export async function fetchGitHubRepos(): Promise<Repo[]> {
-  const response = await fetch("https://api.github.com/users/HarryFoster1812/repos?per_page=100");
+  const response = await fetch("https://api.github.com/users/HarryFoster1812/repos?per_page=100", { next: { revalidate: 24*60*60 } }); // refresh project list everyday
   if (!response.ok) {
     throw new Error(`GitHub API responded with ${response.status}`);
   }

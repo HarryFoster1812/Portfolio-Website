@@ -1,95 +1,75 @@
-'use client';
+"use client"
 
-import { useParams } from 'next/navigation';
-import { useEffect, useState, useCallback } from 'react';
-import MarkdownRenderer from '@/components/blog/markdown';
-import { motion } from 'framer-motion';
-import CommentSection from '@/components/blog/comment_section'
-import {SubscribeSection} from "@/components/subscribe/subscribeSection";
+import { useParams } from "next/navigation"
+import { useEffect, useState } from "react"
+import PrebuiltMarkdownRenderer from "@/components/blog/prebuilt_markdown"
+import CommentSection from "@/components/blog/comment_section"
+import { SubscribeSection } from "@/components/subscribe/subscribeSection"
 
-// Define types for better type safety
-interface BlogPost {
-    content: string;
-    error?: string;
+interface PostModule {
+  html: string
+  meta?: {
+    title?: string
+    date?: string
+    description?: string
+  }
 }
 
 export default function DynamicBlogPage() {
-    const params = useParams();
-    const articleName = Array.isArray(params?.articleName)
-        ? params.articleName[0]
-        : params?.articleName;
+  const params = useParams()
+  const articleName: string = Array.isArray(params?.articleName)
+    ? params.articleName[0]
+    : params?.articleName ?? ""
 
-    const [post, setPost] = useState<BlogPost>({ content: '' });
-    const [loading, setLoading] = useState<boolean>(true);
+  const [post, setPost] = useState<PostModule | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
-    const fetchPost = useCallback(async () => {
-        if (!articleName) {
-            setPost({ content: '# 404 - Article not found', error: 'No article name provided' });
-            setLoading(false);
-            return;
-        }
-
-        try {
-            const res = await fetch(`/api/blog/${encodeURIComponent(articleName)}`, {
-                headers: {
-                    'Accept': 'text/plain',
-                },
-            });
-
-            if (!res.ok) {
-                throw new Error(`HTTP error! status: ${res.status}`);
-            }
-
-            const data = await res.text();
-            setPost({ content: data });
-        } catch (error) {
-            console.error('Error fetching blog post:', error);
-            const errorMessage = (error as Error).message || 'An unknown error occurred';
-            setPost({ content: '# 404 - Article not found', error: errorMessage });
-        } finally {
-            setLoading(false);
-        }
-    }, [articleName]);
-
-    useEffect(() => {
-        fetchPost();
-    }, [fetchPost]);
-
-    if (loading) {
-        return (
-            <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="flex justify-center items-center min-h-screen"
-            >
-                <div className="text-center">
-                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 mx-auto"></div>
-                    <p className="mt-4 text-gray-600">Loading article...</p>
-                </div>
-            </motion.div>
-        );
+  useEffect(() => {
+    if (!articleName) {
+      setError("No article name provided")
+      setLoading(false)
+      return
     }
 
+    import(`@/generated/posts/${articleName}`)
+      .then(mod => {
+        setPost(mod)
+        setLoading(false)
+      })
+      .catch(err => {
+        console.error("Error loading post module:", err)
+        setError("Article not found")
+        setLoading(false)
+      })
+  }, [articleName])
+
+  if (loading) {
     return (
-        <>
-        <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
-            className="container mx-auto px-4 py-8 max-w-5xl"
-        >
-            <MarkdownRenderer markdown={post.content} />
-            <CommentSection slug={encodeURIComponent(articleName || "") }/>
-            {post.error && (
-                <div className="mt-4 p-4 bg-red-100 text-red-700 rounded-md" role="alert">
-                    Error: {post.error}
-                </div>
-            )}
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading article...</p>
+        </div>
+      </div>
+    )
+  }
 
-            
-        </motion.div>
+  if (error || !post) {
+    return (
+      <div className="container mx-auto px-4 py-8 max-w-5xl">
+        <div className="p-6 bg-red-100 text-red-700 rounded-md">
+          {error || "404 - Article not found"}
+        </div>
+      </div>
+    )
+  }
 
-        <SubscribeSection variant="blog" />
-        </>
-    );
+    return (
+        <div className="container mx-auto px-4 py-8 max-w-5xl">
+            <PrebuiltMarkdownRenderer html={post.html} meta={post.meta} />
+            <CommentSection slug={encodeURIComponent(articleName)} />
+            <SubscribeSection variant="blog" />
+        </div>
+    )
 }

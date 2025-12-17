@@ -1,3 +1,5 @@
+import { ReactNode } from 'react';
+
 export type FileNode =
   | {
       type: "file";
@@ -5,7 +7,7 @@ export type FileNode =
     }
   | {
       type: "blogFile" | "projectFile";
-      cachedContent?: string; // optional cached value
+      cachedContent?: string | ReactNode; // optional cached value
     };
 
 export type DirNode = {

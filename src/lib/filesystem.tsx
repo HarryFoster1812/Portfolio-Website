@@ -2,6 +2,7 @@
 import { Node, DirNode } from "./filesystem_types";
 import React, { ReactNode } from 'react';
 import TerminalMarkdownRenderer from "@/components/blog/markdown_terminal";
+import PrebuiltMarkdownRenderer from "@/components/blog/prebuilt_markdown"
 
 export class FileSystem {
   private root: DirNode;
@@ -65,56 +66,56 @@ export class FileSystem {
         return true;
     }
 
-async cat(fileName: string): Promise<string | ReactNode | null> {
-    const file = this.getCurrentDir().children[fileName];
-    if (!file) return null;
+    async cat(fileName: string): Promise<string | ReactNode | null> {
+        const file = this.getCurrentDir().children[fileName]
+        if (!file) return null
 
-    if (file.type === "file") {
-        return file.content;
-    } else if (file.type === "blogFile") {
-        // If already cached, use it
-        if (file.cachedContent) {
-            return <TerminalMarkdownRenderer markdown={file.cachedContent} />;
+        /* ---------- Plain files ---------- */
+        if (file.type === "file") {
+            return file.content
         }
 
-        // Otherwise fetch & cache
-        try {
-            const res = await fetch(`/api/blog/${encodeURIComponent(fileName.replace('.md', ''))}`, {
-                headers: {
-                    'Accept': 'text/plain',
-                },
-            });
-
-            if (!res.ok) {
-                throw new Error(`HTTP error! status: ${res.status}`);
+        /* ---------- Blog files ---------- */
+        if (file.type === "blogFile") {
+            if (file.cachedContent) {
+                return file.cachedContent
             }
 
-            const data = await res.text();
-            file.cachedContent = data;
-            // Return the component after a successful fetch
-            return <TerminalMarkdownRenderer markdown={file.cachedContent} />;
-        } catch (error) {
-            console.error('Error fetching blog post:', error);
-            const errorMessage = (error as Error).message || 'An unknown error occurred';
-            file.cachedContent = `# 404 - Article not found\n${errorMessage}`;
-            // Return a string with the error message
-            return file.cachedContent;
-        }
-        } else if(file.type == 'projectFile'){
+            const slug = fileName.replace("\.md", "");
 
-            const mdData = await fetch(
-                `https://raw.githubusercontent.com/HarryFoster1812/${fileName.replace('.md', '')}/main/README.md`
-            );
-            if (mdData.ok) {
-                const mdText = await mdData.text();
-                file.cachedContent = mdText;
-                return <TerminalMarkdownRenderer markdown={file.cachedContent} />;;
-            } else{
-               return "Error";
+            /* Try prebuilt first */
+            try {
+                const mod = await import(`@/generated/posts/${slug}`)
+
+                file.cachedContent = (
+                    <PrebuiltMarkdownRenderer
+                        html={mod.html}
+                        meta={mod.meta}
+                        mode="terminal"
+                    />
+                )
+
+                return file.cachedContent
+            } catch {
+                return "404: Blog post not found"
             }
         }
-    return null;
-}
+
+        /* ---------- Project files ---------- */
+        if (file.type === "projectFile") {
+            const res = await fetch(
+                `https://raw.githubusercontent.com/HarryFoster1812/${fileName.replace(".md", "")}/main/README.md`
+            )
+
+            if (!res.ok) return "Error loading README"
+
+            const md = await res.text()
+            file.cachedContent = <TerminalMarkdownRenderer markdown={md} />
+            return file.cachedContent
+        }
+
+        return null
+    }
 
   pwd(): string {
     return this.currentPath.join("/");
