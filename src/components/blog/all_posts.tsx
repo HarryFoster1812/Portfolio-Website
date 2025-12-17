@@ -1,7 +1,6 @@
 "use client";
 import { useEffect, useState, useCallback, useMemo } from "react";
 import BlogCard from './blog_card';
-// Assuming this path and type definition is correct
 import { BlogPostMeta } from '@/lib/blog'; 
 import { assignResponsiveSpans, SPAN_MAP, SpanKey } from "@/lib/blog-grid-utils";
 

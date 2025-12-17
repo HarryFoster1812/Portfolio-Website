@@ -44,136 +44,155 @@ for (const user of users) {
 <head>
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>${title} | Blog Update</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${title} | The Cache Hit</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      color: #333;
       margin: 0;
       padding: 0;
-      background: #f9f9f9;
+      font-family: Arial, sans-serif;
+      background: #0a0a0a; /* black */
+      color: #e5e7eb; /* zinc-200 */
     }
     a {
-      color: #2563eb;
+      color: #2dd4bf; /* teal */
       text-decoration: none;
     }
     .container {
       max-width: 600px;
-      width: 100%;
-      background: #ffffff;
+      margin: auto;
+      background: #0f0f0f; /* near-black */
       border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
       overflow: hidden;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.6);
+      border: 1px solid #27272a; /* zinc-800 */
     }
     .header {
-      border-bottom: 1px solid #eee;
-      padding: 20px;
+      background: #0a0a0a;
+      border-bottom: 1px solid #27272a;
       text-align: center;
+      padding: 28px 20px;
     }
-    .header h2 {
+    .header h1 {
       margin: 0;
-      color: #111;
-      font-size: 24px;
+      font-size: 26px;
+      color: #ffffff;
+    }
+    .header p {
+      margin: 6px 0 0;
+      font-size: 14px;
+      color: #a1a1aa; /* zinc-400 */
+      letter-spacing: 0.5px;
     }
     .content {
-      padding: 20px;
+      padding: 22px;
     }
-    .content h3 {
-      color: #2563eb;
-      margin: 16px 0;
-      font-size: 20px;
+    .content h2 {
+      color: #ffffff;
+      font-size: 22px;
+      margin: 0 0 12px;
     }
     .content p {
       font-size: 16px;
       line-height: 1.6;
+      color: #d4d4d8; /* zinc-300 */
       margin: 0 0 16px;
     }
     .btn {
-      background: #2563eb;
-      color: #fff !important;
-      text-decoration: none;
-      padding: 12px 20px;
+      background: #2dd4bf; /* teal */
+      color: #042f2e !important;
+      padding: 14px 22px;
       border-radius: 8px;
       font-weight: bold;
       display: inline-block;
+      margin: 14px 0;
     }
     .footer {
-      font-size: 13px;
-      color: #888;
-      border-top: 1px solid #eee;
       text-align: center;
-      padding: 15px;
+      font-size: 13px;
+      color: #a1a1aa;
+      border-top: 1px solid #27272a;
+      padding: 16px 20px;
+    }
+    .footer a {
+      color: #2dd4bf;
     }
     @media only screen and (max-width: 600px) {
-      .container {
-        width: 100% !important;
-        border-radius: 0 !important;
+      .header h1 {
+        font-size: 22px !important;
       }
-      .content {
-        padding: 15px !important;
-      }
-      .header h2 {
+      .content h2 {
         font-size: 20px !important;
-      }
-      .content h3 {
-        font-size: 18px !important;
       }
       .content p {
         font-size: 15px !important;
       }
       .btn {
-        display: block !important;
         width: 100% !important;
-        box-sizing: border-box !important;
         text-align: center !important;
       }
     }
   </style>
 </head>
 <body>
-  <table width="100%" cellpadding="0" cellspacing="0" style="margin:0; padding:20px 0;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="padding:20px 0;">
     <tr>
       <td align="center">
         <table class="container" cellpadding="0" cellspacing="0">
+
           <!-- Header -->
           <tr>
             <td class="header">
-              <h2>Harry Foster | Blog Update</h2>
+              <h1>The Cache Hit</h1>
+                <p>Engineering Deep Dives · harryfoster.tech</p>            
             </td>
           </tr>
-          
-          <!-- Main Content -->
+
+          <!-- Content -->
           <tr>
             <td class="content">
-              <p>Hello &#128075;,</p>
-              <p>I’ve just published a new blog post on 
-                <a href="https://harryfoster.tech">harryfoster.tech</a>. I thought you might enjoy it:</p>
-              
-              <h3>${title}</h3>
-              
-              <p>${description}</p>
-              
-              <p style="text-align:center;">
-                <a href="https://www.harryfoster.tech/blog/${filename}" class="btn">Read the full post →</a>
+              <p>Hello there!</p>
+
+              <p>
+                A new post just landed on
+                <a href="https://harryfoster.tech/blog">The Cache Hit</a>.
               </p>
-              
-              <p>Thanks for following along,<br>Harry</p>
+
+              <h2>${title}</h2>
+
+              <p>${description}</p>
+
+              <p style="text-align:center;">
+                <a
+                  href="https://harryfoster.tech/blog/${filename}"
+                  class="btn"
+                >
+                  Read the full post →
+                </a>
+              </p>
+
+              <p>
+                Thanks for reading,<br />
+                Harry
+              </p>
             </td>
           </tr>
-          
+
           <!-- Footer -->
           <tr>
             <td class="footer">
-              <p>You’re receiving this email because you subscribed to updates on 
-                <a href="https://harryfoster.tech">harryfoster.tech</a>.
+              <p>
+                You're receiving this because you subscribed to
+                <a href="https://harryfoster.tech/blog">The Cache Hit · harryfoster.tech</a>.
               </p>
               <p>
-                <a href="https://www.harryfoster.tech/unsubscribe/${user.confirmationToken}">Unsubscribe</a>
+                <a href="https://harryfoster.tech/unsubscribe/${user.confirmationToken}">
+                  Unsubscribe
+                </a>
               </p>
             </td>
           </tr>
-          
+
         </table>
       </td>
     </tr>
