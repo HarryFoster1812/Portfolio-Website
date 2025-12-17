@@ -30,17 +30,15 @@ export const SubscribeSection: React.FC<SubscribeSectionProps> = ({ variant }) =
     }
 
   return (
-    <section className={`relative  flex items-center justify-center py-20 flex-col ${bgClasses}`}
-        style={{ height: 'calc(100vh - 5rem)' }}
-        >
-      {/* Optional background shapes */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-[-10%] left-[-10%] w-[60%] h-[120%] bg-white/5 rounded-full blur-3xl"></div>
-      </div>
+    <section
+    className={`relative flex items-center justify-center py-20 flex-col ${bgClasses}`}
+    style={{ height: 'calc(100vh - 5rem)' }}
+    >  
+        <div className="absolute top-[-10%] left-[-10%] w-[60%] h-[120%] bg-white/5 rounded-full blur-3xl pointer-events-none"></div>
 
-    <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-4">{heading}</h2>
-    <p className="text-zinc-300 mb-8">{description}</p>
-    <SubscribeCard />
+        <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-4">{heading}</h2>
+        <p className="text-zinc-300 mb-8">{description}</p>
+        <SubscribeCard />
     </section>
   );
 };
