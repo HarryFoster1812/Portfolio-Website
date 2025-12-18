@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import MarkdownRenderer from '@/components/blog/markdown';
+import ProjectRelatedPosts from "@/components/projects/project_related_posts";
 
 interface GitHubRepo {
   id: number;
@@ -161,6 +162,8 @@ export default function DynamicProjectPage({
             <p className="text-zinc-500 italic">No README.md content available.</p>
           )}
         </div>
+
+        <ProjectRelatedPosts slug={projectData.name} />
       </section>
     </main>
   );
