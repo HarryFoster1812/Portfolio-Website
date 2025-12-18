@@ -5,6 +5,7 @@ import { useEffect, useState } from "react"
 import PrebuiltMarkdownRenderer from "@/components/blog/prebuilt_markdown"
 import CommentSection from "@/components/blog/comment_section"
 import { SubscribeSection } from "@/components/subscribe/subscribeSection"
+import SeriesNavigation from "@/components/blog/series_navigation"
 
 interface PostModule {
   html: string
@@ -68,6 +69,7 @@ export default function DynamicBlogPage() {
     return (
         <div className="container mx-auto px-4 py-8 max-w-5xl">
             <PrebuiltMarkdownRenderer html={post.html} meta={post.meta} />
+            {post.meta.series && <SeriesNavigation meta={post.meta}/>}
             <CommentSection slug={encodeURIComponent(articleName)} />
             <SubscribeSection variant="blog" />
         </div>
