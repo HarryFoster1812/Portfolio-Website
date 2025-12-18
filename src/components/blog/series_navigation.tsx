@@ -51,7 +51,7 @@ const SeriesNavigation = ({ meta }: SeriesNavigationProps) => {
     const fetchSeries = async () => {
       try {
         const res = await fetch(
-          `/api/blog/series/${encodeURIComponent(meta.series.name)}`
+          `/api/blog/series/${encodeURIComponent(meta.series!.name)}`
         );
         const data: SeriesMetaData[] = await res.json();
         setSeriesList(data);
@@ -96,7 +96,7 @@ const SeriesNavigation = ({ meta }: SeriesNavigationProps) => {
             </span>
           </div>
           <h3 className="text-2xl font-bold tracking-tight text-white">
-            {meta.series.name}
+            {meta.series!.name}
           </h3>
         </div>
 

@@ -6,14 +6,11 @@ import PrebuiltMarkdownRenderer from "@/components/blog/prebuilt_markdown"
 import CommentSection from "@/components/blog/comment_section"
 import { SubscribeSection } from "@/components/subscribe/subscribeSection"
 import SeriesNavigation from "@/components/blog/series_navigation"
+import { BlogPostMeta } from "@/lib/blog";
 
 interface PostModule {
   html: string
-  meta?: {
-    title?: string
-    date?: string
-    description?: string
-  }
+  meta: BlogPostMeta
 }
 
 export default function DynamicBlogPage() {
