@@ -119,7 +119,7 @@ export default function AllPostsSection() {
 
     return (
         <section className="mt-12">
-            <h1 className="text-4xl font-extrabold text-zinc-100 mb-8 border-b border-teal-500 pb-2">The Archive</h1>
+            <h2 className="text-4xl font-extrabold text-zinc-100 mb-8 border-b border-teal-500 pb-2">The Archive</h2>
 
             {/* --- 1. Filter and Search Bar Container (Sticky) --- */}
             <div className="sticky top-0 bg-zinc-900/90 backdrop-blur-md z-10 py-4 mb-4 border-b border-zinc-800">

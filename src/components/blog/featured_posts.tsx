@@ -41,7 +41,7 @@ export default function FeaturedPostSection() {
 
     return (
         <section className="mt-8">
-            <h1 className="text-4xl font-extrabold text-zinc-100 mb-8 border-b border-zinc-500 pb-2">Featured Articles</h1>
+            <h2 className="text-4xl font-extrabold text-zinc-100 mb-8 border-b border-zinc-500 pb-2">Featured Articles</h2>
             <div className="flex justify-center">
                 <div className="grid grid-cols-1 gap-6 max-w-7xl w-full px-4">
                     {postsWithSpans.map(({ item }) => (
