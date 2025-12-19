@@ -21,7 +21,6 @@ export async function GET(
     const allPosts = await getAllBlogPosts();
     let filteredPosts = allPosts;
 
-    console.log(allPosts)
     filteredPosts = allPosts
     .filter(post => {
         const name = post.project?.slug;
