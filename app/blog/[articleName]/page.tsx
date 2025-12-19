@@ -1,74 +1,71 @@
-"use client"
+import { notFound } from "next/navigation";
+import PrebuiltMarkdownRenderer from "@/components/blog/prebuilt_markdown";
+import CommentSection from "@/components/blog/comment_section";
+import { SubscribeSection } from "@/components/subscribe/subscribeSection";
+import SeriesNavigation from "@/components/blog/series_navigation";
+import type { BlogPostMeta } from "@/lib/blog";
 
-import { useParams } from "next/navigation"
-import { useEffect, useState } from "react"
-import PrebuiltMarkdownRenderer from "@/components/blog/prebuilt_markdown"
-import CommentSection from "@/components/blog/comment_section"
-import { SubscribeSection } from "@/components/subscribe/subscribeSection"
-import SeriesNavigation from "@/components/blog/series_navigation"
-import { BlogPostMeta } from "@/lib/blog";
+import { metadata as baseMetadata } from "@/layout"; 
 
 interface PostModule {
-  html: string
-  meta: BlogPostMeta
+  html: string;
+  meta: BlogPostMeta;
 }
 
-export default function DynamicBlogPage() {
-  const params = useParams()
-  const articleName: string = Array.isArray(params?.articleName)
-    ? params.articleName[0]
-    : params?.articleName ?? ""
+interface Props {
+  params:  Promise<{ articleName: string }>
+}
 
-  const [post, setPost] = useState<PostModule | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+export async function generateMetadata({ params }: Props) {
+  const resolvedParams = await params;
+  const slug = Array.isArray(resolvedParams.articleName)
+    ? resolvedParams.articleName[0]
+    : resolvedParams.articleName;
 
-  useEffect(() => {
-    if (!articleName) {
-      setError("No article name provided")
-      setLoading(false)
-      return
-    }
+  try {
+    const postModule: { meta: BlogPostMeta } = await import(
+      `@/generated/posts/${slug}`
+    );
 
-    import(`@/generated/posts/${articleName}`)
-      .then(mod => {
-        setPost(mod)
-        setLoading(false)
-      })
-      .catch(err => {
-        console.error("Error loading post module:", err)
-        setError("Article not found")
-        setLoading(false)
-      })
-  }, [articleName])
+    const postTags = postModule.meta.tags ?? [];
+    const keywords = Array.from(
+        new Set([
+        ...(Array.isArray(baseMetadata.keywords) ? baseMetadata.keywords : []),
+        ...(Array.isArray(postTags) ? postTags : []),
+        ])
+    );
 
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center min-h-screen">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading article...</p>
-        </div>
-      </div>
-    )
+    return {
+      ...baseMetadata, // start with the layout base
+      title: postModule.meta.title,
+      description: postModule.meta.description,
+      keywords,
+    };
+  } catch {
+    return {...baseMetadata, title: "Article Not Found"}; // fallback if post metadata fails
   }
+}
 
-  if (error || !post) {
+// Server-side blog page
+export default async function BlogPage({ params }: Props) {
+  const resolvedParams = await params;
+  const slug = Array.isArray(resolvedParams.articleName)
+    ? resolvedParams.articleName[0]
+    : resolvedParams.articleName;
+
+  try {
+    const postModule: PostModule = await import(`@/generated/posts/${slug}`);
+
     return (
       <div className="container mx-auto px-4 py-8 max-w-5xl">
-        <div className="p-6 bg-red-100 text-red-700 rounded-md">
-          {error || "404 - Article not found"}
-        </div>
+        <PrebuiltMarkdownRenderer html={postModule.html} meta={postModule.meta} />
+        {postModule.meta.series && <SeriesNavigation meta={postModule.meta} />}
+        <CommentSection slug={encodeURIComponent(slug)} />
+        <SubscribeSection variant="blog" />
       </div>
-    )
+    );
+  } catch {
+        notFound();
   }
-
-    return (
-        <div className="container mx-auto px-4 py-8 max-w-5xl">
-            <PrebuiltMarkdownRenderer html={post.html} meta={post.meta} />
-            {post.meta.series && <SeriesNavigation meta={post.meta}/>}
-            <CommentSection slug={encodeURIComponent(articleName)} />
-            <SubscribeSection variant="blog" />
-        </div>
-    )
 }
+

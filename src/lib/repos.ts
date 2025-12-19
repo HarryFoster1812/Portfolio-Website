@@ -19,7 +19,6 @@ export interface GitHubRepoApi {
   disabled: boolean;
 }
 
-// Your internal repo DTO
 export interface Repo {
   name: string;
   fullName: string;
@@ -41,7 +40,6 @@ export interface Repo {
   disabled: boolean;
 }
 
-// Mapper from GitHub API → Repo DTO
 export function repoFromApi(data: GitHubRepoApi): Repo {
   return {
     name: data.name,

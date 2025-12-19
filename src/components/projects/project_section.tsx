@@ -46,7 +46,7 @@ export const ProjectSection = () => {
     return (
         <>
             <section className="min-h-screen max-h-auto flex items-center flex-col justify-center gap-5 z-10">
-                <h1 className="w-full text-center p-10 font-bold text-white mt-6">Projects</h1>
+                <h2 className="w-full text-center p-10 font-bold text-white mt-6 text-5xl">Projects</h2>
                 <div className="h-auto w-full flex items-center flex-col justify-center">
                 {
                     projects.map((project, index) => (

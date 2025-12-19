@@ -7,6 +7,7 @@ import {ExperienceSection} from "@/components/experience/experienceSection";
 import "./index.css";
 
 
+
 export default function Home() {
     return (
         <>

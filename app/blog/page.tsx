@@ -3,6 +3,14 @@ import AllPostsSection from "@/components/blog/all_posts"
 import {SubscribeSection} from "@/components/subscribe/subscribeSection";
 
 
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Blog",
+  description:
+    "Articles by Harry Foster on software engineering, web development, React, Next.js, and TypeScript.",
+};
+
 export default function Blog() {
     return (
         <div className="w-full mx-auto p-8 space-y-8 rounded-lg shadow-lg">
