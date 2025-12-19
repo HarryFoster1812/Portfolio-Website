@@ -18,6 +18,7 @@ const geistMono = Geist_Mono({
 
 
 export const metadata: Metadata = {
+    metadataBase: new URL("https://harryfoster.tech"),
   title: {
     default: "Harry Foster - Software Engineer",
     template: "%s | Harry Foster",
@@ -53,7 +54,6 @@ keywords: [
     title: "Harry Foster - Software Engineer",
     description:
       "Portfolio and blog of Harry Foster. Projects, articles, and experiments in React, Next.js, TypeScript, and modern web development.",
-    url: "https://harryfoster.tech",
     siteName: "Harry Foster",
     locale: "en_GB",
     type: "website",
@@ -71,9 +71,10 @@ keywords: [
     follow: true,
   },
 
-  alternates: {
-    canonical: "https://harryfoster.tech",
-  },
+    alternates: {
+        canonical: "./",
+    },
+
 };
 
 export default function RootLayout({
