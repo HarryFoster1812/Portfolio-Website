@@ -5,6 +5,7 @@ import {Navbar} from "@/components/navbar/navbar";
 import { Tracker } from "@/components/tracker";
 import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from "@vercel/speed-insights/next"
+import PolyfillsClient from './polyfills_client';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -89,6 +90,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-black text-white flex flex-col min-h-screen h-full`}
       >
+        <PolyfillsClient />
         <Navbar />
         <main className="flex-1 flex flex-col">
           {children}
