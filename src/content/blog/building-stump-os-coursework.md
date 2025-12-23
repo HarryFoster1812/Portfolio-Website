@@ -14,7 +14,7 @@ project:
 featured: true
 ---
 
-# Building StumpOS for COMP22111
+## Building StumpOS for COMP22111
 
 STUMP OS is a semi-fully functional, from-scratch operating system (of sorts) written in pure assembly for the University of Manchester's STUMP teaching board, which were nine years old at the time of writing.
 

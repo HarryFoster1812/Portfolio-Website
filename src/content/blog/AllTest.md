@@ -12,7 +12,7 @@ tags:
 featured: false
 ---
 
-# MarkdownRenderer Feature Test
+## MarkdownRenderer Feature Test
 
 This blog post is designed to test the full feature set of your MarkdownRenderer with styling aligned to **harryfoster.tech** — dark background, blue highlights, and clean typography.
 
