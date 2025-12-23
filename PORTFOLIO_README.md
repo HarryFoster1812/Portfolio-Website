@@ -14,14 +14,14 @@ This portfolio is itself a project, designed to showcase my work, blog posts, an
 - Project portfolio README
 - Individual project READMEs
 
-[**Technical Blog**] (<https://www.harryfoster.tech/blog>)
+[**Technical Blog**](https://www.harryfoster.tech/blog)
 
 - Markdown-powered posts with comments
 - Sorting and filtering of posts
 - Featured articles and series
 - Rich metadata linking projects to blog posts and vice versa
 
-[**Interactive Terminal**] (<https://www.harryfoster.tech/terminal>)
+[**Interactive Terminal**](https://www.harryfoster.tech/terminal)
 
 - A small terminal-like interface for navigating projects and content
 - Provides a fun, interactive way to explore the portfolio
