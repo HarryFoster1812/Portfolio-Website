@@ -39,13 +39,13 @@ export const ProjectCard = ({project, index} : {project: Project, index: number}
                             </span>
                         </div>
                         <div className="flex justify-evenly items-center">
-                            <Link href={`https://github.com/HarryFoster1812/${project.link}`} target="_blank" rel="noopener noreferrer" className="py-2 px-3 bg-gradient-to-br from-cyan-400 to-pink-500 text-black no-underline rounded-xl font-bold uppercase tracking-wide flex items-center justify-center transition-all duration-300 ease-in-out hover:translate-y-[-3px] hover:shadow-[0_10px_20px_rgba(0,_255,_255,_0.4)]">
+                            <Link href={`https://github.com/HarryFoster1812/${project.link}`} target="_blank" rel="noopener noreferrer" className="py-2 px-3 bg-gradient-to-r from-teal-400 via-cyan-500 to-teal-500 text-black no-underline rounded-xl font-bold uppercase tracking-wide flex items-center justify-center transition-all duration-300 ease-in-out hover:translate-y-[-3px] hover:shadow-[0_10px_20px_rgba(0,_255,_255,_0.4)]">
                                 
                                 <FontAwesomeIcon icon={faGithub} width={50} height={50} /> 
                                 <p className="text-black no-underline font-bold uppercase text-base">View on GitHub</p>
 
                             </Link>
-                            <Link href={`/projects/${project.link}`} className="inline-block py-2 px-3 bg-gradient-to-br from-cyan-400 to-pink-500 text-black no-underline rounded-xl font-bold uppercase tracking-wide transition-all duration-300 ease-in-out hover:translate-y-[-3px] hover:shadow-[0_10px_20px_rgba(0,_255,_255,_0.4)]">
+                            <Link href={`/projects/${project.link}`} className="inline-block py-2 px-3 bg-gradient-to-r from-teal-400 via-cyan-500 to-teal-500 text-black no-underline rounded-xl font-bold uppercase tracking-wide transition-all duration-300 ease-in-out hover:translate-y-[-3px] hover:shadow-[0_10px_20px_rgba(0,_255,_255,_0.4)]">
                                 See more
                             </Link>
                         </div>
