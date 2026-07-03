@@ -11,7 +11,7 @@ tags:
 project:
   name: "StumpOS"
   slug: "stumpos"
-featured: true
+featured: false
 ---
 
 ## Building StumpOS for COMP22111
