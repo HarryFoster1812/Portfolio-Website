@@ -1,4 +1,4 @@
-import ProjectsList from "@/components/projects/projects_list"
+import ProjectsList from "@/components/projects/projects_list";
 
 import type { Metadata } from "next";
 
@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title: "Projects",
   description:
     "Explore the portfolio projects of Harry Foster, including full-stack, frontend, backend, and systems programming projects.",
-}
+};
 
 export default async function ProjectsPage() {
   return (

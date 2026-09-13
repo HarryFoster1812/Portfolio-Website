@@ -5,7 +5,7 @@ import { SubscribeSection } from "@/components/subscribe/subscribeSection";
 import SeriesNavigation from "@/components/blog/series_navigation";
 import type { BlogPostMeta } from "@/lib/blog";
 
-import { metadata as baseMetadata } from "@/layout"; 
+import { metadata as baseMetadata } from "@/layout";
 
 interface PostModule {
   html: string;
@@ -13,7 +13,7 @@ interface PostModule {
 }
 
 interface Props {
-  params:  Promise<{ articleName: string }>
+  params: Promise<{ articleName: string }>;
 }
 
 export async function generateMetadata({ params }: Props) {
@@ -29,10 +29,10 @@ export async function generateMetadata({ params }: Props) {
 
     const postTags = postModule.meta.tags ?? [];
     const keywords = Array.from(
-        new Set([
+      new Set([
         ...(Array.isArray(baseMetadata.keywords) ? baseMetadata.keywords : []),
         ...(Array.isArray(postTags) ? postTags : []),
-        ])
+      ]),
     );
 
     return {
@@ -42,7 +42,7 @@ export async function generateMetadata({ params }: Props) {
       keywords,
     };
   } catch {
-    return {...baseMetadata, title: "Article Not Found"}; // fallback if post metadata fails
+    return { ...baseMetadata, title: "Article Not Found" }; // fallback if post metadata fails
   }
 }
 
@@ -58,14 +58,16 @@ export default async function BlogPage({ params }: Props) {
 
     return (
       <div className="container mx-auto px-4 py-8 max-w-5xl">
-        <PrebuiltMarkdownRenderer html={postModule.html} meta={postModule.meta} />
+        <PrebuiltMarkdownRenderer
+          html={postModule.html}
+          meta={postModule.meta}
+        />
         {postModule.meta.series && <SeriesNavigation meta={postModule.meta} />}
         <CommentSection slug={encodeURIComponent(slug)} />
         <SubscribeSection variant="blog" />
       </div>
     );
   } catch {
-        notFound();
+    notFound();
   }
 }
-

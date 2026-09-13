@@ -1,6 +1,6 @@
 /* Define the container for the typewriter effect */
 #welcome {
-  font-family: 'Courier New', Courier, monospace;
+  font-family: "Courier New", Courier, monospace;
   text-align: center;
   margin-top: 50px;
 }
@@ -46,8 +46,10 @@ p {
   overflow: hidden;
   white-space: nowrap;
   width: 0;
-  border-right: 4px solid white;  /* Typewriter cursor */
-  animation: typing 4s steps(30) 1s infinite, blink 0.75s step-end infinite;
+  border-right: 4px solid white; /* Typewriter cursor */
+  animation:
+    typing 4s steps(30) 1s infinite,
+    blink 0.75s step-end infinite;
 }
 
 /* Use this to switch between multiple words */
@@ -57,7 +59,8 @@ p {
 }
 
 @keyframes change-text {
-  0%, 100% {
+  0%,
+  100% {
     content: "Software Engineer";
   }
   25% {

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { useEffect, useRef, useState } from "react";
 
 // BinaryDigit component: fades in when scrolled into view
@@ -18,7 +18,7 @@ export const BinaryDigit: React.FC<{ digit: 0 | 1; delay: number }> = ({
           observer.disconnect();
         }
       },
-      { threshold: 0.1 }
+      { threshold: 0.1 },
     );
     observer.observe(ref.current);
     return () => observer.disconnect();

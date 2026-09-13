@@ -69,17 +69,22 @@ export function isPublicNonFork(repo: Repo): boolean {
 }
 
 // Optional: process a full API response array
-export function fromApiResponse(dataArray: GitHubRepoApi[], blacklist: string[] = []): Repo[] {
+export function fromApiResponse(
+  dataArray: GitHubRepoApi[],
+  blacklist: string[] = [],
+): Repo[] {
   return dataArray
     .map(repoFromApi)
     .filter(isPublicNonFork)
-    .filter(repo => !blacklist.includes(repo.name));
+    .filter((repo) => !blacklist.includes(repo.name));
 }
 
-
-
-const USERNAME = "HarryFoster1812"
-const blacklist_array: string[] = ["HarryFoster1812", "IR-Receiver", "New-tab-Inspiration"]
+const USERNAME = "HarryFoster1812";
+const blacklist_array: string[] = [
+  "HarryFoster1812",
+  "IR-Receiver",
+  "New-tab-Inspiration",
+];
 
 /**
  * Fetch GitHub repos for the user "HarryFoster1812" using personal API token
@@ -90,10 +95,10 @@ export async function fetchGitHubRepos(): Promise<Repo[]> {
     {
       headers: {
         Authorization: `token ${process.env.GITHUB_API}`,
-        Accept: 'application/vnd.github.v3+json',
+        Accept: "application/vnd.github.v3+json",
       },
       next: { revalidate: 24 * 60 * 60 }, // refresh project list daily
-    }
+    },
   );
 
   if (!response.ok) {

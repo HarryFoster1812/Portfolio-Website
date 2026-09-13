@@ -35,7 +35,7 @@ sudo pacman -Syu glfw
 
 ### OpenGL initalisation
 
-OpenGL is just a specification and on  different divers and OS's the location of OpenGL functions differs and requires runtime lookup, this is why GLAD exists. GLAD is a open source library which generates the proper configuration files for the OpenGL version we want to use.
+OpenGL is just a specification and on different divers and OS's the location of OpenGL functions differs and requires runtime lookup, this is why GLAD exists. GLAD is a open source library which generates the proper configuration files for the OpenGL version we want to use.
 
 Go to:
 <https://glad.dav1d.de/>
@@ -81,7 +81,7 @@ to begin we are going to include the required headers:
 #include <iostream>
 ```
 
->[NOTE]
+> [NOTE]
 > Always include GLAD before GLFW, since GLFW uses OpenGL function pointers that GLAD provides.
 
 in the main function we are going to start and create a blank window:

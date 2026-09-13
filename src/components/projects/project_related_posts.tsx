@@ -24,7 +24,7 @@ export default function ProjectRelatedPosts({
     const fetchPosts = async () => {
       try {
         const res = await fetch(
-          `/api/blog/projects/${encodeURIComponent(slug)}`
+          `/api/blog/projects/${encodeURIComponent(slug)}`,
         );
 
         if (!res.ok) {
@@ -80,7 +80,7 @@ export default function ProjectRelatedPosts({
       </h2>
 
       <div className="space-y-4">
-        {posts.map(post => (
+        {posts.map((post) => (
           <Link
             key={post.filename}
             href={`/blog/${post.filename}`}
@@ -96,9 +96,7 @@ export default function ProjectRelatedPosts({
             </div>
 
             {post.description && (
-              <p className="mt-2 text-sm text-zinc-400">
-                {post.description}
-              </p>
+              <p className="mt-2 text-sm text-zinc-400">{post.description}</p>
             )}
           </Link>
         ))}

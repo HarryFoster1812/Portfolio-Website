@@ -3,7 +3,7 @@ import type { Repo } from "./repos";
 export function sortRepos(
   repos: Repo[],
   sortType: keyof Repo,
-  ascendingType: "asc" | "desc"
+  ascendingType: "asc" | "desc",
 ): Repo[] {
   return repos.sort((a, b) => {
     const aValue = a[sortType];

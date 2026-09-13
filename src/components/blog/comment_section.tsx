@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
 interface Comment {
   _id: string;
@@ -18,7 +18,11 @@ interface CommentSectionProps {
 export default function CommentSection({ slug }: CommentSectionProps) {
   const [comments, setComments] = useState<Comment[]>([]);
   const [loading, setLoading] = useState(true);
-  const [form, setForm] = useState({ name: '', body: '', parentId: null as string | null });
+  const [form, setForm] = useState({
+    name: "",
+    body: "",
+    parentId: null as string | null,
+  });
   const [submitting, setSubmitting] = useState(false);
   const [replyingTo, setReplyingTo] = useState<string | null>(null);
 
@@ -38,8 +42,8 @@ export default function CommentSection({ slug }: CommentSectionProps) {
     setSubmitting(true);
 
     const res = await fetch(`/api/blog/${slug}/comments`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(form),
     });
 
@@ -47,7 +51,7 @@ export default function CommentSection({ slug }: CommentSectionProps) {
       const updatedRes = await fetch(`/api/blog/${slug}/comments`);
       const updatedComments = await updatedRes.json();
       setComments(updatedComments);
-      setForm({ name: '', body: '', parentId: null });
+      setForm({ name: "", body: "", parentId: null });
       setReplyingTo(null);
     }
 
@@ -57,14 +61,21 @@ export default function CommentSection({ slug }: CommentSectionProps) {
   const renderComments = (comments: Comment[], depth = 0) => {
     if (!comments || comments.length === 0) {
       return depth === 0 ? (
-        <p className="text-zinc-400 italic text-center py-4">No comments yet. Be the first to comment!</p>
+        <p className="text-zinc-400 italic text-center py-4">
+          No comments yet. Be the first to comment!
+        </p>
       ) : null;
     }
 
     return (
-      <div className={`space-y-4 ${depth > 0 ? 'ml-4 sm:ml-6 border-l-2 border-zinc-700 pl-4' : ''}`}>
+      <div
+        className={`space-y-4 ${depth > 0 ? "ml-4 sm:ml-6 border-l-2 border-zinc-700 pl-4" : ""}`}
+      >
         {comments.map((comment) => (
-          <div key={comment._id} className="bg-zinc-800 rounded-lg p-4 hover:bg-zinc-700 transition-all duration-200">
+          <div
+            key={comment._id}
+            className="bg-zinc-800 rounded-lg p-4 hover:bg-zinc-700 transition-all duration-200"
+          >
             <div className="flex items-center justify-between">
               <p className="text-sm joining-medium text-white">
                 {comment.name}
@@ -73,7 +84,9 @@ export default function CommentSection({ slug }: CommentSectionProps) {
                 {new Date(comment.createdAt).toLocaleString()}
               </p>
             </div>
-            <p className="mt-2 text-zinc-300 whitespace-pre-wrap text-sm">{comment.body}</p>
+            <p className="mt-2 text-zinc-300 whitespace-pre-wrap text-sm">
+              {comment.body}
+            </p>
             <button
               className="text-xs text-blue-400 hover:text-blue-300 font-medium mt-2 transition-colors duration-150"
               onClick={() => {
@@ -85,7 +98,10 @@ export default function CommentSection({ slug }: CommentSectionProps) {
             </button>
 
             {replyingTo === comment._id && (
-              <form onSubmit={handleSubmit} className="mt-4 space-y-3 bg-zinc-900 p-4 rounded-lg">
+              <form
+                onSubmit={handleSubmit}
+                className="mt-4 space-y-3 bg-zinc-900 p-4 rounded-lg"
+              >
                 <input
                   type="text"
                   placeholder="Your name"
@@ -106,13 +122,13 @@ export default function CommentSection({ slug }: CommentSectionProps) {
                     className="bg-blue-500 text-white text-sm px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors duration-150 disabled:opacity-50 disabled:cursor-not-allowed"
                     disabled={submitting}
                   >
-                    {submitting ? 'Posting...' : 'Post Reply'}
+                    {submitting ? "Posting..." : "Post Reply"}
                   </button>
                   <button
                     type="button"
                     onClick={() => {
                       setReplyingTo(null);
-                      setForm({ name: '', body: '', parentId: null });
+                      setForm({ name: "", body: "", parentId: null });
                     }}
                     className="text-sm text-zinc-400 hover:text-zinc-200 font-medium transition-colors duration-150"
                   >
@@ -122,7 +138,9 @@ export default function CommentSection({ slug }: CommentSectionProps) {
               </form>
             )}
 
-            {comment.replies && comment.replies.length > 0 && renderComments(comment.replies, depth + 1)}
+            {comment.replies &&
+              comment.replies.length > 0 &&
+              renderComments(comment.replies, depth + 1)}
           </div>
         ))}
       </div>
@@ -133,7 +151,10 @@ export default function CommentSection({ slug }: CommentSectionProps) {
     <div className="mt-12 max-w-2xl mx-auto">
       <h2 className="text-2xl font-bold text-white mb-6">Comments</h2>
 
-      <form onSubmit={handleSubmit} className="space-y-4 mb-8 bg-zinc-800 p-6 rounded-lg">
+      <form
+        onSubmit={handleSubmit}
+        className="space-y-4 mb-8 bg-zinc-800 p-6 rounded-lg"
+      >
         <input
           type="text"
           placeholder="Your name"
@@ -153,7 +174,7 @@ export default function CommentSection({ slug }: CommentSectionProps) {
           className="bg-blue-500 text-white text-sm px-6 py-2 rounded-lg hover:bg-blue-600 transition-colors duration-150 disabled:opacity-50 disabled:cursor-not-allowed"
           disabled={submitting}
         >
-          {submitting ? 'Posting...' : 'Post Comment'}
+          {submitting ? "Posting..." : "Post Comment"}
         </button>
       </form>
 

@@ -95,12 +95,17 @@ export default function ProjectsList() {
                   {repo.name}
                 </h2>
                 <p className="text-zinc-400 text-sm mb-4 line-clamp-3 min-h-[3.75rem]">
-                  {repo.description ?? "A project showcasing my skills and creativity."}
+                  {repo.description ??
+                    "A project showcasing my skills and creativity."}
                 </p>
 
                 <div className="flex justify-between text-sm text-zinc-500 italic">
-                  <span>Updated: {new Date(repo.updatedAt).toLocaleDateString()}</span>
-                  <span>Created: {new Date(repo.createdAt).toLocaleDateString()}</span>
+                  <span>
+                    Updated: {new Date(repo.updatedAt).toLocaleDateString()}
+                  </span>
+                  <span>
+                    Created: {new Date(repo.createdAt).toLocaleDateString()}
+                  </span>
                 </div>
               </a>
             </li>

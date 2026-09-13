@@ -1,6 +1,6 @@
 import nodemailer from "nodemailer";
 import fs from "fs";
-import matter from "gray-matter"
+import matter from "gray-matter";
 
 const [filePath, usersJson] = process.argv.slice(2);
 if (!filePath || !usersJson) {
@@ -21,15 +21,15 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-const filename = filePath.split('/').pop().replace('.md', '');
+const filename = filePath.split("/").pop().replace(".md", "");
 const fileContent = fs.readFileSync(filePath, "utf-8");
 
 // extract and parse markdown properties
 
-const { data, content } = matter(fileContent)
+const { data, content } = matter(fileContent);
 
-const title = data.title || content.match(/^#\s+(.*)/m)?.[1] || "No title"
-const description = data.description || "No description"
+const title = data.title || content.match(/^#\s+(.*)/m)?.[1] || "No title";
+const description = data.description || "No description";
 
 const subject = `New Blog Post: ${title}`;
 

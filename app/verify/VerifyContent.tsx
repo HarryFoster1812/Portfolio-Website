@@ -1,25 +1,27 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 
 export default function VerifyContent() {
   const searchParams = useSearchParams();
-  const id = searchParams.get('id');
+  const id = searchParams.get("id");
 
-  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [status, setStatus] = useState<
+    "idle" | "loading" | "success" | "error"
+  >("idle");
   const [message, setMessage] = useState<string | null>(null);
 
   useEffect(() => {
     if (!id) return;
 
     const verify = async () => {
-      setStatus('loading');
+      setStatus("loading");
       try {
-        const response = await fetch('/api/verify', {
-          method: 'POST',
+        const response = await fetch("/api/verify", {
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({ auth_token: id }),
         });
@@ -27,15 +29,15 @@ export default function VerifyContent() {
         const data = await response.json();
 
         if (response.ok) {
-          setStatus('success');
-          setMessage(data.message || 'Verification successful!');
+          setStatus("success");
+          setMessage(data.message || "Verification successful!");
         } else {
-          setStatus('error');
-          setMessage(data.message || 'Verification failed.');
+          setStatus("error");
+          setMessage(data.message || "Verification failed.");
         }
       } catch {
-        setStatus('error');
-        setMessage('Something went wrong. Please try again later.');
+        setStatus("error");
+        setMessage("Something went wrong. Please try again later.");
       }
     };
 
@@ -47,9 +49,11 @@ export default function VerifyContent() {
       <div className="shadow-md rounded-lg p-8 max-w-md w-full text-center">
         <h1 className="text-2xl font-bold mb-4">Email Verification</h1>
 
-        {status === 'idle' && <p className="text-gray-600">Waiting to verify...</p>}
+        {status === "idle" && (
+          <p className="text-gray-600">Waiting to verify...</p>
+        )}
 
-        {status === 'loading' && (
+        {status === "loading" && (
           <div className="flex flex-col items-center text-blue-600 font-medium">
             <svg
               className="animate-spin h-6 w-6 mb-2 text-blue-600"
@@ -75,8 +79,12 @@ export default function VerifyContent() {
           </div>
         )}
 
-        {status === 'success' && <p className="text-green-600 font-semibold">{message}</p>}
-        {status === 'error' && <p className="text-red-600 font-semibold">{message}</p>}
+        {status === "success" && (
+          <p className="text-green-600 font-semibold">{message}</p>
+        )}
+        {status === "error" && (
+          <p className="text-red-600 font-semibold">{message}</p>
+        )}
       </div>
     </div>
   );

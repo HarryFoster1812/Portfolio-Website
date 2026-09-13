@@ -52,7 +52,7 @@ DECIDED NOT TO MAKE ONE
 ## Professional Timeline (None so far but...)
 
 Dynamically create a timeline svg with the connection between dots.
-set an y value of the rendered size of the text  or a div next to it and overlay it?
+set an y value of the rendered size of the text or a div next to it and overlay it?
 add anitmation to draw the path on Scroll
 add animation to text on scroll
 
@@ -107,7 +107,7 @@ Have a small blog type infrastructure where it would store the book details such
 Top of the page has the currently reading book
 For the main reading page have a list of books read for each year ordered by the date read. Starting with the current year.
 
-## Trakt API Integration  
+## Trakt API Integration
 
 Currently Watching
 

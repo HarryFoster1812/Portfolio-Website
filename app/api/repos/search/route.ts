@@ -32,7 +32,7 @@ export async function GET(request: Request) {
   if (page < 1 || limit < 1) {
     return NextResponse.json(
       { error: "Invalid page or limit parameter" },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -52,7 +52,7 @@ export async function GET(request: Request) {
     repos = repos.filter(
       (r) =>
         r.name.toLowerCase().includes(search) ||
-        (r.description?.toLowerCase().includes(search) ?? false)
+        (r.description?.toLowerCase().includes(search) ?? false),
     );
   }
 
@@ -61,9 +61,7 @@ export async function GET(request: Request) {
   }
 
   if (language) {
-    repos = repos.filter(
-      (r) => r.language?.toLowerCase() === language
-    );
+    repos = repos.filter((r) => r.language?.toLowerCase() === language);
   }
 
   // --- Sorting ---
@@ -99,7 +97,7 @@ export async function GET(request: Request) {
 
   // --- Contextual info ---
   const availableLanguages = Array.from(
-    new Set(repos.map((r) => r.language).filter(Boolean))
+    new Set(repos.map((r) => r.language).filter(Boolean)),
   ).sort();
 
   const allTopics = repos.flatMap((r) => r.topics);

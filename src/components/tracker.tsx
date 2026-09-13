@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useEffect, useRef } from 'react';
-import { usePathname } from 'next/navigation';
+import { useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
 
 export const Tracker = () => {
   const pathname = usePathname();
@@ -14,11 +14,11 @@ export const Tracker = () => {
     // fire after paint
     const id = requestIdleCallback?.(() => {
       try {
-        fetch('/api/track', {
-          method: 'POST',
-          headers: { 'content-type': 'application/json' },
+        fetch("/api/track", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
           keepalive: true,
-          body: JSON.stringify({ path: pathname || '/' }),
+          body: JSON.stringify({ path: pathname || "/" }),
         });
       } catch {}
     }) as unknown as number;
@@ -29,4 +29,4 @@ export const Tracker = () => {
   }, [pathname]);
 
   return null;
-}
+};

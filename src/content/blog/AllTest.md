@@ -54,7 +54,7 @@ $$
 const greet = (name) => {
   console.log(`Hello, ${name}!`);
 };
-greet('Harry');
+greet("Harry");
 ```
 
 ---
@@ -83,7 +83,7 @@ greet('Harry');
 ### Blockquote
 
 > "Design is not just what it looks like and feels like. Design is how it works."  
-> — *Steve Jobs*
+> — _Steve Jobs_
 
 ---
 
@@ -96,10 +96,10 @@ greet('Harry');
 ### Blockquote
 
 > "Design is not just what it looks like and feels like. Design is how it works."  
-> — *Steve Jobs*
+> — _Steve Jobs_
 
 > ### Nested Blockquote
-> >
+>
 > > This is a quote inside a quote.
 
 ---
@@ -107,21 +107,21 @@ greet('Harry');
 ### Emphasis
 
 **Bold text**  
-*Italic text*  
+_Italic text_  
 ~~Strikethrough~~  
-***Bold and italic***
+_**Bold and italic**_
 
 ---
 
 ### Tables
 
-| Feature         | Supported | Notes                         |
-|----------------|-----------|-------------------------------|
-| Images          | ✅         | Responsive on all screens     |
-| Videos          | ✅         | Autoplay and loop tested      |
-| KaTeX Math      | ✅         | Both inline and block modes   |
-| Mermaid         | ✅         | Flowcharts supported          |
-| Syntax Highlight| ✅         | Theme: `atom-one-dark`        |
+| Feature          | Supported | Notes                       |
+| ---------------- | --------- | --------------------------- |
+| Images           | ✅        | Responsive on all screens   |
+| Videos           | ✅        | Autoplay and loop tested    |
+| KaTeX Math       | ✅        | Both inline and block modes |
+| Mermaid          | ✅        | Flowcharts supported        |
+| Syntax Highlight | ✅        | Theme: `atom-one-dark`      |
 
 ---
 

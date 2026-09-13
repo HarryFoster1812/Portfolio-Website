@@ -31,10 +31,10 @@ A compiler usually works in several sequential stages. Each stage transforms the
 
 ### Lexer
 
-The **lexer**, or **scanner**, converts raw source code into a sequence of **tokens**.  
+The **lexer**, or **scanner**, converts raw source code into a sequence of **tokens**.
 
-- Tokens are atomic elements like keywords, identifiers, operators, and literals.  
-- Removes whitespace and comments.  
+- Tokens are atomic elements like keywords, identifiers, operators, and literals.
+- Removes whitespace and comments.
 
 For example:
 

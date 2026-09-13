@@ -1,57 +1,87 @@
-
 "use client";
-import {Project} from "./project";
+
+import { Project } from "./project";
 import Link from "next/link";
 import Image from "next/image";
-import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGithub } from '@fortawesome/free-brands-svg-icons';
-import {motion} from "motion/react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGithub } from "@fortawesome/free-brands-svg-icons";
 
-export const ProjectCard = ({project, index} : {project: Project, index: number} ) => {
+export const ProjectCard = ({
+  project,
+  index,
+}: {
+  project: Project;
+  index: number;
+}) => {
+  return (
+    <div className="group w-full max-w-5xl overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] shadow-2xl backdrop-blur-md transition-all duration-500 hover:-translate-y-2 hover:border-cyan-400/30 hover:shadow-[0_20px_80px_rgba(34,211,238,0.12)]">
+      {/* Project image */}
+      <div className="relative h-64 overflow-hidden md:h-80">
+        <Image
+          src={project.image || "https://picsum.photos/1200/600"}
+          alt={`${project.name} project screenshot`}
+          fill
+          className="object-cover transition-transform duration-700 group-hover:scale-105"
+        />
 
-    return (
-        <>
-            <div className="h-screen flex items-center justify-center overflow-hidden">
-                <motion.div
-                    initial={{x:((-1)**index)*250, opacity:0}}
-                    whileInView={{x:0, opacity:1}}
-                    transition={{ease:"easeIn", duration:0.55}}
-                    viewport={{ once: true }} // Ensures animation runs only once
-                    className="card w-7/10 md:w-4/6 bg-blackrounded-2xl border-solid border-white border rounded-2xl overflow-hidden shadow-2xl transform-style-preserve-3d perspective-[1000px]  ease-in-out hover:translate-y-[-10px] hover:rotate-x-5 hover:rotate-y-[-5px] hover:shadow-[0_15px_40px_rgba(0,_255,_255,_0.5)] animate__animated z-1"
-                >
-                    <Image
-                        src= {project.image ? project.image : "https:\/\/picsum.photos\/500\/200"}
-                        alt="Project Cover"
-                        width={500} // Set width
-                        height={200} // Set height
-                        className="w-full h-[200px] object-cover transition-all ease-in-out duration-500 hover:scale-[1.1] hover:brightness-[1.2] hover:contrast-[1.2]"
-                    />                <div className="p-6">
-                        <h2 className="font-['Orbitron', sans-serif] text-3xl font-bold mb-4 text-cyan-300 text-shadow-lg animate__animated animate__fadeInDown">{`${project.name}`}</h2>
-                        <p className="text-lg text-gray-300 mb-5 leading-6 animate__animated animate__fadeIn">{`${project.description}`}</p>
-                        <div className="flex gap-3 mb-6 animate__animated ">
+        {/* Image overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
 
-                            <span className="flex items-center gap-2 px-3 py-2 bg-gray-500 rounded-full text-white text-sm transition-all duration-300 ease-in-out hover:translate-y-[-3px] hover:shadow-[0_5px_15px_rgba(0,_255,_255,_0.3)]">
-                                <i className="fab fa-css3-alt text-[#264DE4]"></i> CSS
-                            </span>
-                            <span className="flex items-center gap-2 px-3 py-2 bg-gray-500 rounded-full text-white text-sm transition-all duration-300 ease-in-out hover:translate-y-[-3px] hover:shadow-[0_5px_15px_rgba(0,_255,_255,_0.3)]">
-                                <i className="fab fa-js text-[#F0DB4F]"></i> JavaScript
-                            </span>
-                        </div>
-                        <div className="flex justify-evenly items-center">
-                            <Link href={`https://github.com/HarryFoster1812/${project.link}`} target="_blank" rel="noopener noreferrer" className="py-2 px-3 bg-gradient-to-r from-teal-400 via-cyan-500 to-teal-500 text-black no-underline rounded-xl font-bold uppercase tracking-wide flex items-center justify-center transition-all duration-300 ease-in-out hover:translate-y-[-3px] hover:shadow-[0_10px_20px_rgba(0,_255,_255,_0.4)]">
-                                
-                                <FontAwesomeIcon icon={faGithub} width={50} height={50} /> 
-                                <p className="text-black no-underline font-bold uppercase text-base">View on GitHub</p>
+        {/* Project number */}
+        <div className="absolute left-6 top-6 rounded-full border border-white/10 bg-black/50 px-4 py-2 text-sm font-semibold text-zinc-300 backdrop-blur-md">
+          {String(index + 1).padStart(2, "0")}
+        </div>
 
-                            </Link>
-                            <Link href={`/projects/${project.link}`} className="inline-block py-2 px-3 bg-gradient-to-r from-teal-400 via-cyan-500 to-teal-500 text-black no-underline rounded-xl font-bold uppercase tracking-wide transition-all duration-300 ease-in-out hover:translate-y-[-3px] hover:shadow-[0_10px_20px_rgba(0,_255,_255,_0.4)]">
-                                See more
-                            </Link>
-                        </div>
-                    </div>
-                </motion.div>
-            </div>
-        </>
-    );
-}
+        {/* Project title */}
+        <div className="absolute bottom-6 left-6 right-6">
+          <p className="mb-2 text-sm font-medium uppercase tracking-[0.25em] text-cyan-400">
+            Project
+          </p>
+
+          <h2 className="text-3xl font-bold text-white md:text-4xl">
+            {project.name}
+          </h2>
+        </div>
+      </div>
+
+      {/* Content */}
+      <div className="p-6 md:p-8">
+        <p className="max-w-3xl text-base leading-7 text-zinc-400 md:text-lg">
+          {project.description}
+        </p>
+
+        {/* Technologies */}
+        <div className="mt-6 flex flex-wrap gap-2">
+          {["CSS", "JavaScript"].map((technology) => (
+            <span
+              key={technology}
+              className="rounded-lg border border-white/10 bg-white/[0.04] px-3 py-2 text-sm font-medium text-zinc-300 transition-colors group-hover:border-cyan-400/20 group-hover:text-cyan-200"
+            >
+              {technology}
+            </span>
+          ))}
+        </div>
+
+        {/* Actions */}
+        <div className="mt-8 flex flex-wrap items-center gap-3">
+          <Link
+            href={`https://github.com/HarryFoster1812/${project.link}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-3 rounded-xl bg-cyan-400 px-5 py-3 font-semibold text-black transition-all duration-300 hover:bg-cyan-300 hover:shadow-[0_0_30px_rgba(34,211,238,0.3)]"
+          >
+            <FontAwesomeIcon icon={faGithub} className="h-5 w-5" />
+            View on GitHub
+          </Link>
+
+          <Link
+            href={`/projects/${project.link}`}
+            className="group/link inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.04] px-5 py-3 font-semibold text-white transition-all duration-300 hover:border-cyan-400/30 hover:bg-white/[0.08]"
+          >
+            View project
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+};

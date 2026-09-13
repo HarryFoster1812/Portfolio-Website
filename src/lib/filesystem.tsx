@@ -1,8 +1,8 @@
 // FileSystem.ts
 import { Node, DirNode } from "./filesystem_types";
-import React, { ReactNode } from 'react';
+import React, { ReactNode } from "react";
 import TerminalMarkdownRenderer from "@/components/blog/markdown_terminal";
-import PrebuiltMarkdownRenderer from "@/components/blog/prebuilt_markdown"
+import PrebuiltMarkdownRenderer from "@/components/blog/prebuilt_markdown";
 
 export class FileSystem {
   private root: DirNode;
@@ -33,89 +33,87 @@ export class FileSystem {
 
   // Commands
 
-    ls(): string[] {
-        return Object.keys(this.getCurrentDir().children);
+  ls(): string[] {
+    return Object.keys(this.getCurrentDir().children);
+  }
+
+  cd(dirName: string): boolean {
+    const argComponents = dirName.split("/").filter((arg) => arg != "");
+    const tempCurrentPath = [...this.currentPath];
+    for (const arg of argComponents) {
+      if (arg === ".") {
+        continue; // Ignore current directory
+      }
+
+      const dir = this.getCurrentDir().children[arg];
+      if (arg === "..") {
+        if (this.currentPath.length > 1) {
+          this.currentPath.pop();
+        } else {
+          this.currentPath = tempCurrentPath;
+          return false;
+        }
+      } else if (dir && dir.type === "dir") {
+        this.currentPath.push(arg);
+      } else {
+        this.currentPath = tempCurrentPath;
+        return false;
+      }
     }
 
-    cd(dirName: string): boolean {
-        const argComponents = dirName.split('/').filter(arg => arg != '');
-        const tempCurrentPath = [...this.currentPath];
-        for(const arg of argComponents){
+    return true;
+  }
 
-            if (arg === ".") {
-                continue; // Ignore current directory
-            }
+  async cat(fileName: string): Promise<string | ReactNode | null> {
+    const file = this.getCurrentDir().children[fileName];
+    if (!file) return null;
 
-            const dir = this.getCurrentDir().children[arg];
-            if (arg === "..") {
-                if (this.currentPath.length > 1) {
-                    this.currentPath.pop();
-                } else{
-                    this.currentPath = tempCurrentPath;
-                    return false;
-                }
-            }
-            else if (dir && dir.type === "dir") {
-                this.currentPath.push(arg);
-            } else{
-                this.currentPath = tempCurrentPath;
-                return false;
-            }
-        }
-
-        return true;
+    /* ---------- Plain files ---------- */
+    if (file.type === "file") {
+      return file.content;
     }
 
-    async cat(fileName: string): Promise<string | ReactNode | null> {
-        const file = this.getCurrentDir().children[fileName]
-        if (!file) return null
+    /* ---------- Blog files ---------- */
+    if (file.type === "blogFile") {
+      if (file.cachedContent) {
+        return file.cachedContent;
+      }
 
-        /* ---------- Plain files ---------- */
-        if (file.type === "file") {
-            return file.content
-        }
+      const slug = fileName.replace("\.md", "");
 
-        /* ---------- Blog files ---------- */
-        if (file.type === "blogFile") {
-            if (file.cachedContent) {
-                return file.cachedContent
-            }
+      /* Try prebuilt first */
+      try {
+        const mod = await import(`@/generated/posts/${slug}`);
 
-            const slug = fileName.replace("\.md", "");
+        file.cachedContent = (
+          <PrebuiltMarkdownRenderer
+            html={mod.html}
+            meta={mod.meta}
+            mode="terminal"
+          />
+        );
 
-            /* Try prebuilt first */
-            try {
-                const mod = await import(`@/generated/posts/${slug}`)
-
-                file.cachedContent = (
-                    <PrebuiltMarkdownRenderer
-                        html={mod.html}
-                        meta={mod.meta}
-                        mode="terminal"
-                    />
-                )
-
-                return file.cachedContent
-            } catch {
-                return "404: Blog post not found"
-            }
-        }
-
-        /* ---------- Project files ---------- */
-        if (file.type === "projectFile") {
-            const res = await fetch(
-                `https://raw.githubusercontent.com/HarryFoster1812/${fileName.replace(".md", "")}/main/README.md`
-            )
-
-            if (!res.ok) return "Error loading README"
-
-            const md = await res.text()
-            file.cachedContent = <TerminalMarkdownRenderer markdown={md} />
-            return file.cachedContent
-        }
-
-        return null
+        return file.cachedContent;
+      } catch {
+        return "404: Blog post not found";
+      }
     }
+
+    /* ---------- Project files ---------- */
+    if (file.type === "projectFile") {
+      const res = await fetch(
+        `https://raw.githubusercontent.com/HarryFoster1812/${fileName.replace(".md", "")}/main/README.md`,
+      );
+
+      if (!res.ok) return "Error loading README";
+
+      const md = await res.text();
+      file.cachedContent = <TerminalMarkdownRenderer markdown={md} />;
+      return file.cachedContent;
+    }
+
+    return null;
+  }
 
   pwd(): string {
     return this.currentPath.join("/");

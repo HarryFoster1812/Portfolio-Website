@@ -3,7 +3,7 @@ import MarkdownRenderer from "@/components/blog/markdown";
 import ProjectRelatedPosts from "@/components/projects/project_related_posts";
 import { getRepoWithContent, type RepoWithContent } from "@/lib/repo_content";
 
-export {generateMetadata} from "./generateMetadata";
+export { generateMetadata } from "./generateMetadata";
 
 interface Props {
   params: Promise<{ projectName: string }>;
@@ -12,7 +12,8 @@ interface Props {
 export default async function DynamicProjectPage({ params }: Props) {
   const { projectName } = await params;
 
-  const projectData: RepoWithContent | null = await getRepoWithContent(projectName);
+  const projectData: RepoWithContent | null =
+    await getRepoWithContent(projectName);
 
   if (!projectData) {
     notFound();
@@ -25,7 +26,9 @@ export default async function DynamicProjectPage({ params }: Props) {
           {projectData.name}
         </h1>
         {projectData.description && (
-          <p className="mt-3 text-lg text-zinc-400">{projectData.description}</p>
+          <p className="mt-3 text-lg text-zinc-400">
+            {projectData.description}
+          </p>
         )}
 
         <a
@@ -58,10 +61,15 @@ export default async function DynamicProjectPage({ params }: Props) {
       </header>
 
       <section>
-        <h2 className="text-2xl font-semibold mb-6 text-zinc-100">Project README</h2>
+        <h2 className="text-2xl font-semibold mb-6 text-zinc-100">
+          Project README
+        </h2>
         <div
           className="overflow-y-auto prose prose-invert prose-zinc"
-          style={{ scrollbarWidth: "thin", scrollbarColor: "#52525b transparent" }}
+          style={{
+            scrollbarWidth: "thin",
+            scrollbarColor: "#52525b transparent",
+          }}
         >
           {projectData.content ? (
             <MarkdownRenderer markdown={projectData.content} />

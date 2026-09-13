@@ -1,61 +1,78 @@
 "use client";
+
 import { useEffect, useRef, useState } from "react";
 import { TimelineItem } from "./TimelineItem";
-import { BinaryDigit } from "./BinaryDigit"
+import { BinaryDigit } from "./BinaryDigit";
 
 const timelineData = [
   {
-    title: "Primary School – First Steps with Kodu",
+    year: "Early Years",
+    title: "First Steps with Kodu",
     description:
-      "Discovered an interest in logic and creativity through Kodu, a visual programming language that made building small games accessible and fun. This marked the beginning of a journey into programming.",
+      "Discovered an interest in logic and creativity through Kodu, a visual programming language that made building small games accessible and fun. This was the beginning of my interest in programming.",
   },
   {
-    title: "Year 7 – First Web Page",
+    year: "Year 7",
+    title: "My First Web Page",
     description:
-      "Created a basic HTML web page as part of a school project. Although the page was lost, it sparked an early curiosity about how websites work and how code translates to visual output.",
+      "Created my first HTML web page as part of a school project. Although the original page is long gone, it sparked my curiosity about how websites work and how code can turn ideas into something visual.",
   },
   {
-    title: "Learning Python – First Steps in Scripting",
+    year: "Early Python",
+    title: "Learning to Automate",
     description:
-      "Began exploring Python through small, practical scripts. It was the first time code became a tool for solving real problems, whether automating tasks or experimenting with logic.",
+      "Started learning Python through small scripts and experiments. Programming became more than something interesting to learn — it became a tool for solving problems and automating repetitive tasks.",
   },
   {
-    title: "First Python Project – Game Auto Clicker",
+    year: "First Project",
+    title: "Game Auto Clicker",
     description:
-      "Created a simple auto-clicker to automate a game I was playing. This project introduced event simulation, control flow, and interacting with system-level operations using Python libraries.",
+      "Built an auto-clicker to automate a game I was playing. This introduced me to event simulation, control flow, external libraries, and interacting with the operating system.",
   },
   {
-    title: "Timetable App – Always Know What’s Next",
+    year: "Desktop Development",
+    title: "Timetable App",
     description:
-      "Built a lightweight desktop timetable app that sat in the corner of the screen and displayed the next class based on real-time scheduling logic. It helped combine UI building with data-driven updates.",
+      "Built a lightweight desktop timetable application that displayed my next class in real time. This project combined UI development, scheduling logic, and dynamic data updates.",
   },
   {
-    title: "Quote Collector – Local Storage from API",
+    year: "APIs & Storage",
+    title: "Quote Collector",
     description:
-      "Developed a quote-storing application that fetched random quotes from an external API and allowed users to save their favorites into a local text file. This combined web APIs, file I/O, and simple UI elements.",
+      "Created an application that fetched random quotes from an external API and allowed users to save their favourites locally. This was an early introduction to APIs, file I/O, and persistent data.",
   },
   {
-    title: "Password Vault – Encrypted Local Storage",
+    year: "Security",
+    title: "Password Vault",
     description:
-      "Created a basic password manager that used a master key to encrypt and securely store credentials locally. This was my first project involving cryptography, secure storage, and user authentication concepts.",
+      "Built a local password manager using a master key to encrypt stored credentials. This introduced me to cryptography, secure storage, and authentication concepts.",
   },
   {
-    title: "C# Projects – A-Level Game Development",
+    year: "A-Levels",
+    title: "C# & Game Development",
     description:
-      "Started using C# during A-Levels, building small games like Connect 4, Space Invaders, and a digital Monopoly clone. These projects helped reinforce object-oriented programming and game logic.",
+      "Started working with C# during A-Levels, building projects including Connect 4, Space Invaders, and a digital Monopoly clone. These projects strengthened my understanding of object-oriented programming and larger codebases.",
   },
   {
-    title: "Chess AI – Algorithmic Thinking in Action",
+    year: "University",
+    title: "Chess AI",
     description:
-      "Designed a basic Chess AI that could calculate legal moves and respond to player input. This was a challenging project that deepened my understanding of decision trees, game theory, and optimization.",
+      "Designed a Chess AI capable of calculating legal moves and responding to player input. The project pushed my understanding of algorithms, decision trees, optimisation, and problem solving.",
   },
   {
-    title: "University – Expanding the Horizon",
+    year: "University",
+    title: "Computer Science",
     description:
-      "Currently studying Computer Science at university, gaining exposure to advanced topics like data analytics, computer engineering, operating systems, and low-level systems programming. Now applying these foundations to larger, more complex projects.",
+      "Started studying Computer Science at university, expanding into areas including data analytics, computer engineering, operating systems, and low-level systems programming.",
+  },
+  {
+    year: "July 2026",
+    title: "Placement Software Engineer",
+    company: "Matillion",
+    description:
+      "Started my placement as a Software Engineer at Matillion, moving from university projects into a professional engineering environment and gaining experience working on real-world software alongside an experienced team.",
   },
 ];
-
 
 function textToBinary(str: string) {
   return str
@@ -64,106 +81,104 @@ function textToBinary(str: string) {
     .join("");
 }
 
-export const TimelineSection: React.FC = () => {
+export const TimelineSection = () => {
   const [binaryCount, setBinaryCount] = useState(20);
+  const [expandedIndex, setExpandedIndex] = useState<number[]>([0]);
+
   const containerRef = useRef<HTMLDivElement>(null);
   const binaryRef = useRef<HTMLDivElement>(null);
 
   const hiddenMessage = "Hello World";
   const binaryMessage = textToBinary(hiddenMessage);
-  const messageDigits = binaryMessage.split("").map((d) => parseInt(d, 10));
-    
-    const [expandedIndex, setExpandedIndex] = useState<number[] | null>([0]);
+  const messageDigits = binaryMessage
+    .split("")
+    .map((digit) => parseInt(digit, 10));
 
-    const toggleIndex = (idx: number) => {
-        if (!expandedIndex) {
-            setExpandedIndex([idx]);
-            return;
-        }
-        else if (expandedIndex.includes(idx)) {
-            setExpandedIndex(expandedIndex.filter((i) => i !== idx));
-        } else {
-            setExpandedIndex([...expandedIndex, idx]);
-        }
-    };
+  const toggleIndex = (index: number) => {
+    setExpandedIndex((current) =>
+      current.includes(index)
+        ? current.filter((item) => item !== index)
+        : [...current, index],
+    );
+  };
 
   useEffect(() => {
     const updateBinaryCount = () => {
-      if (containerRef.current && binaryRef.current) {
-        const containerHeight = containerRef.current.offsetHeight;
-        const lineHeight = parseFloat(
-          getComputedStyle(binaryRef.current).lineHeight || "20"
-        );
-        const count = Math.floor(containerHeight / lineHeight)-3;
-        setBinaryCount(count);
-      }
+      if (!containerRef.current || !binaryRef.current) return;
+
+      const containerHeight = containerRef.current.offsetHeight;
+      const lineHeight = parseFloat(
+        getComputedStyle(binaryRef.current).lineHeight || "20",
+      );
+
+      setBinaryCount(Math.max(1, Math.floor(containerHeight / lineHeight) - 3));
     };
 
     updateBinaryCount();
 
     const observer = new ResizeObserver(updateBinaryCount);
+
     if (containerRef.current) {
       observer.observe(containerRef.current);
     }
+
     return () => observer.disconnect();
   }, [expandedIndex]);
+
   return (
+    <section className="relative min-h-screen overflow-hidden px-6 py-24">
+      {/* Background glow */}
+      <div className="pointer-events-none absolute left-1/2 top-1/3 h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-cyan-500/5 blur-[120px]" />
 
-<section className="min-h-screen max-h-auto flex items-center flex-col justify-center gap-5 z-10">
-    <h2 className="w-full text-center p-10 font-bold text-white mt-6 text-5xl">My Story</h2>
-    <div ref={containerRef} className="relative px-6 sm:px-12 py-12 max-w-5xl mx-auto">
-      {/* Binary Column */}
-      <div
-        className="
-          absolute
-          left-1/2
-          transform
-          -translate-x-1/2
-          h-full
-          flex
-          flex-col
-          items-center
-          z-0
-          text-green-400
-          font-mono
-          select-none
-          text-base
-          sm:text-lg
-          opacity-80
-          tracking-widest
-          pointer-events-none
-          overflow-hidden
-          hidden sm:flex
-        "
-                ref={binaryRef}
-      >
-        {Array.from({ length: binaryCount }, (_, i) => {
-          let digit: 0 | 1 = Math.random() < 0.5 ? 0 : 1;
-          if (i < messageDigits.length) digit = messageDigits[i] as 0 | 1;
-          return (
-            <BinaryDigit
-              key={i}
-              digit={digit}
-              delay={0.05}
-            />
-          );
-        })}
-      </div>
+      <div className="relative mx-auto max-w-6xl">
+        {/* Heading */}
+        <div className="mb-20 text-center">
+          <p className="mb-3 text-sm font-semibold uppercase tracking-[0.35em] text-cyan-400">
+            The journey so far
+          </p>
 
-      {/* Timeline Items */}
-      <div className="space-y-12 relative z-10">
-        {timelineData.map((item, index) => (
-          <TimelineItem
-            key={index}
-            title={item.title}
-            description={item.description}
-            isLeft={index % 2 === 0}
-            isExpanded={expandedIndex ? expandedIndex.includes(index) : false}
-            onClick={() => toggleIndex(index)}
-          />
-        ))}
+          <h2 className="text-5xl font-extrabold text-white md:text-6xl">
+            My Story
+          </h2>
+
+          <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-zinc-400">
+            From building games in Kodu to working as a Software Engineer,
+            here&apos;s how I got here.
+          </p>
+        </div>
+
+        <div ref={containerRef} className="relative">
+          {/* Binary background */}
+          <div
+            ref={binaryRef}
+            className="pointer-events-none absolute inset-y-0 left-1/2 hidden -translate-x-1/2 select-none flex-col items-center overflow-hidden font-mono text-sm leading-6 tracking-[0.5em] text-green-400/20 sm:flex"
+          >
+            {Array.from({ length: binaryCount }, (_, index) => {
+              let digit: 0 | 1 = Math.random() < 0.5 ? 0 : 1;
+
+              if (index < messageDigits.length) {
+                digit = messageDigits[index] as 0 | 1;
+              }
+
+              return <BinaryDigit key={index} digit={digit} delay={0.03} />;
+            })}
+          </div>
+
+          {/* Timeline items */}
+          <div className="relative space-y-8 sm:space-y-16">
+            {timelineData.map((item, index) => (
+              <TimelineItem
+                key={`${item.title}-${index}`}
+                {...item}
+                index={index}
+                isLeft={index % 2 === 0}
+                isExpanded={expandedIndex.includes(index)}
+                onClick={() => toggleIndex(index)}
+              />
+            ))}
+          </div>
+        </div>
       </div>
-    </div>
     </section>
   );
 };

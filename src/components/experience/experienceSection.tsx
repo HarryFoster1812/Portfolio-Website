@@ -1,13 +1,62 @@
 export const ExperienceSection = () => {
-    return (
-    <>
-            <section className="min-h-screen max-h-auto flex items-center flex-col gap-5">
-                <h2 className="text-center w-full p-10 text-5xl font-extrabold">Experience</h2>
-                <h2 className="text-center max-w-xl w-full text-zinc-700 text-4xl font-bold">Error 404 - Not Found</h2>
-                <p className="w-3/4 text-lg text-center text-slate-200 break-words">
-                    While I don&apos;t have formal work experience to showcase here yet, I&apos;ve built several exciting projects that demonstrate my skills and passion. Feel free to check out my projects section to see what I&apos;ve been working on!
+  return (
+    <section className="px-6 py-28">
+      <div className="mx-auto max-w-6xl">
+        <div className="mb-14">
+          <h2 className="text-4xl font-bold tracking-tight text-center text-white md:text-5xl">
+            My experience
+          </h2>
+        </div>
+
+        <div className="relative">
+          <div className="absolute left-[7px] top-2 hidden h-[calc(100%-8px)] w-px bg-zinc-800 md:block" />
+
+          <div className="relative grid gap-8 md:grid-cols-[24px_1fr]">
+            <div className="relative hidden md:block">
+              <div className="absolute left-0 top-2 h-[15px] w-[15px] rounded-full border-2 border-cyan-400 bg-zinc-950" />
+            </div>
+
+            <div className="border-b border-white/10 pb-12">
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                <div>
+                  <p className="mb-2 text-sm text-cyan-400">Matillion</p>
+
+                  <h3 className="text-2xl font-semibold tracking-tight text-white">
+                    Placement Software Engineer
+                  </h3>
+                </div>
+
+                <p className="text-sm text-zinc-500 sm:pt-1">
+                  July 2026 — August 2027
                 </p>
-            </section>
-            </>
-    );
-}
+              </div>
+
+              <div className="mt-7 max-w-3xl">
+                <p className="text-base leading-7 text-zinc-400">
+                  Working alongside a professional engineering team to build,
+                  maintain, and improve production software.
+                </p>
+              </div>
+
+              <div className="mt-7 flex flex-wrap gap-2">
+                {[
+                  "Software Engineering",
+                  "Production Systems",
+                  "Agile",
+                  "Collaboration",
+                ].map((skill) => (
+                  <span
+                    key={skill}
+                    className="border border-zinc-800 px-3 py-1.5 text-xs text-zinc-400"
+                  >
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};

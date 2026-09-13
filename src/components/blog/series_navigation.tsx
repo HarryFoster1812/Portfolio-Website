@@ -1,4 +1,3 @@
-
 "use client";
 
 import { memo, useEffect, useMemo, useState } from "react";
@@ -21,7 +20,6 @@ interface SeriesMetaData {
 
 const truncate = (text: string, max = 40) =>
   text.length > max ? text.slice(0, max) + "…" : text;
-
 
 const SkeletonNav = ({ align = "left" }: { align?: "left" | "right" }) => (
   <div className={`p-5 ${align === "right" ? "text-right" : ""}`}>
@@ -51,7 +49,7 @@ const SeriesNavigation = ({ meta }: SeriesNavigationProps) => {
     const fetchSeries = async () => {
       try {
         const res = await fetch(
-          `/api/blog/series/${encodeURIComponent(meta.series!.name)}`
+          `/api/blog/series/${encodeURIComponent(meta.series!.name)}`,
         );
         const data: SeriesMetaData[] = await res.json();
         setSeriesList(data);
@@ -74,9 +72,7 @@ const SeriesNavigation = ({ meta }: SeriesNavigationProps) => {
       };
     }
 
-    const index = seriesList.findIndex(
-      (p) => p.series.part === currentPart
-    );
+    const index = seriesList.findIndex((p) => p.series.part === currentPart);
 
     return {
       prev: index > 0 ? seriesList[index - 1] : null,

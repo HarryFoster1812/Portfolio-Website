@@ -20,6 +20,7 @@ featured: true
 This semester I took the microcontrollers module (COMP22712). The final assignment (Exercise 9) was an open-ended project, and naturally I decided to build yet another operating system. This post is really about the first obstacle: building a toolchain that would make my life a lot easier.
 
 This time I had access to more powerful hardware and most importantly interrupts. In a massive leap from [STUMP](/blog/building-stump-os-coursework) (my previous attempt at a kernel), the specs of the hardware I had access to were:
+
 - RISC-V 32-bit core (40MHz)
 - 32 PIO pins
 - LCD display
@@ -31,33 +32,35 @@ This time I had access to more powerful hardware and most importantly interrupts
 - A clock peripheral as well as the RISC-V system timer
 
 At the very start of the module before I had even touched the new hardware and completed the very first exercise I opened up my notes app and wrote my end goals:
+
 ```
-Final outcome:  
+Final outcome:
 - A shell / mini os which
 - ls, cat, touch
 - this means that dynamic loading is needed to run programs
 ```
 
-Unfortunately, I didn't manage to achieve all of these goals by the end of the project. What I did achieve though was dynamic loading, a read-only file system, a shell / tty, process scheduling, forking and process isolation. 
+Unfortunately, I didn't manage to achieve all of these goals by the end of the project. What I did achieve though was dynamic loading, a read-only file system, a shell / tty, process scheduling, forking and process isolation.
 
 ## Toolchain Problems
 
- One of my goals for this project was to be able to write parts of the operating system in C and integrate them with the rest of the codebase, which was written entirely in hand-written assembly. The main reason why I wanted to do this is because I really did not want to write extremely complex functions like the FAT file system driver or the ELF parsing in pure assembly.  This proved to be more difficult than it would have been on a conventional system. The university's debugging environment uses its own executable format, [KMD](https://brej.org/kmd/), together with a custom assembler. This meant that I could not directly just combine GNU-Assembly [GAS](https://sourceware.org/binutils/docs/as/) with my hand written assembly and let the assembler handle everything. Here are some quirks that the custom assembler had:
+One of my goals for this project was to be able to write parts of the operating system in C and integrate them with the rest of the codebase, which was written entirely in hand-written assembly. The main reason why I wanted to do this is because I really did not want to write extremely complex functions like the FAT file system driver or the ELF parsing in pure assembly. This proved to be more difficult than it would have been on a conventional system. The university's debugging environment uses its own executable format, [KMD](https://brej.org/kmd/), together with a custom assembler. This meant that I could not directly just combine GNU-Assembly [GAS](https://sourceware.org/binutils/docs/as/) with my hand written assembly and let the assembler handle everything. Here are some quirks that the custom assembler had:
+
 - Uses `LA` for loading addresses instead of the standard `LUI`/`ADDI` sequence.
 - Uses `[]` for memory operands instead of the standard `()`.
 - Uses Z80-inspired directives such as `DEFW`, `DEFS`, and `DEFB`.
 - Supports numeric local labels (`1`, `2`, etc.), referenced using `%(F|B)<number>`.
 
-There were several ways I could have approached this problem. I could have rewritten the assembly to conform to GAS and used the GNU assembler, rewritten the entire project in C, or compiled everything to raw binaries and injected them into the KMD format. Instead, I chose to be quite stupid though and decided to write a python script which translated GAS into Jim assembly. 
+There were several ways I could have approached this problem. I could have rewritten the assembly to conform to GAS and used the GNU assembler, rewritten the entire project in C, or compiled everything to raw binaries and injected them into the KMD format. Instead, I chose to be quite stupid though and decided to write a python script which translated GAS into Jim assembly.
 
-In practice, this worked surprisingly well, although it introduced a handful of frustrating edge cases. The biggest limitation was translating global variable declarations and compiler-generated jump tables correctly. Instead of hacking my way though I just simply gave up and decided to avoid using the language features. 
+In practice, this worked surprisingly well, although it introduced a handful of frustrating edge cases. The biggest limitation was translating global variable declarations and compiler-generated jump tables correctly. Instead of hacking my way though I just simply gave up and decided to avoid using the language features.
 
 Another issue came from the compiler being _too_ clever. My translator assumed that the standard RISC-V sequence for loading a 32-bit address would always appear as two consecutive instructions using the same registers:
 
 ```asm
 # Standard GNU Assembly (GAS)       ; Custom "Jim" Assembly
 lui  t1, %hi(msg)                    la t1, msg
-addi a0, t1, %lo(msg)                
+addi a0, t1, %lo(msg)
 lw   t2, 0(a0)                       lw t2, [a0]
 .word 0xDEADBEEF                     msg DEFW 0xDEADBEEF
 ```
@@ -78,9 +81,10 @@ lui  t6, %hi(SOME_LOCATION)
 addi t3, t6, %lo(SOME_LOCATION)
 ```
 
-I did eventually get these cases working, but the solution is decidedly hacky. It works well enough for this project, but it's a brittle approach that would likely break if the compiler started producing substantially different code. 
+I did eventually get these cases working, but the solution is decidedly hacky. It works well enough for this project, but it's a brittle approach that would likely break if the compiler started producing substantially different code.
 
 ## My Solution
+
 My script parsed the compiler's GNU Assembly output into a custom Intermediate Representation (IR) consisting of structured `Module`, `Function`, `Instruction`, and `Operand` node primitives.
 
 This allowed me to implement a stateful, compiler like peephole optimisation pass which walks the instruction stream of each function body and collapses the sequences into the target `la` pseudo-instruction.
@@ -98,7 +102,7 @@ while i < len(body):
     if isinstance(node, Instruction) and node.op == "lui":
         d1 = node.dest()
         hi = node.src(1)
-        
+
         # Track active symbol-to-register allocations in the current block
         if hi and str(hi).startswith(".LANCHOR"):
             # Resolve localized offset mappings from the compiler's anchor map
@@ -106,7 +110,7 @@ while i < len(body):
             LA_MAPPED[hi.symbol] = d1
             hi.symbol = LANCHOR_ENTRY[0]
         ...
-        
+
         # Generate the unified 'la' pseudo-instruction for the target architecture
         la = Instruction(op="la", operands=[d1, hi])
         out.append(la)
@@ -120,12 +124,12 @@ This state tracker becomes essential further down the instruction stream. When t
 if node and isinstance(node, Instruction) and node.op == "addi":
     if node.src(2).kind not in [OperandKind.REGISTER, OperandKind.IMMEDIATE]:
         dest_reg = LA_MAPPED.get(node.src(2).symbol)
-        
+
         # Scenario A: Standard delayed pair using matching registers -> Safe to eliminate
         if dest_reg.reg == node.dest().reg and dest_reg.reg == node.src(1).reg:
             i += 1
             continue
-            
+
         # Scenario B: Interleaved callback register mismatch -> Emit a corrective 'mv'
         elif dest_reg.reg == node.src(1).reg:
             mv_offset = Instruction(op="mv", operands=[node.dest(), dest_reg])
@@ -270,7 +274,8 @@ clean:
 	rm -rf $(BUILD_DIR)
 	cd $(ASSEMBLER_DIR) && rm -f rva
 	rm -rf $(OUT_DIR)
-``` 
+```
+
 </p>
 <div style="border-left: 4px solid #00ABE4; padding: 1rem; background-color: #1f1f1f; border-radius: 8px;">
   <strong>Note:</strong> The sed tail was because the assembler had a bug where it would produce the opcode for call (JAL <label>, ra) instead of tail (JAL <label>, zero).

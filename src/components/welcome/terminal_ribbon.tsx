@@ -63,7 +63,7 @@ export default function TerminalRibbon() {
           href="/terminal"
           className="bg-green-900 text-green-100 px-2 py-1 rounded hover:bg-green-700 font-mono font-semibold"
         >
-        <span className="font-medium">Try the interactive terminal!</span>
+          <span className="font-medium">Try the interactive terminal!</span>
         </a>
 
         {/* Ribbon text */}

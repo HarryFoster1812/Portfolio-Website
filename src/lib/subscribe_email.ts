@@ -5,34 +5,33 @@ interface VerificationEmailParams {
   confirmationToken: string;
 }
 
-export async function sendVerificationEmail({ email, confirmationToken }: VerificationEmailParams) {
+export async function sendVerificationEmail({
+  email,
+  confirmationToken,
+}: VerificationEmailParams) {
+  const transport = Nodemailer.createTransport({
+    host: "live.smtp.mailtrap.io",
+    port: 587,
+    auth: {
+      user: "api",
+      pass: process.env.MAILTRAP_API_KEY,
+    },
+  });
 
-    const transport = Nodemailer.createTransport({
-        host: "live.smtp.mailtrap.io",
-        port: 587,
-        auth: {
-            user: "api",
-            pass: process.env.MAILTRAP_API_KEY
-        }
-    });
+  const sender = {
+    address: "do-not-reply@harryfoster.tech",
+    name: "Harry Foster",
+  };
+  const recipients = [email];
 
-    const sender = {
-        address: "do-not-reply@harryfoster.tech",
-        name: "Harry Foster",
-    };
-    const recipients = [
-        email,
-    ];
+  console.log("Recipient email: " + email);
 
-    console.log("Recipient email: " + email);
-
-    await transport
-        .sendMail({
-            from: sender,
-            to: recipients,
-            subject: "Verify your email address",
-            text: "Please verify your email",
-            html: `
+  await transport.sendMail({
+    from: sender,
+    to: recipients,
+    subject: "Verify your email address",
+    text: "Please verify your email",
+    html: `
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -182,6 +181,6 @@ export async function sendVerificationEmail({ email, confirmationToken }: Verifi
   </table>
 </body>
 </html>
-`
-        });
+`,
+  });
 }

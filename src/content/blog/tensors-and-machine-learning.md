@@ -36,9 +36,9 @@ In machine learning, we **ignore these transformation rules**. Here, tensors are
 
 Tensors are everywhere in machine learning:
 
-- Represent **input data**: images are 3D tensors (height $\cdot$  width $\cdot$ channels).  
-- Represent **weights and biases** in neural networks.  
-- Enable **batch computations** for efficient training.  
+- Represent **input data**: images are 3D tensors (height $\cdot$ width $\cdot$ channels).
+- Represent **weights and biases** in neural networks.
+- Enable **batch computations** for efficient training.
 - Support **automatic differentiation**: gradients are computed with respect to tensor operations.
 
 ## Unique Features
@@ -50,16 +50,16 @@ Tensors are more than just arrays. One of their unique features are:
 Broadcasting allows tensors of different shapes to participate in **element-wise operations**, as long as their shapes are compatible. Here are the main rules:
 
 1. **Align shapes from the right**  
-   Compare the shapes of the tensors starting from the last (rightmost) dimension.  
+   Compare the shapes of the tensors starting from the last (rightmost) dimension.
 
 2. **Dimensions must be equal or 1**  
-   For each dimension:  
-   - If the sizes are equal, they match.  
-   - If one size is 1, it can be broadcast to match the other size.  
+   For each dimension:
+   - If the sizes are equal, they match.
+   - If one size is 1, it can be broadcast to match the other size.
    - If neither condition holds, broadcasting **fails**.
 
 3. **Tensors can be broadcast to higher dimensions**  
-   If one tensor has fewer dimensions, it is **implicitly padded with 1s on the left**. For example:  
+   If one tensor has fewer dimensions, it is **implicitly padded with 1s on the left**. For example:
 
    ```python
    a = torch.tensor([[1, 2, 3],
@@ -71,7 +71,7 @@ Broadcasting allows tensors of different shapes to participate in **element-wise
 Conceptually, b is treated as having shape (1,3) so it can be broadcast to (2,3).
 
 4. Shape 1 can always expand
-    Any dimension of size 1 can be stretched to match the corresponding dimension of the other tensor.
+   Any dimension of size 1 can be stretched to match the corresponding dimension of the other tensor.
 
 Broadcasting is something that can be a little confusing since we are essentially creating/duplicating numbers out of thin air.
 
@@ -118,15 +118,15 @@ For small examples, broadcasting doesn't really matter when talking about memory
 
 However, imagine a very large dataset, such as a batch of videos. Suppose we have:
 
-- 10 videos  
-- Each video is 1 minute long at 60 frames per second → 3600 frames  
-- RGB channels  
-- Resolution 1920×1080  
+- 10 videos
+- Each video is 1 minute long at 60 frames per second → 3600 frames
+- RGB channels
+- Resolution 1920×1080
 
 The input tensor shape would be:
 (10, 3600, 3, 1080, 1920)
 
-Now suppose we want to multiply this tensor by a scalar value `2`, which has shape `(1)`.  
+Now suppose we want to multiply this tensor by a scalar value `2`, which has shape `(1)`.
 
 By the rules of broadcasting, the scalar would conceptually be **duplicated to match the shape of the tensor**, which is:
 10 × 3600 × 3 × 1080 × 1920 = 223,948,800,000 elements

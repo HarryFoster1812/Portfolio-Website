@@ -16,9 +16,9 @@ featured: false
 
 ## What an Autograd System Is
 
-Automatic differentiation (autograd) systems are the backbone of modern machine learning libraries such as TensorFlow, Keras, and PyTorch.  
+Automatic differentiation (autograd) systems are the backbone of modern machine learning libraries such as TensorFlow, Keras, and PyTorch.
 
-The general purpose of an autograd system is to **abstract away the complexity of manual partial differentiation**. Instead of computing derivatives by hand, the user only needs to define how their model transforms inputs into outputs. The library then takes care of computing gradients, which are crucial for optimization algorithms like gradient descent.  
+The general purpose of an autograd system is to **abstract away the complexity of manual partial differentiation**. Instead of computing derivatives by hand, the user only needs to define how their model transforms inputs into outputs. The library then takes care of computing gradients, which are crucial for optimization algorithms like gradient descent.
 
 At their core, autograd systems rely on:
 
@@ -50,7 +50,7 @@ These local derivatives are stored as part of the computational graph. More comp
 
 ## Why They Are Needed (Manual Gradient Calculation)
 
-Without automatic differentiation, training a neural network would require you to manually derive gradients for every parameter with respect to the loss function. For small models this might be feasible, but real-world neural networks have **millions or even billions of parameters**.  
+Without automatic differentiation, training a neural network would require you to manually derive gradients for every parameter with respect to the loss function. For small models this might be feasible, but real-world neural networks have **millions or even billions of parameters**.
 
 Manual differentiation is:
 
@@ -64,7 +64,7 @@ Autograd systems solve this by building the computational graph dynamically and 
 
 Each operation in the computational graph has an associated **backward function**.
 
-- The forward pass computes the output given inputs.  
+- The forward pass computes the output given inputs.
 - The backward pass computes the gradient of the output with respect to the inputs.
 
 Example:  
@@ -112,8 +112,8 @@ When computing the backward pass, we can see that $t_2$ is used in **both the ad
 
 This means we must **schedule the backward computation carefully**:
 
-1. Compute $\frac{\partial L}{\partial t_7}$ and propagate through the subsequent nodes ($t_6, t_3, t_4$).  
-2. Ensure that both contributions to $t_2$, from the **add node** ($t_3 = t_1 + t_2$) and the **mul node** ($t_4 = t_2 \cdot t_5$) are computed first.  
+1. Compute $\frac{\partial L}{\partial t_7}$ and propagate through the subsequent nodes ($t_6, t_3, t_4$).
+2. Ensure that both contributions to $t_2$, from the **add node** ($t_3 = t_1 + t_2$) and the **mul node** ($t_4 = t_2 \cdot t_5$) are computed first.
 3. Only then can we accurately accumulate $\frac{\partial L}{\partial t_2}$.
 
 In other words, the backward pass **must respect the dependency graph**, otherwise gradients for nodes like $t_2$ would be incomplete.
@@ -122,18 +122,18 @@ Two common approaches are:
 
 ### Depth-First Search (DFS)
 
-A recursive traversal from the output node back to its inputs.  
+A recursive traversal from the output node back to its inputs.
 
-- Simple to implement  
-- Naturally aligns with recursive application of the chain rule  
-- Can hit recursion limits for very deep networks  
+- Simple to implement
+- Naturally aligns with recursive application of the chain rule
+- Can hit recursion limits for very deep networks
 
 ### Kahn’s Algorithm (Topological Ordering)
 
-Kahn’s algorithm produces a topological ordering of the nodes in the DAG.  
+Kahn’s algorithm produces a topological ordering of the nodes in the DAG.
 
-- Ensures gradients are computed in strict dependency order  
-- More iterative and memory-friendly  
-- Useful for frameworks that need explicit scheduling  
+- Ensures gradients are computed in strict dependency order
+- More iterative and memory-friendly
+- Useful for frameworks that need explicit scheduling
 
 ---

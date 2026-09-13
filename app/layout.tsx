@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import {Navbar} from "@/components/navbar/navbar";
+import { Navbar } from "@/components/navbar/navbar";
 import { Tracker } from "@/components/tracker";
-import { Analytics } from "@vercel/analytics/next"
-import { SpeedInsights } from "@vercel/speed-insights/next"
-import PolyfillsClient from './polyfills_client';
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import PolyfillsClient from "./polyfills_client";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -17,9 +17,8 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-
 export const metadata: Metadata = {
-    metadataBase: new URL("https://harryfoster.tech"),
+  metadataBase: new URL("https://harryfoster.tech"),
   title: {
     default: "Harry Foster - Software Engineer",
     template: "%s | Harry Foster",
@@ -28,25 +27,25 @@ export const metadata: Metadata = {
   description:
     "Portfolio and blog of Harry Foster, a software engineer specialising in React, Next.js, TypeScript, and modern web development.",
 
-keywords: [
-  "Harry Foster",
-  "software engineer",
-  "full-stack developer",
-  "React",
-  "Next.js",
-  "TypeScript",
-  "Node.js",
-  "C",
-  "C++",
-  "C#",
-  "Rust",
-  "Assembly",
-  "backend",
-  "frontend",
-  "systems programming",
-  "portfolio",
-  "technical blog",
-],
+  keywords: [
+    "Harry Foster",
+    "software engineer",
+    "full-stack developer",
+    "React",
+    "Next.js",
+    "TypeScript",
+    "Node.js",
+    "C",
+    "C++",
+    "C#",
+    "Rust",
+    "Assembly",
+    "backend",
+    "frontend",
+    "systems programming",
+    "portfolio",
+    "technical blog",
+  ],
 
   authors: [{ name: "Harry Foster" }],
   creator: "Harry Foster",
@@ -72,10 +71,9 @@ keywords: [
     follow: true,
   },
 
-    alternates: {
-        canonical: "./",
-    },
-
+  alternates: {
+    canonical: "./",
+  },
 };
 
 export default function RootLayout({
@@ -83,8 +81,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
-
   return (
     <html lang="en" className="h-full">
       <body
@@ -92,11 +88,9 @@ export default function RootLayout({
       >
         <PolyfillsClient />
         <Navbar />
-        <main className="flex-1 flex flex-col">
-          {children}
-        </main>
+        <main className="flex-1 flex flex-col">{children}</main>
         <Analytics />
-        <SpeedInsights/>
+        <SpeedInsights />
 
         <Tracker />
       </body>

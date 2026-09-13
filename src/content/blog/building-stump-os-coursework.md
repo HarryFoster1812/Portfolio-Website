@@ -35,10 +35,10 @@ On top of this, as it is a 16-bit processor, immediate values are restricted to 
 
 There is a dedicated, inaccessible flag register, which is updated using the {s} variant of the arithmetic operations. The ISA uses this flag register for conditional branching. The four flags are:
 
-* Z (Zero)
-* C (Carry)
-* V (Overflow)
-* N (Negative)
+- Z (Zero)
+- C (Carry)
+- V (Overflow)
+- N (Negative)
 
 ### Memory
 
@@ -48,14 +48,14 @@ STUMP is limited in memory, giving us only the range from 0x0000$ to 0x1FFF to u
 
 In addition to the tight register and memory constraints, STUMP's peripheral and hardware design imposed further challenges. The board provided only a handful of peripherals, which were memory-mapped from 0xFF00$ onwards. We had access to the following:
 
-* An LED Matrix (8x8 with 8-bit colour: RRRGGGBB)
-* LCD Screen (4x20)
-* Buzzer (programmable for playing single notes)
-* Keypad (0–9, \#, and * buttons)
-* Switches (A–H with LEDs on top)
-* Vibration motor (just on or off)
-* Real-time clock
-* A free-running counter
+- An LED Matrix (8x8 with 8-bit colour: RRRGGGBB)
+- LCD Screen (4x20)
+- Buzzer (programmable for playing single notes)
+- Keypad (0–9, \#, and * buttons)
+- Switches (A–H with LEDs on top)
+- Vibration motor (just on or off)
+- Real-time clock
+- A free-running counter
 
 All of the drivers and implementations can be found here: [STUMPOS/peripherals](https://github.com/HarryFoster1812/StumpOS/tree/master/Peripherals).
 
@@ -77,8 +77,8 @@ Many people dislike macros because they can be hard to read, but for this projec
 
 There were some limitations, though:
 
-* Macros don't automatically add newlines, so formatting required extra care.
-* Since macros have no runtime checking, I needed separate macros for operations involving high addresses, such as setting the correct syscall index.
+- Macros don't automatically add newlines, so formatting required extra care.
+- Since macros have no runtime checking, I needed separate macros for operations involving high addresses, such as setting the correct syscall index.
 
 It was a little annoying to have to run the compile script every time, especially because it took about a minute to upload onto the board.
 
@@ -87,7 +87,7 @@ Here was my compile script:
 ```bash
 gcc -E -x assembler-with-cpp -P STUMPOS.s |
   sed 's/__NL__/\
-/g' | 
+/g' |
 sed 's/__HASH__/#/g' \
   > out.asm
 ```
@@ -98,12 +98,12 @@ All the script does is: `gcc -E -x assembler-with-cpp -P STUMPOS.s` expands all 
 
 At the beginning, we were all trying to come up with ideas that would get the most marks. Here are a few projects that other people made:
 
-* *Flappy Bird*
-* *Tetris*
-* *Piano Tiles*
-* A music waveform visualiser
-* *Conway's Game of Life*
-* Reaction time games
+- _Flappy Bird_
+- _Tetris_
+- _Piano Tiles_
+- A music waveform visualiser
+- _Conway's Game of Life_
+- Reaction time games
 
 I was originally considering making a chess game until someone jokingly asked, "Why don't you make an OS?" And I thought… well, why not? That's how StumpOS was born.
 
@@ -122,26 +122,26 @@ Here was the very first version:
     - Kernel code: 6000–BFFF
     - Buffers/drivers: C000–F000
     - Peripherals: FF00–FFFF
-      
-- Process Management  
+
+- Process Management
     - Each process has a PCB storing registers, SP, PC, state, and stack base
     - 4 concurrent user processes (static)
     - Scheduler: simple cooperative round-robin triggered by `SYS_YIELD`
     - 4 stacks pre-reserved and allocate first available
-      
+
 - Context Switching
-    - Save/restore r1–r5, SP, and PC      
+    - Save/restore r1–r5, SP, and PC
     - Implemented as a small routine in kernel code
-      
-- Syscall Interface  
+
+- Syscall Interface
     - Syscall table stored in kernel globals
     - Basic syscalls: `SYS_YIELD`, `SYS_EXIT`, `SYS_WRITE`, `SYS_READ`
-      
+
 - Heap & Memory Management
     - Kernel heap (5000–5FFF)
     - Simple bump allocator or free-list strategy
-      
-- Drivers & Buffers  
+
+- Drivers & Buffers
     - Mapped at C000–F000
 
 ```
@@ -243,13 +243,13 @@ sys_context_switch:
  ld r2, [r1, ##1] ; r1=is_sys_state
  cmp r2, r0
  bne switch_to_user  ; if !is_sys_state
- 
+
   ; flip is_sys_state
   add r2, r0, ##1
   st r2, [r1, ##1]
   ld r1, [r0, r1]
   POP(r2)
-  
+
   ; user -> kernel state
   ; r1 = kernel_stack
   add r1, r1, ##5
@@ -262,19 +262,19 @@ sys_context_switch:
   add r6, r6, ##4
   PUSH(r5) ; store r1 at the top of kernel_sp
   sub r6, r6, ##5
-  PUSH(r4) 
-  PUSH(r3) 
-  PUSH(r2) 
+  PUSH(r4)
+  PUSH(r3)
+  PUSH(r2)
   add r6, r6, ##2
   POP(r1)
   return_macro
- 
- switch_to_user: 
+
+ switch_to_user:
   ; flip is_sys_state
   st r0, [r1, ##1]
   ld r1, [r1]
   POP(r2)
-  
+
   ; kernel -> user
   ; r6 = kernel_stack
   POP(r1)
@@ -375,8 +375,8 @@ Each peripheral is backed by its own **mutex stack**, implemented as a small fix
 
 The `mutex_table` acts as a lookup structure for all peripherals. For each mutex, it stores:
 
-* A pointer to the **base of the stack**
-* A pointer to the **current head** of the stack
+- A pointer to the **base of the stack**
+- A pointer to the **current head** of the stack
 
 When a process requests access to a peripheral, its PCB ID is **pushed onto the corresponding mutex stack**, and the head pointer is advanced. If the peripheral is already owned, the requesting process blocks until it reaches the top of the stack. When a process releases the peripheral, its entry is **popped**, and ownership automatically returns to the previous process beneath it.
 
@@ -406,15 +406,15 @@ The **boot manager** was the first "user process" I implemented, and it is also 
 
 The boot manager provides a **simple paging interface** that allows the user to scroll through all available programs installed on the system. From this interface, the user can:
 
-* **Boot** a program
-* **Pause** a running program
-* **Kill** a process entirely
+- **Boot** a program
+- **Pause** a running program
+- **Kill** a process entirely
 
 To present this information, the boot manager uses the **LCD display**. For each program, it shows:
 
-* The **process name**
-* The **current status** (Running, Paused, or Inactive)
-* The **current page number** (for example, *Page 01 of 05*)
+- The **process name**
+- The **current status** (Running, Paused, or Inactive)
+- The **current page number** (for example, _Page 01 of 05_)
 
 Because the boot manager is a regular user process, it must obey the same rules as every other program: it requests access to the LCD through the mutex system, uses system calls to manage processes, and cooperates with the scheduler. This made it a good demonstration that the OS abstractions I built were not just theoretical, but actually usable to construct higher-level system software on top of the kernel.
 
@@ -422,11 +422,11 @@ Because the boot manager is a regular user process, it must obey the same rules 
 
 To demonstrate that StumpOS could support real user programs, I implemented several example processes:
 
-* A timer program
-* An LED animation which showed a precomputed sine wave
-* A non-blocking music player (yes, *Never Gonna Give You Up*)
-* A reset program (rebooted the system)
-* A mini crash program (invoked sys\_panic)
+- A timer program
+- An LED animation which showed a precomputed sine wave
+- A non-blocking music player (yes, _Never Gonna Give You Up_)
+- A reset program (rebooted the system)
+- A mini crash program (invoked sys\_panic)
 
 The most time-consuming one (pun intended) was the timer program.
 
@@ -436,7 +436,7 @@ I designed the timer specifically to showcase several OS features working togeth
 
 Over the course of the project, I came up with far more ideas than I realistically had time to implement.
 
-One idea was a **more advanced music system**. The plan was to introduce a note queue where user programs could enqueue notes, and a dedicated **music daemon** would manage playback. A *daemon* is a background process that runs continuously without direct user interaction, typically responsible for managing a specific service. On each tick, the daemon would check whether the buzzer was currently in use; if it was busy, the daemon would just yield, otherwise the next note in the queue would be played. While this would have resulted in cleaner, non-blocking music playback, it quickly became clear that this level of abstraction was **overkill for the scope of the coursework**.
+One idea was a **more advanced music system**. The plan was to introduce a note queue where user programs could enqueue notes, and a dedicated **music daemon** would manage playback. A _daemon_ is a background process that runs continuously without direct user interaction, typically responsible for managing a specific service. On each tick, the daemon would check whether the buzzer was currently in use; if it was busy, the daemon would just yield, otherwise the next note in the queue would be played. While this would have resulted in cleaner, non-blocking music playback, it quickly became clear that this level of abstraction was **overkill for the scope of the coursework**.
 
 Another idea was an **input daemon**. Instead of each process polling hardware directly, a background process would periodically read the keypad, switches, and buttons, convert these into structured events, and push them into an **event queue**. User processes would then consume events rather than touching hardware registers directly. Although this is much closer to how real operating systems handle input, I ran into practical issues around **timing, buffering, and memory usage**, which made the idea infeasible without significantly complicating the rest of the system.
 

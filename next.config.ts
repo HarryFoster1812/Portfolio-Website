@@ -2,13 +2,13 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
-    domains: ['picsum.photos'],
+    domains: ["picsum.photos"],
   },
   async rewrites() {
     return [
       {
-        source: '/sitemap.xml',
-        destination: '/api/sitemap.xml',
+        source: "/sitemap.xml",
+        destination: "/api/sitemap.xml",
       },
     ];
   },

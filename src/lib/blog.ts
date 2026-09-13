@@ -1,4 +1,4 @@
-import { allPosts } from "@/generated/postsMeta"
+import { allPosts } from "@/generated/postsMeta";
 
 export type BlogPostMeta = {
   filename: string;

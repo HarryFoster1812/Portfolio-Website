@@ -2,7 +2,7 @@ import { metadata as baseMetadata } from "@/layout";
 import { getRepoWithContent, type RepoWithContent } from "@/lib/repo_content";
 
 interface Props {
-  params: Promise<{ projectName: string }>
+  params: Promise<{ projectName: string }>;
 }
 
 export async function generateMetadata({ params }: Props) {
@@ -10,10 +10,8 @@ export async function generateMetadata({ params }: Props) {
 
   const repo: RepoWithContent | null = await getRepoWithContent(projectName);
 
-
   try {
     if (!repo) throw new Error("Repo not found");
-
 
     // Merge repo topics/language into base keywords
     const repoKeywords = [...(repo.topics ?? [])];
@@ -23,12 +21,14 @@ export async function generateMetadata({ params }: Props) {
       ...baseMetadata,
       title: `${repo.name} Project`,
       description: repo.description ?? `Project ${repo.name} by Harry Foster`,
-        keywords: Array.from(
+      keywords: Array.from(
         new Set([
-            ...(Array.isArray(baseMetadata.keywords) ? baseMetadata.keywords : []),
-            ...(Array.isArray(repoKeywords) ? repoKeywords : []),
-        ])
-        ),
+          ...(Array.isArray(baseMetadata.keywords)
+            ? baseMetadata.keywords
+            : []),
+          ...(Array.isArray(repoKeywords) ? repoKeywords : []),
+        ]),
+      ),
       openGraph: {
         ...baseMetadata.openGraph,
         title: repo.name,

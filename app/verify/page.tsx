@@ -1,5 +1,5 @@
-import { Suspense } from 'react';
-import VerifyContent from './VerifyContent';
+import { Suspense } from "react";
+import VerifyContent from "./VerifyContent";
 
 export default function Page() {
   return (

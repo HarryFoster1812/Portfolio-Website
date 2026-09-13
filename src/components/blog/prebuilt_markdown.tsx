@@ -1,61 +1,58 @@
-"use client"
+"use client";
 
-import { memo, useEffect, useRef } from "react"
-import { motion } from "framer-motion"
-import Link from "next/link"
+import { memo, useEffect, useRef } from "react";
+import { motion } from "framer-motion";
+import Link from "next/link";
 import { BlogPostMeta } from "@/lib/blog";
 
-import "katex/dist/katex.min.css"
-import "highlight.js/styles/atom-one-dark.css" 
+import "katex/dist/katex.min.css";
+import "highlight.js/styles/atom-one-dark.css";
 
-import "@/styles/blog.css"
-import "@/styles/terminal-content.css"
+import "@/styles/blog.css";
+import "@/styles/terminal-content.css";
 
-
-type RenderMode = "regular" | "terminal"
+type RenderMode = "regular" | "terminal";
 
 interface PrebuiltMarkdownProps {
-  html: string
-  meta: BlogPostMeta
-mode?: RenderMode
+  html: string;
+  meta: BlogPostMeta;
+  mode?: RenderMode;
 }
 
 const WRAPPER_CLASS: Record<RenderMode, string> = {
   regular: "blog-content",
   terminal: "terminal-content",
-}
-
+};
 
 const PrebuiltMarkdownRenderer = ({
   html,
   meta,
   mode = "regular",
 }: PrebuiltMarkdownProps) => {
-  const containerRef = useRef<HTMLDivElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null);
 
   /* ---------- Code copy buttons ---------- */
   useEffect(() => {
-    const root = containerRef.current
-    if (!root) return
+    const root = containerRef.current;
+    if (!root) return;
 
-    root.querySelectorAll("pre").forEach(pre => {
-      if (pre.querySelector("button")) return
+    root.querySelectorAll("pre").forEach((pre) => {
+      if (pre.querySelector("button")) return;
 
-      const btn = document.createElement("button")
-      btn.textContent = "Copy"
+      const btn = document.createElement("button");
+      btn.textContent = "Copy";
       btn.className =
-        "absolute top-2 right-2 p-2 bg-zinc-700 text-white rounded-md text-sm hover:bg-zinc-500 transition-colors"
+        "absolute top-2 right-2 p-2 bg-zinc-700 text-white rounded-md text-sm hover:bg-zinc-500 transition-colors";
 
       btn.onclick = async () => {
-        await navigator.clipboard.writeText(pre.innerText)
-        btn.textContent = "Copied!"
-        setTimeout(() => (btn.textContent = "Copy"), 2000)
-      }
+        await navigator.clipboard.writeText(pre.innerText);
+        btn.textContent = "Copied!";
+        setTimeout(() => (btn.textContent = "Copy"), 2000);
+      };
 
-      pre.appendChild(btn)
-    })
-  }, [html])
-
+      pre.appendChild(btn);
+    });
+  }, [html]);
 
   return (
     <motion.div
@@ -115,16 +112,14 @@ const PrebuiltMarkdownRenderer = ({
           )}
 
           {meta.featured && (
-            <span className="font-bold text-amber-400">
-              ★ Featured
-            </span>
+            <span className="font-bold text-amber-400">★ Featured</span>
           )}
         </div>
 
         {/* Tags */}
         {meta.tags && meta.tags.length > 0 && (
           <div className="flex flex-wrap gap-2 pt-2">
-            {meta.tags.map(tag => (
+            {meta.tags.map((tag) => (
               <span
                 key={tag}
                 className="rounded-md bg-neutral-800 px-2.5 py-1 text-xs font-semibold text-neutral-300"
@@ -143,7 +138,7 @@ const PrebuiltMarkdownRenderer = ({
         dangerouslySetInnerHTML={{ __html: html }}
       />
     </motion.div>
-  )
-}
+  );
+};
 
-export default memo(PrebuiltMarkdownRenderer)
+export default memo(PrebuiltMarkdownRenderer);
