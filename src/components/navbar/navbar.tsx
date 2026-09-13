@@ -45,6 +45,7 @@ export const Navbar = () => {
                 </svg>
               </button>
             </Link>
+
             <Link href="/" className="flex items-center rtl:space-x-reverse">
               <span className="self-center text-2xl font-semibold whitespace-nowrap text-white">
                 Harry Foster
@@ -52,23 +53,37 @@ export const Navbar = () => {
             </Link>
           </div>
 
-          {/* Center section: Nav links + GitHub + LinkedIn */}
+          {/* Center section: Nav links + Lab + GitHub + LinkedIn */}
           <div className="hidden md:flex col-span-6 justify-center items-center">
-            <ul className="flex space-x-6 font-medium">
+            <ul className="flex space-x-6 font-medium items-center">
               {navLinks.map(({ href, label }) => (
                 <li key={href}>
                   <Link
                     href={href}
                     className={`block py-2 px-3 md:p-0 ${
                       currentRoute === href
-                        ? "text-blue-500 md:dark:text-blue-400"
+                        ? "text-cyan-500 md:dark:text-cyan-400"
                         : "text-white md:dark:text-white"
-                    } hover:bg-zinc-700 md:hover:bg-transparent md:hover:text-blue-500 md:dark:hover:text-blue-400 rounded-sm`}
+                    } hover:bg-zinc-700 md:hover:bg-transparent md:hover:text-cyan-500 md:dark:hover:text-cyan-400 rounded-sm`}
                   >
                     {label}
                   </Link>
                 </li>
               ))}
+
+              {/* Tools */}
+              <li>
+                <Link
+                  href="https://tools.harryfoster.tech/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block py-2 px-3 md:p-0 text-white hover:bg-zinc-700 md:hover:bg-transparent md:hover:text-cyan-500 md:dark:hover:text-cyan-400 rounded-sm"
+                  aria-label="Open tools"
+                >
+                  Tools
+                </Link>
+              </li>
+
               <li>
                 <Link
                   href="https://github.com/harryfoster1812"
@@ -80,6 +95,7 @@ export const Navbar = () => {
                   <Github />
                 </Link>
               </li>
+
               <li>
                 <Link
                   href="https://www.linkedin.com/in/harry-w-foster"
@@ -149,7 +165,7 @@ export const Navbar = () => {
                     onClick={() => setIsMenuOpen(false)}
                     className={`block py-2 px-3 ${
                       currentRoute === href
-                        ? "text-blue-500 md:dark:text-blue-400"
+                        ? "text-cyan-500 md:dark:text-cyan-400"
                         : "text-white md:dark:text-white"
                     } hover:bg-zinc-700 rounded-sm`}
                   >
@@ -157,6 +173,20 @@ export const Navbar = () => {
                   </Link>
                 </li>
               ))}
+
+              {/* Tools */}
+              <li>
+                <Link
+                  href="https://tools.harryfoster.tech/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block py-2 px-3 text-white hover:bg-zinc-700 rounded-sm"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Tools
+                </Link>
+              </li>
+
               <li>
                 <Link
                   href="https://github.com/harryfoster1812"
@@ -169,6 +199,7 @@ export const Navbar = () => {
                   GitHub
                 </Link>
               </li>
+
               <li>
                 <Link
                   href="https://www.linkedin.com/in/harry-w-foster"
