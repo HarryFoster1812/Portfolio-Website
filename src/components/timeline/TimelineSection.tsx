@@ -21,7 +21,7 @@ const timelineData = [
     year: "Early Python",
     title: "Learning to Automate",
     description:
-      "Started learning Python through small scripts and experiments. Programming became more than something interesting to learn — it became a tool for solving problems and automating repetitive tasks.",
+      "Started learning Python through small scripts and experiments. Programming became more than something interesting to learn it became a tool for solving problems and automating repetitive tasks (like homework...).",
   },
   {
     year: "First Project",
@@ -33,7 +33,7 @@ const timelineData = [
     year: "Desktop Development",
     title: "Timetable App",
     description:
-      "Built a lightweight desktop timetable application that displayed my next class in real time. This project combined UI development, scheduling logic, and dynamic data updates.",
+      "Built a lightweight desktop timetable application that displayed my next class in real time. This project introduced me to UI development using Tkinter.",
   },
   {
     year: "APIs & Storage",
@@ -54,7 +54,7 @@ const timelineData = [
       "Started working with C# during A-Levels, building projects including Connect 4, Space Invaders, and a digital Monopoly clone. These projects strengthened my understanding of object-oriented programming and larger codebases.",
   },
   {
-    year: "University",
+    year: "A-Level NEA",
     title: "Chess AI",
     description:
       "Designed a Chess AI capable of calculating legal moves and responding to player input. The project pushed my understanding of algorithms, decision trees, optimisation, and problem solving.",
@@ -170,7 +170,6 @@ export const TimelineSection = () => {
               <TimelineItem
                 key={`${item.title}-${index}`}
                 {...item}
-                index={index}
                 isLeft={index % 2 === 0}
                 isExpanded={expandedIndex.includes(index)}
                 onClick={() => toggleIndex(index)}

@@ -8,7 +8,6 @@ interface TimelineItemProps {
   title: string;
   description: string;
   company?: string;
-  index: number;
   isLeft: boolean;
   isExpanded: boolean;
   onClick: () => void;
@@ -19,7 +18,6 @@ export const TimelineItem = ({
   title,
   description,
   company,
-  index,
   isLeft,
   isExpanded,
   onClick,

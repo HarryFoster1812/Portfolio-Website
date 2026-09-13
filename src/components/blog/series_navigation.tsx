@@ -61,7 +61,7 @@ const SeriesNavigation = ({ meta }: SeriesNavigationProps) => {
     };
 
     fetchSeries();
-  }, [meta.series?.name]);
+  }, [meta.series]);
 
   const { prev, next, total } = useMemo(() => {
     if (!seriesList || currentPart == null) {
