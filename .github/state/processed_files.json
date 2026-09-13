@@ -7,5 +7,6 @@
   "src/content/blog/nasm-asm-into.md",
   "src/content/blog/tensors-and-machine-learning.md",
   "src/content/blog/the-hello-world-of-graphics.md",
-  "src/content/blog/riscyos-fighting-the-toolchain.md"
+  "src/content/blog/riscyos-fighting-the-toolchain.md",
+  "src/content/blog/riscyos-i-spi-an-sd-card.md"
 ]
