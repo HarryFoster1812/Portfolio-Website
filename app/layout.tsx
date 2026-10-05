@@ -6,6 +6,7 @@ import { Tracker } from "@/components/tracker";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import PolyfillsClient from "./polyfills_client";
+import { ThemeProvider } from "@/providers/ThemeContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -83,17 +84,19 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="h-full">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-black text-white flex flex-col min-h-screen h-full`}
-      >
-        <PolyfillsClient />
-        <Navbar />
-        <main className="flex-1 flex flex-col">{children}</main>
-        <Analytics />
-        <SpeedInsights />
+      <ThemeProvider>
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased bg-black text-white flex flex-col min-h-screen h-full`}
+        >
+          <PolyfillsClient />
+          <Navbar />
+          <main className="flex-1 flex flex-col">{children}</main>
+          <Analytics />
+          <SpeedInsights />
 
-        <Tracker />
-      </body>
+          <Tracker />
+        </body>
+      </ThemeProvider>
     </html>
   );
 }

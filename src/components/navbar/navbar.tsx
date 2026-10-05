@@ -4,9 +4,12 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Github from "./github";
 import LinkedIn from "./linkedin";
+import Settings from "./settings";
+import SettingsModal from "@/components/settings/SettingsModal";
 
 export const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const currentRoute = usePathname();
 
   const navLinks = [
@@ -122,6 +125,13 @@ export const Navbar = () => {
                 </button>
               </Link>
 
+              <button
+                onClick={() => setIsModalOpen(true)}
+                className="ml-4 text-gray-800 px-4 py-2 rounded"
+              >
+                <Settings height="24" width="24" />
+              </button>
+
               {/* Mobile Menu Toggle Button */}
               <button
                 type="button"
@@ -215,6 +225,7 @@ export const Navbar = () => {
             </ul>
           </div>
         </div>
+        {isModalOpen && <SettingsModal onClose={() => setIsModalOpen(false)} />}
       </nav>
     </>
   );

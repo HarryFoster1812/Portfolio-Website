@@ -21,6 +21,11 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        primary: "#3b82f6",
+        secondary: "#6366f1",
+        text: "#111827",
+        muted: "#6b7280",
+        card: "#f9fafb",
       },
     },
   },
