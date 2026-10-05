@@ -86,7 +86,7 @@ export default function RootLayout({
     <html lang="en" className="h-full">
       <ThemeProvider>
         <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased bg-black text-white flex flex-col min-h-screen h-full`}
+          className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground flex flex-col min-h-screen h-full`}
         >
           <PolyfillsClient />
           <Navbar />

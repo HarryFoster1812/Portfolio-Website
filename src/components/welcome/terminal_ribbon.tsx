@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import "./terminal_ribbon.css";
 
 export default function TerminalRibbon() {
   const [show, setShow] = useState(true);
@@ -83,7 +84,7 @@ export default function TerminalRibbon() {
   return (
     <button
       onClick={handleOpen}
-      className="fixed right-0 top-1/4 transform -translate-y-1/4 bg-black text-green-400 px-2 py-3 rounded-l-lg shadow-lg hover:bg-gray-900 font-mono transition-colors"
+      className="fixed right-0 top-1/4 transform -translate-y-1/4 bg-background text-green-400 px-2 py-3 rounded-l-lg shadow-lg hover:bg-gray-900 font-mono transition-colors"
       style={{ zIndex: 1000 }}
     >
       ➤

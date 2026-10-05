@@ -14,7 +14,7 @@ export const ProjectCard = ({
   index: number;
 }) => {
   return (
-    <div className="group w-full max-w-5xl overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] shadow-2xl backdrop-blur-md transition-all duration-500 hover:-translate-y-2 hover:border-cyan-400/30 hover:shadow-[0_20px_80px_rgba(34,211,238,0.12)]">
+    <div className="group w-full max-w-5xl overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] shadow-2xl backdrop-blur-md transition-all duration-500 hover:-translate-y-2 hover:border-primary/30 hover:shadow-[0_20px_80px_rgba(34,211,238,0.12)]">
       {/* Project image */}
       <div className="relative h-64 overflow-hidden md:h-80">
         <Image
@@ -28,17 +28,17 @@ export const ProjectCard = ({
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
 
         {/* Project number */}
-        <div className="absolute left-6 top-6 rounded-full border border-white/10 bg-black/50 px-4 py-2 text-sm font-semibold text-zinc-300 backdrop-blur-md">
+        <div className="absolute left-6 top-6 rounded-full border border-foreground/10 bg-background/50 px-4 py-2 text-sm font-semibold text-foreground backdrop-blur-md">
           {String(index + 1).padStart(2, "0")}
         </div>
 
         {/* Project title */}
         <div className="absolute bottom-6 left-6 right-6">
-          <p className="mb-2 text-sm font-medium uppercase tracking-[0.25em] text-cyan-400">
+          <p className="mb-2 text-sm font-medium uppercase tracking-[0.25em] text-primary">
             Project
           </p>
 
-          <h2 className="text-3xl font-bold text-white md:text-4xl">
+          <h2 className="text-3xl font-bold text-foreground md:text-4xl">
             {project.name}
           </h2>
         </div>
@@ -46,7 +46,7 @@ export const ProjectCard = ({
 
       {/* Content */}
       <div className="p-6 md:p-8">
-        <p className="max-w-3xl text-base leading-7 text-zinc-400 md:text-lg">
+        <p className="max-w-3xl text-base leading-7 text-muted md:text-lg">
           {project.description}
         </p>
 
@@ -55,7 +55,7 @@ export const ProjectCard = ({
           {["CSS", "JavaScript"].map((technology) => (
             <span
               key={technology}
-              className="rounded-lg border border-white/10 bg-white/[0.04] px-3 py-2 text-sm font-medium text-zinc-300 transition-colors group-hover:border-cyan-400/20 group-hover:text-cyan-200"
+              className="rounded-lg border border-muted bg-white/[0.04] px-3 py-2 text-sm font-medium text-zinc-300 transition-colors group-hover:border-primary/20 group-hover:text-primary-200"
             >
               {technology}
             </span>

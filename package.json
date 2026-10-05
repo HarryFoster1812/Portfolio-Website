@@ -66,13 +66,14 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@types/three": "^0.174.0",
+    "@tailwindcss/postcss": "4.3.3",
     "eslint": "^9",
     "eslint-config-next": "15.1.7",
     "husky": "^9.1.7",
     "lint-staged": "^17.5.1",
     "postcss": "^8",
     "prettier": "^3.9.6",
-    "tailwindcss": "^3.4.1",
+    "tailwindcss": "4.3.3",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
   }

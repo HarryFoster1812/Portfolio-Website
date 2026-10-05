@@ -1,51 +1,45 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-@font-awesome :root {
-  --background: #ffffff;
-  --foreground: #171717;
+:root {
+  --background: #000000;
+  --foreground: #ffffff;
+  --muted-text: #d6d3d1;
+
+  --primary: #06b6d4;
+
+  --primary-200: oklch(from var(--primary) calc(l + 0.2) calc(c * 0.9) h);
+  --primary-300: oklch(from var(--primary) calc(l + 0.12) c h);
+  --primary-400: oklch(from var(--primary) calc(l +0.06) c h);
+  --primary-500: var(--primary);
+  --primary-600: oklch(from var(--primary) calc(l - 0.06) c h);
+  --primary-700: oklch(from var(--primary) calc(l - 0.12) c h);
+  --primary-800: oklch(from var(--primary) calc(l - 0.18) c h);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-primary: var(--primary);
+  --color-primary-200: var(--primary-200);
+  --color-primary-300: var(--primary-300);
+  --color-primary-400: var(--primary-400);
+  --color-primary-500: var(--primary);
+  --color-primary-600: var(--primary-600);
+  --color-primary-700: var(--primary-700);
+  --color-primary-800: var(--primary-800);
+
+  --color-secondary: var(--secondary);
+  --color-muted: var(--muted-text);
+  --color-card: var(--card);
+}
+
+@layer base {
+  h1 {
+    font-size: 36px;
   }
-}
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-@keyframes slide-in {
-  0% {
-    transform: translateX(100%) translateY(-50%);
-    opacity: 0;
+  p {
+    font-size: 24px;
   }
-  100% {
-    transform: translateX(0) translateY(-50%);
-    opacity: 1;
-  }
-}
-
-@keyframes slide-out {
-  0% {
-    transform: translateX(0) translateY(-50%);
-    opacity: 1;
-  }
-  100% {
-    transform: translateX(100%) translateY(-50%);
-    opacity: 0;
-  }
-}
-
-.animate-slide-in {
-  animation: slide-in 0.4s ease-out forwards;
-}
-
-.animate-slide-out {
-  animation: slide-out 0.3s ease-in forwards;
 }

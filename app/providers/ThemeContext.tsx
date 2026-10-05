@@ -6,7 +6,7 @@ export interface ThemeColors {
   background: string;
   primary: string;
   secondary: string;
-  text: string;
+  foreground: string;
   mutedText: string;
   card: string;
 }
@@ -20,13 +20,13 @@ interface ThemeContextType {
   resetTheme: (theme: ThemeColors) => void;
 }
 
-const themePresets: Record<string, ThemeColors> = {
+export const themePresets: Record<string, ThemeColors> = {
   Default: {
-    background: "#ffffff",
-    primary: "#3b82f6",
+    background: "#000000",
+    primary: "06b6d4",
     secondary: "#6366f1",
-    text: "#111827",
-    mutedText: "#6b7280",
+    foreground: "#111827",
+    mutedText: "#D6D3D1",
     card: "#f9fafb",
   },
 
@@ -34,7 +34,7 @@ const themePresets: Record<string, ThemeColors> = {
     background: "#f0f9ff",
     primary: "#0284c7",
     secondary: "#06b6d4",
-    text: "#0c4a6e",
+    foreground: "#0c4a6e",
     mutedText: "#64748b",
     card: "#ffffff",
   },
@@ -43,7 +43,7 @@ const themePresets: Record<string, ThemeColors> = {
     background: "#f0fdf4",
     primary: "#16a34a",
     secondary: "#22c55e",
-    text: "#14532d",
+    foreground: "#14532d",
     mutedText: "#64748b",
     card: "#ffffff",
   },
@@ -52,7 +52,7 @@ const themePresets: Record<string, ThemeColors> = {
     background: "#faf5ff",
     primary: "#9333ea",
     secondary: "#a855f7",
-    text: "#3b0764",
+    foreground: "#3b0764",
     mutedText: "#6b7280",
     card: "#ffffff",
   },
@@ -61,16 +61,16 @@ const themePresets: Record<string, ThemeColors> = {
     background: "#fff7ed",
     primary: "#f97316",
     secondary: "#fb7185",
-    text: "#431407",
+    foreground: "#431407",
     mutedText: "#78716c",
     card: "#ffffff",
   },
 
   Dark: {
     background: "#111827",
+    foreground: "#f9fafb",
     primary: "#3b82f6",
     secondary: "#6366f1",
-    text: "#f9fafb",
     mutedText: "#9ca3af",
     card: "#1f2937",
   },
@@ -122,9 +122,9 @@ function sanitiseColors(saved: unknown): ThemeColors {
 
   return {
     background: getValidColor(data.background, defaultColors.background),
+    foreground: getValidColor(data.foreground, defaultColors.foreground),
     primary: getValidColor(data.primary, defaultColors.primary),
     secondary: getValidColor(data.secondary, defaultColors.secondary),
-    text: getValidColor(data.text, defaultColors.text),
     mutedText: getValidColor(data.mutedText, defaultColors.mutedText),
     card: getValidColor(data.card, defaultColors.card),
   };
@@ -183,11 +183,11 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
     root.style.setProperty("--background", colors.background);
 
+    root.style.setProperty("--foreground", colors.foreground);
+
     root.style.setProperty("--primary", colors.primary);
 
     root.style.setProperty("--secondary", colors.secondary);
-
-    root.style.setProperty("--text", colors.text);
 
     root.style.setProperty("--muted-text", colors.mutedText);
 

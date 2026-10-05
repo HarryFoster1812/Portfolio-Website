@@ -14,7 +14,7 @@ export const ProjectButton = () => {
     >
       <Link
         href="/projects"
-        className="inline-block py-3 px-6 bg-gradient-to-r from-teal-400 via-cyan-500 to-teal-500 text-black no-underline rounded-xl font-bold uppercase tracking-wide transition-all duration-300 ease-in-out hover:translate-y-[-3px] hover:shadow-[0_10px_20px_rgba(0,_255,_255,_0.4)]"
+        className="inline-block py-3 px-6 bg-gradient-to-r from-primary-300 via-primary-500 to-primary-700 text-background no-underline rounded-xl font-bold uppercase tracking-wide transition-all duration-300 ease-in-out hover:translate-y-[-3px] hover:shadow-[0_10px_20px_rgba(0,_255,_255,_0.4)]"
       >
         Check out my other projects
       </Link>

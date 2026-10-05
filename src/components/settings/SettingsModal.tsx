@@ -1,69 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import { ChromePicker, ColorResult } from "react-color";
 import { ThemePreview } from "./ThemePreview";
-import { useTheme, resetTheme } from "@/providers/ThemeContext";
+import { useTheme, themePresets } from "@/providers/ThemeContext";
 
 interface SettingsModalProps {
   onClose: () => void;
 }
 
 type ColorName = keyof ThemeColors;
-
-const themePresets: Record<string, ThemeColors> = {
-  Default: {
-    background: "#ffffff",
-    primary: "#3b82f6",
-    secondary: "#6366f1",
-    text: "#111827",
-    mutedText: "#6b7280",
-    card: "#f9fafb",
-  },
-
-  Ocean: {
-    background: "#f0f9ff",
-    primary: "#0284c7",
-    secondary: "#06b6d4",
-    text: "#0c4a6e",
-    mutedText: "#64748b",
-    card: "#ffffff",
-  },
-
-  Forest: {
-    background: "#f0fdf4",
-    primary: "#16a34a",
-    secondary: "#22c55e",
-    text: "#14532d",
-    mutedText: "#64748b",
-    card: "#ffffff",
-  },
-
-  Purple: {
-    background: "#faf5ff",
-    primary: "#9333ea",
-    secondary: "#a855f7",
-    text: "#3b0764",
-    mutedText: "#6b7280",
-    card: "#ffffff",
-  },
-
-  Sunset: {
-    background: "#fff7ed",
-    primary: "#f97316",
-    secondary: "#fb7185",
-    text: "#431407",
-    mutedText: "#78716c",
-    card: "#ffffff",
-  },
-
-  Dark: {
-    background: "#111827",
-    primary: "#3b82f6",
-    secondary: "#6366f1",
-    text: "#f9fafb",
-    mutedText: "#9ca3af",
-    card: "#1f2937",
-  },
-};
 
 const colorSettings: {
   key: ColorName;
@@ -86,7 +30,7 @@ const colorSettings: {
     description: "Secondary actions and borders",
   },
   {
-    key: "text",
+    key: "foreground",
     label: "Text",
     description: "Main text colour",
   },
@@ -107,7 +51,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ onClose }) => {
 
   const [activeColor, setActiveColor] = useState<ColorName | null>(null);
 
-  const [selectedPreset, setSelectedPreset] = useState("Custom");
+  const [selectedPreset, setSelectedPreset] = useState("Default");
 
   const pickerRef = useRef<HTMLDivElement>(null);
 
@@ -169,7 +113,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ onClose }) => {
       aria-labelledby="theme-settings-title"
     >
       <div
-        className="relative flex max-h-[90vh] w-full max-w-2xl flex-col overflow-hidden rounded-2xl bg-white shadow-2xl"
+        className="relative flex max-h-[90vh] w-full max-w-2xl flex-col overflow-hidden rounded-2xl bg-card shadow-2xl"
         onMouseDown={(event) => event.stopPropagation()}
       >
         {/* Header */}
@@ -182,7 +126,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ onClose }) => {
               Theme Settings
             </h2>
 
-            <p className="mt-0.5 text-sm text-gray-500">
+            <p className="mt-0.5 text-sm text-muted">
               Customise the colours used throughout your application.
             </p>
           </div>
@@ -217,7 +161,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ onClose }) => {
               <div className="mb-3">
                 <h3 className="text-sm font-semibold text-gray-900">Theme</h3>
 
-                <p className="text-xs text-gray-500">
+                <p className="text-xs text-muted">
                   Start with a preset or customise the colours below.
                 </p>
               </div>
@@ -225,7 +169,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ onClose }) => {
               <select
                 value={selectedPreset}
                 onChange={handlePresetChange}
-                className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-gray-900 shadow-sm outline-none transition focus:border-gray-400 focus:ring-2 focus:ring-gray-200"
+                className="w-full rounded-xl border border-gray-200 bg-background px-4 py-3 text-sm text-foreground shadow-sm outline-none transition focus:border-gray-400 focus:ring-2 focus:ring-gray-200"
               >
                 <option value="Custom">Custom</option>
 
@@ -242,12 +186,12 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ onClose }) => {
               <div className="mb-3">
                 <h3 className="text-sm font-semibold text-gray-900">Colours</h3>
 
-                <p className="text-xs text-gray-500">
+                <p className="text-xs text-muted">
                   Click a colour swatch to edit it.
                 </p>
               </div>
 
-              <div className="divide-y divide-gray-100 overflow-visible rounded-xl border border-gray-200">
+              <div className="divide-y divide-primary overflow-visible rounded-xl border border-primary">
                 {colorSettings.map(({ key, label, description }) => {
                   const isActive = activeColor == key;
 

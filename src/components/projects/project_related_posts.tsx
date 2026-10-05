@@ -62,10 +62,10 @@ export default function ProjectRelatedPosts({
 
     return (
       <section className="mt-20 border-t border-zinc-800 pt-10">
-        <h2 className="mb-2 text-xl font-semibold text-zinc-100">
+        <h2 className="mb-2 text-xl font-semibold text-foreground">
           Related Blog Posts
         </h2>
-        <p className="text-sm text-zinc-500">
+        <p className="text-sm text-muted">
           No blog posts have been written about this project yet.
         </p>
       </section>
@@ -75,7 +75,7 @@ export default function ProjectRelatedPosts({
   /* ---------- Posts ---------- */
   return (
     <section className="mt-20 border-t border-zinc-800 pt-10">
-      <h2 className="mb-6 text-2xl font-bold text-zinc-100">
+      <h2 className="mb-6 text-2xl font-bold text-foreground">
         Related Blog Posts
       </h2>
 
@@ -84,10 +84,10 @@ export default function ProjectRelatedPosts({
           <Link
             key={post.filename}
             href={`/blog/${post.filename}`}
-            className="group block rounded-lg border border-zinc-800 bg-zinc-900 p-5 transition hover:border-teal-500/50 hover:bg-zinc-900/70"
+            className="group block rounded-lg border border-zinc-800 bg-zinc-900 p-5 transition hover:border-primary-600/50 hover:bg-zinc-900/70"
           >
             <div className="flex items-center justify-between gap-4">
-              <h3 className="text-lg font-semibold text-zinc-100 group-hover:text-teal-400 transition-colors">
+              <h3 className="text-lg font-semibold text-zinc-100 group-hover:text-primary transition-colors">
                 {post.title}
               </h3>
               <span className="text-xs text-zinc-500 tabular-nums">
